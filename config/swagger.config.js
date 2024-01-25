@@ -7,7 +7,7 @@ const options = {
             version: '1.0.0',
             description: ' 우주정거장 API'
         },
-        host: 'localhost:3000',
+        host: 'localhost:8080',
         basepath: '../'
     },
     apis: ['./src/routes/*.js', './swagger/*']
