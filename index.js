@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { specs } from './config/swagger.config.js';
 import SwaggerUi from 'swagger-ui-express';
+import { tempRouter } from './src/routes/temp.route.js';
 
 dotenv.config();
 
@@ -23,6 +24,9 @@ app.get('/', function (req, res) {
 app.listen(process.env.PORT, () => {
     console.log(`Example app listening on port ${process.env.PORT}`)
 })
+
+
+app.use('/temp', tempRouter);
 
 
 // swagger
