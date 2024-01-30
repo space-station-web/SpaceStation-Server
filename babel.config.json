@@ -1,5 +1,4 @@
 // ./src/babel.config.json
-
 {
     "presets": [
       [
