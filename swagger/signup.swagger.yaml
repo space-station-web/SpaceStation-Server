@@ -13,35 +13,35 @@ paths:
               name:
                 type: varchar(10)
                 description: 유저 이름
-                example: 호로롱
+                example: 길벗
               nickname:
                 type: varchar(50)
                 description: 유저 닉네임
-                example: 호이호이
+                example: 출판다
               email:
                 type: varchar(50)
                 description: 유저 이메일
-                example: example4@example.com
+                example: example5@example.com
               pw:
                 type: varchar(100)
                 description: 유져 비밀번호
-                example: 2346732
+                example: ABCDEFG
               pwcheck:
                 type: varchar(100)
                 description: 유져 비밀번호 확인
-                example: 2346732
+                example: ABCDEFG
               phone:
                 type: varchar(15)
                 description: 유저 휴대폰
-                example: 01094782943
+                example: 01049205843
               b_date:
                 type: date
                 description: 생년월일
-                example: 20040307
+                example: 20040204
               alarm:
                 type: boolean
                 description: 알람 약관 동의
-                example: False
+                example: True
       responses:
         '200':
           description: 회원 가입 성공!
@@ -63,7 +63,7 @@ paths:
               data:
                 type: object
                 example: {
-                  "nickname": " ",
+                  "nickname": "호이호이",
                 }
 
         '400':

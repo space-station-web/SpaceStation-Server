@@ -1,5 +1,6 @@
 import { addUser } from "../models/user.dao.js";
 import { status } from "../../config/response.status.js";
+import { response } from "../../config/response.js";
 import { BaseError } from "../../config/error.js";
 
 export const joinUser = async (body) => {
