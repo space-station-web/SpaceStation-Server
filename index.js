@@ -4,7 +4,11 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { specs } from './config/swagger.config.js';
 import SwaggerUi from 'swagger-ui-express';
+
+import { signupRouter } from './src/routes/signup.route.js';
+
 import { tempRouter } from './src/routes/temp.route.js';
+
 
 dotenv.config();
 
@@ -20,6 +24,8 @@ app.use(express.urlencoded({extended: false})); // 단순 객체 문자열 형�
 app.get('/', function (req, res) {
     res.send('Hello World')
 })
+
+app.use('/signup', signupRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`Example app listening on port ${process.env.PORT}`)
