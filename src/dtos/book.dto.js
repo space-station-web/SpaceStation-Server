@@ -1,14 +1,16 @@
 export const bookDTO = (book, contents) => {
     const contentList = [];
+    console.log("book :" + book[0][0].id);
+    console.log("contents[0][0] :" + contents[0][0].id);
     for (let i = 0; i < contents[0].length; i++) {
-        contentList.push(contents[0][i]);
+        contentList.push(bookContentsDTO(contents[0][i]));
     }
     return {
-        "id": book[0].id, 
-        "title": book[0].title,
-        "intro": book[0].intro,
-        "category": book[0].category,
-        "user_id": book[0].user_id,
+        "id": book[0][0].id, 
+        "title": book[0][0].title,
+        "intro": book[0][0].intro,
+        "category": book[0][0].category,
+        "user_id": book[0][0].user_id,
         "contents": contentList
     };
 }

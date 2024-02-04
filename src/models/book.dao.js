@@ -9,13 +9,14 @@ export const addBook = async (data) => {
         const conn = await pool.getConnection();
 
         const resultBook = await pool.query(createBookSql, 
-            [null, data.title, data.intro, data.category, null, data.user_id] );
+            [null, data.title, data.intro, data.category, new Date(), data.user_id] );
 
-        const resultBookContents = 0
+        let resultBookContents = 0
+        console.log("resultBook[0].insertId :" + resultBook[0].insertId);
         for (let i = 0; i < data.contents.length; i++) {
-            const element = data.contents[i];
-            const resultBookContent = await pool.query(createBookContentsSql, 
-                [null, element.title, element.content, null, element.index, element.book_id] );
+            let element = data.contents[i];
+            let resultBookContent = await pool.query(createBookContentsSql, 
+                [null, element.title, element.context, new Date(), element.index, resultBook[0].insertId] );
             if (resultBookContent[0].insertId != 0 != 0) {
                 resultBookContents++;
             }
@@ -23,65 +24,83 @@ export const addBook = async (data) => {
 
         conn.release();
 
-        return { "book_id": resultBook[0].insertId, "resultContents": resultBookContents };
+        return { "bookId": resultBook[0].insertId, "resultContents": resultBookContents };
         
     }catch (err) {
-        throw new BaseError(status.PARAMETER_IS_WRONG);
+        throw new BaseError(err);
     }
 }
 
 export const getBook = async (bookId) => {
     try {
+        console.log("getBook bookId : " + bookId);
         const conn = await pool.getConnection();
-        const [book] = await pool.query(readBookSql, bookId);
-        const [bookContents] = await pool.query(readBookContentsSql, bookId);
-
-        console.log(book);
+        const book = await pool.query(readBookSql, [bookId]);
 
         if(book.length == 0){
             return -1;
         }
 
         conn.release();
-        return {"book": book, "bookContents": bookContents};
+        return book;
         
     } catch (err) {
-        throw new BaseError(status.PARAMETER_IS_WRONG);
+        throw new BaseError(err);
     }
 }
 
-export const updateBook = async (data) => {
+export const getContents = async (bookId) => {
+    try {
+        console.log("getContents bookId : " + bookId);
+        const conn = await pool.getConnection();
+        const bookContents = await pool.query(readBookContentsSql, [bookId]);
+
+        if(bookContents.length == 0){
+            return -1;
+        }
+
+        conn.release();
+        return bookContents;
+        
+    } catch (err) {
+        throw new BaseError(err);
+    }
+}
+
+export const upBook = async (data) => {
     try {
         const conn = await pool.getConnection();
+        // userId 체크
         const resultBook = await pool.query(updateBookSql, 
             [data.title, data.intro, data.category, data.id]);
 
-        const resultBookContets = 0
+        console.log("resultBook : " + resultBook[0].affectedRows);
+        let resultBookContets = 0
         for (let i = 0; i < data.contents.length; i++) {
-            const element = data.contents[i];
-            const resultBookContent = await pool.query(createBookContentsSql, 
-                [element.title, element.content, element.index, element.id] );
-            if (resultBookContent[0].insertId != 0) {
+            let element = data.contents[i];
+            let resultBookContent = await pool.query(updateBookContentsSql, 
+                [element.title, element.context, element.index, element.id] );
+            if (resultBookContent[0].affectedRows != 0) {
                 resultBookContets++;
             }
         }
 
         conn.release();
-        return { "book_id": resultBook[0].insertId, "resultContents": resultBookContets };
+        return { "resultBook": resultBook[0].affectedRows, "resultContents": resultBookContets };
         
     } catch (err) {
-        throw new BaseError(status.PARAMETER_IS_WRONG);
+        throw new BaseError(err);
     }
 }
 
-export const deleteBook = async (bookId) => {
+export const delBook = async (bookId) => {
     try {
         const conn = await pool.getConnection();
-        const resultBookContent = await pool.query(deleteBookContentsSql, bookId);
-        const resultBook = await pool.query(deleteBookSql, bookId);
+        const resultBookContent = await pool.query(deleteBookContentsSql, [bookId]);
+        const resultBook = await pool.query(deleteBookSql, [bookId]);
 
         conn.release();
-        return {"resultBook": resultBook, "resultBookContent": resultBookContent};
+        return {"deletedBook": resultBook[0].affectedRows, "deletedBookContent": resultBookContent[0].affectedRows};
         
     } catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);

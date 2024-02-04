@@ -1,59 +1,62 @@
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
-import { signupResponseDTO } from "../dtos/user.dto.js"
 import { bookDTO, bookContentsDTO } from "../dtos/book.dto.js"
-import { addUser, getUser, getUserPreferToUserID, setPrefer } from "../models/user.dao.js";
-import { addBook, getBook, updateBook, deleteBook } from "../models/book.dao.js";
+import { addBook, getBook, upBook, delBook, getContents } from "../models/book.dao.js";
 
 export const createBook = async (body) => {
-
-    const createBookData = await addBook({
+    const createData = await addBook({
         'title': body.title,
         'intro': body.intro,
         'category': body.category,
-        'user_id': body.user_id,
-        'contents':  body.contents,
+        'user_id': body.userId,
+        'contents':  body.bookContents,
     });
+    console.log("create Book Result :" + createData.bookId + ", " + createData.resultContents);
 
-    if(createBookData == -1){
+    if(createData.bookId == -1){
         throw new BaseError(status.EMAIL_ALREADY_EXIST);
     }else{
-        for (let i = 0; i < prefer.length; i++) {
-            await setPrefer(joinUserData, prefer[i]);
-        }
-        return signupResponseDTO(await getUser(joinUserData), await getUserPreferToUserID(joinUserData));
+        return bookDTO(await getBook(createData.bookId), await getContents(createData.bookId));
     }
 }
 
+export const readBook = async (params) => {
+    const bookData = await getBook(params.bookId);
+    const contentsData = await getContents(params.bookId);
+    console.log("read Book Result :" + bookData);
 
-
-
-
-const id = 1;
-
-export const joinUser = async (body) => {
-    const birth = new Date(body.birthYear, body.birthMonth, body.birthDay);
-    const prefer = body.prefer;
-    const today = new Date();
-
-    const joinUserData = await addUser({
-        'id': body.email,
-        'name': body.name,
-        'gender': body.gender,
-        'birth': birth,
-        'address': body.addr,
-        'specAddr': body.specAddr,
-        'create_at': today,
-        'state': 1,
-  //      'phone': body.phone
-    });
-
-    if(joinUserData == -1){
+    if(bookData == -1){
         throw new BaseError(status.EMAIL_ALREADY_EXIST);
     }else{
-        for (let i = 0; i < prefer.length; i++) {
-            await setPrefer(joinUserData, prefer[i]);
-        }
-        return signupResponseDTO(await getUser(joinUserData), await getUserPreferToUserID(joinUserData));
+        return bookDTO(bookData, contentsData);
+    }
+}
+
+export const updateBook = async (params, body) => {
+    const updateData = await upBook({
+        'title': body.title,
+        'intro': body.intro,
+        'category': body.category,
+        'user_id': body.userId,
+        'contents': body.bookContents,
+        'id': params.bookId
+    });
+    console.log("update Book Result :" + updateData.resultBook +", "+updateData.resultContents);
+
+    if(updateData == -1){
+        throw new BaseError(status.EMAIL_ALREADY_EXIST);
+    }else{
+        return bookDTO(await getBook(params.bookId), await getContents(params.bookId));
+    }
+}
+
+export const deleteBook = async (params) => {
+    const deleteData = await delBook(params.bookId);
+    console.log("delete Book Result :" + deleteData.resultBook + ", " +deleteData.resultBookContent);
+
+    if(deleteData == -1){
+        throw new BaseError(status.EMAIL_ALREADY_EXIST);
+    }else{
+        return deleteData;
     }
 }

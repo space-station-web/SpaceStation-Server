@@ -8,6 +8,7 @@ import SwaggerUi from 'swagger-ui-express';
 import { signupRouter } from './src/routes/signup.route.js';
 
 import { tempRouter } from './src/routes/temp.route.js';
+import { bookRouter } from './src/routes/book.route.js';
 
 
 dotenv.config();
@@ -43,7 +44,7 @@ app.get('/', function (req, res) {
 app.use('/temp', tempRouter);
 
 // 책 API
-app.use('/books', tempRouter);
+app.use('/books', bookRouter);
 
 
 // swagger

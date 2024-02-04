@@ -1,28 +1,31 @@
 import { status } from '../../config/response.status.js';
 import { response } from '../../config/response.js';
-import { getTempData } from '../services/book.service.js';
-import { CheckFlag } from '../services/temp.service.js';
+import { createBook, readBook, updateBook, deleteBook } from "../services/book.service.js";
 
-export const bookCreate = (req, res, next) => {
+export const bookCreate = async (req, res, next) => {
     console.log("bookCreate!");
     console.log("body:", req.body);
 
-    res.send(response(status.SUCCESS, getTempData()));
+    res.send(response(status.SUCCESS, await createBook(req.body)));
 };
 
-export const bookRead = (req, res, next) => {
-    res.send(response(status.SUCCESS, getTempData()));
+export const bookRead = async (req, res, next) => {
+    console.log("bookRead!");
+    console.log("params:", req.params.bookId);
+
+    res.send(response(status.SUCCESS, await readBook(req.params)));
 };
 
-export const bookUpdate = (req, res, next) => {
-    res.send(response(status.SUCCESS, getTempData()));
+export const bookUpdate = async (req, res, next) => {
+    console.log("bookUpdate!");
+    console.log("params:", req.params.bookId);
+
+    res.send(response(status.SUCCESS, await updateBook(req.params, req.body)));
 };
 
-export const bookDelete = (req, res, next) => {
-    res.send(response(status.SUCCESS, getTempData()));
-};
+export const bookDelete = async (req, res, next) => {
+    console.log("bookDelete!");
+    console.log("params:", req.params.bookId);
 
-export const tempException = (req, res, next) => {
-    console.log("/temp/exception/"+req.params.flag);
-    return res.send(response(status.SUCCESS, CheckFlag(req.params.flag)));
-}
+    res.send(response(status.SUCCESS, await deleteBook(req.params)));
+};

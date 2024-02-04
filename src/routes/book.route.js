@@ -1,5 +1,5 @@
 import express from 'express';
-import { bookCreate, bookRead, bookUpdate, bookDelete } from '../controllers/book.controller';
+import { bookCreate, bookRead, bookUpdate, bookDelete } from '../controllers/book.controller.js';
 
 export const bookRouter = express.Router();
 
