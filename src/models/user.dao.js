@@ -39,6 +39,7 @@ export const addUser = async (data) => {
         conn.release();
 
         // 반환값을 사용자 닉네임으로 변경
+        console.log("회원가입 완료되었습니다");
         return "회원가입이 완료되었습니다.";
     } catch (err) {
         console.error(err); // 에러 출력

@@ -14,10 +14,10 @@ export const joinUser = async (body) => {
             name: body.name,
             nickname: body.nickname,
             email: body.email,
-            pw: body.pw,
-            pwcheck: body.pwcheck,
+            pw: String(body.pw),
+            pwcheck: String(body.pwcheck),
             b_date: body.b_date,
-            phone: body.phone,
+            phone: String(body.phone),
             alarm: body.alarm
         });
 
