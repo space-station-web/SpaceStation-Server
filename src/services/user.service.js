@@ -1,4 +1,4 @@
-import { addUser } from "../models/user.dao.js";
+import {addUser, checkNicknameDuplication} from "../models/user.dao.js";
 import { status } from "../../config/response.status.js";
 import { response } from "../../config/response.js";
 import { BaseError } from "../../config/error.js";
@@ -14,10 +14,10 @@ export const joinUser = async (body) => {
             name: body.name,
             nickname: body.nickname,
             email: body.email,
-            pw: body.pw,
-            pwcheck: body.pwcheck,
+            pw: String(body.pw),
+            pwcheck: String(body.pwcheck),
             b_date: body.b_date,
-            phone: body.phone,
+            phone: String(body.phone),
             alarm: body.alarm
         });
 
@@ -31,5 +31,26 @@ export const joinUser = async (body) => {
     } catch (error) {
         // 예외 처리
         throw error;
+    }
+};
+
+export const checkNickName = async (nickname) => {
+    try {
+        if (!nickname) {
+            throw new BaseError(status.FORBIDDEN, '닉네임을 입력해주세요.');
+        }
+
+        const isNicknameDuplicated = await checkNicknameDuplication(nickname);
+
+        if (isNicknameDuplicated === -1) {
+            throw new BaseError(status.BAD_REQUEST);
+        } else {
+            const successMessage = "닉네임 사용가능합니다"
+            return response(status.SUCCESS, successMessage)
+        }
+
+    } catch (error) {
+        console.error(error);
+        return response(status.INTERNAL_SERVER_ERROR, '서버 에러');
     }
 };
