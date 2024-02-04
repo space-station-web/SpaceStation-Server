@@ -1,6 +1,6 @@
 import { pool } from "../../config/db.config.js";
 import { status } from "../../config/response.status.js";
-import { confirmEmail, insertUserSql } from "./user.sql.js";
+import { confirmEmailSql, insertUserSql, emailcheckSql } from "./user.sql.js";
 
 import crypto from 'crypto';
 
@@ -9,7 +9,7 @@ export const addUser = async (data) => {
         const conn = await pool.getConnection();
 
         // 이메일 중복 확인
-        const [emailConfirm] = await pool.query(confirmEmail, data.email);
+        const [emailConfirm] = await pool.query(confirmEmailSql, data.email);
 
         if (emailConfirm[0].isExistEmail) {
             conn.release();
@@ -45,3 +45,32 @@ export const addUser = async (data) => {
         return "잘못된 매개변수입니다."; // 또는 다른 적절한 값을 반환
     }
 };
+
+export const findemail = async (data) => {
+    try {
+        const conn = await pool.getConnection();
+
+        // 이름, 휴대폰 번호, 생년월일을 이용하여 사용자 조회
+        const [userResult] = await pool.query(emailcheckSql, [data.name, data.phone, data.b_date]);
+
+        conn.release();
+
+        // 조회된 사용자가 없을 경우 null 반환
+        if (userResult.length === 0) {
+            console.log("사용자가 없습니다.")
+            return null;
+        }
+
+        // 조회된 사용자 반환
+        const userData = userResult[0];
+        console.log(userData.email)
+        return {
+            email: userData.email
+            // 기타 필요한 사용자 정보 추가
+        };
+    } catch (err) {
+        console.error(err); // 에러 출력
+        return "사용자 정보를 가져오는 중에 오류가 발생했습니다.";
+    }
+};
+
