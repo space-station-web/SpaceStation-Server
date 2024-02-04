@@ -4,7 +4,11 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { specs } from './config/swagger.config.js';
 import SwaggerUi from 'swagger-ui-express';
+
+import { signupRouter } from './src/routes/signup.route.js';
+
 import { tempRouter } from './src/routes/temp.route.js';
+
 
 dotenv.config();
 
@@ -24,6 +28,8 @@ app.use((err, req, res, next) => {
     console.log("error", err);
     res.status(err.data.status || status.INTERNAL_SERVER_ERROR).send(response(err.data));
 });
+
+app.use('/signup', signupRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`Example app listening on port ${process.env.PORT}`);
