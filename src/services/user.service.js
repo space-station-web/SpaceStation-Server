@@ -41,7 +41,6 @@ export const checkemail = async (body) => {
             phone: body.phone,
             b_date:body.b_date
         });
-
         if (userData) {
             const userEmail = userData.email
             const successMessage = `가입된 이메일은 ${userEmail}입니다.`;

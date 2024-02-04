@@ -63,12 +63,10 @@ export const findemail = async (data) => {
         }
 
         // 조회된 사용자 반환
-        const userData = userResult[0];
-        console.log(userData.email)
-        return {
-            email: userData.email
-            // 기타 필요한 사용자 정보 추가
-        };
+        const user = userResult[0];
+        console.log(user.email)
+        return user;
+
     } catch (err) {
         console.error(err); // 에러 출력
         return "사용자 정보를 가져오는 중에 오류가 발생했습니다.";
