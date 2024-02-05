@@ -11,21 +11,18 @@ export const bookCreate = async (req, res, next) => {
 
 export const bookRead = async (req, res, next) => {
     console.log("bookRead!");
-    console.log("params:", req.params.bookId);
 
     res.send(response(status.SUCCESS, await readBook(req.params)));
 };
 
 export const bookUpdate = async (req, res, next) => {
     console.log("bookUpdate!");
-    console.log("params:", req.params.bookId);
 
     res.send(response(status.SUCCESS, await updateBook(req.params, req.body)));
 };
 
 export const bookDelete = async (req, res, next) => {
     console.log("bookDelete!");
-    console.log("params:", req.params.bookId);
 
-    res.send(response(status.SUCCESS, await deleteBook(req.params)));
+    res.send(response(status.SUCCESS, await deleteBook(req.params, req.body)));
 };

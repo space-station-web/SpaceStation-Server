@@ -1,0 +1,434 @@
+paths:
+  /books:
+    post:
+      tags:
+        - Book
+      summary: 책 생성
+      parameters:
+        - name: create book
+          in: body
+          required: true
+          schema:
+            properties:
+              userId:
+                type: varchar(10)
+                description: 사용자 일련번호
+                example: 1
+              title:
+                type: varchar(50)
+                description: 책 제목
+                example: 책 제목
+              intro:
+                type: varchar(50)
+                description: 책 소개
+                example: 책 소개
+              category:
+                type: varchar(100)
+                description: 책 장르
+                example: 책 장르
+              bookContents:
+                type: object
+                description: 목차 정보
+                example: [ {
+                    "index": 1,
+                    "title": "목차 제목1",
+                    "context": "목차의 내용1"
+                  }, {
+                    "index": 2,
+                    "title": "목차 제목2",
+                    "context": "목차의 내용2"
+                  }]
+      responses:
+        '200':
+          description: 책 생성 성공!
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "success!"
+              result:
+                type: object
+                example: {
+                  "id": 33,
+                  "title": "책 제목 예시2",
+                  "intro": "책 소개 예시2",
+                  "category": "일상",
+                  "user_id": 1,
+                  "contents": [{
+                        "id": 52,
+                        "title": "목차 제목1",
+                        "content": "목차의 내용1",
+                        "create_at": "2024-02-05T07:41:01.000Z",
+                        "index": 1,
+                        "book_id": 33
+                    },{
+                        "id": 53,
+                        "title": "목차 제목2",
+                        "content": "목차의 내용2",
+                        "create_at": "2024-02-05T07:41:01.000Z",
+                        "index": 2,
+                        "book_id": 33
+                    }]
+                  }
+
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
+
+    get:
+      tags:
+        - Book
+      summary: 책 상세조회
+      parameters:
+        - name: read book
+          in: path
+          required: true
+          schema:
+            properties:
+              userId:
+                type: integer
+                description: 책 일련번호
+                example: 1
+      responses:
+        '200':
+          description: 책 조회 성공!
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "success!"
+              result:
+                type: object
+                example: {
+                  "id": 33,
+                  "title": "책 제목 예시2",
+                  "intro": "책 소개 예시2",
+                  "category": "일상",
+                  "user_id": 1,
+                  "contents": [{
+                        "id": 52,
+                        "title": "목차 제목1",
+                        "content": "목차의 내용1",
+                        "create_at": "2024-02-05T07:41:01.000Z",
+                        "index": 1,
+                        "book_id": 33
+                    },{
+                        "id": 53,
+                        "title": "목차 제목2",
+                        "content": "목차의 내용2",
+                        "create_at": "2024-02-05T07:41:01.000Z",
+                        "index": 2,
+                        "book_id": 33
+                    }]
+                  }
+
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
+
+    patch:
+      tags:
+        - Book
+      summary: 책 수정
+      parameters:
+        - in: path
+          name: update book path
+          required: true
+          schema:
+            properties:
+              userId:
+                type: integer
+                description: 책 일련번호
+                example: 1
+        - in: body
+          name: update book body
+          required: true
+          schema:
+            properties:
+              userId:
+                type: varchar(10)
+                description: 사용자 일련번호
+                example: 1
+              title:
+                type: varchar(50)
+                description: 책 제목
+                example: 책 제목
+              intro:
+                type: varchar(50)
+                description: 책 소개
+                example: 책 소개
+              category:
+                type: varchar(100)
+                description: 책 장르
+                example: 책 장르
+              bookContents:
+                type: object
+                description: 목차 정보
+                example: 
+                  - index: 1
+                    title: "목차 제목1"
+                    context: "목차의 내용1"
+                  - index: 2
+                    title: "목차 제목2"
+                    context: "목차의 내용2"
+      responses:
+        '200':
+          description: 책 조회 성공!
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "success!"
+              result:
+                type: object
+                example:
+                  id: 33
+                  title: "책 제목 예시2"
+                  intro: "책 소개 예시2"
+                  category: "일상"
+                  user_id: 1
+                  contents: 
+                    - id: 52
+                      title: "목차 제목1"
+                      content: "목차의 내용1"
+                      create_at: "2024-02-05T07:41:01.000Z"
+                      index: 1
+                      book_id: 33
+                    - id: 53
+                      title: "목차 제목2"
+                      content: "목차의 내용2"
+                      create_at: "2024-02-05T07:41:01.000Z"
+                      index: 2
+                      book_id: 33
+
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
+
+    delete:
+      tags:
+        - Book
+      summary: 책 삭제
+      parameters:
+        - name: delete book path
+          in: path
+          required: true
+          schema:
+            properties:
+              bookId:
+                type: integer
+                description: 책 일련번호
+                example: 1
+        - name: delete book body
+          in: body
+          required: true
+          schema:
+            properties:
+              userId:
+                type: integer
+                description: 사용자 일련번호
+                example: 1
+      responses:
+        '200':
+          description: 책 조회 성공!
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "success!"
+              result:
+                type: object
+                example: {
+                  "id": 33,
+                  "title": "책 제목 예시2",
+                  "intro": "책 소개 예시2",
+                  "category": "일상",
+                  "user_id": 1,
+                  "contents": [{
+                        "id": 52,
+                        "title": "목차 제목1",
+                        "content": "목차의 내용1",
+                        "create_at": "2024-02-05T07:41:01.000Z",
+                        "index": 1,
+                        "book_id": 33
+                    },{
+                        "id": 53,
+                        "title": "목차 제목2",
+                        "content": "목차의 내용2",
+                        "create_at": "2024-02-05T07:41:01.000Z",
+                        "index": 2,
+                        "book_id": 33
+                    }]
+                  }
+
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.

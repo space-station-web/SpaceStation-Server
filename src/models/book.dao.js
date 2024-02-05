@@ -2,7 +2,8 @@ import { pool } from "../../config/db.config.js";
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 import { createBookSql, createBookContentsSql, readBookSql, readBookContentsSql, 
-        updateBookSql, updateBookContentsSql, deleteBookSql, deleteBookContentsSql } from "./book.sql.js";
+         updateBookSql, updateBookContentsSql, deleteBookSql, deleteBookContentsSql, 
+         checkBookUserSql } from "./book.sql.js";
 
 export const addBook = async (data) => {
     try{
@@ -70,7 +71,6 @@ export const getContents = async (bookId) => {
 export const upBook = async (data) => {
     try {
         const conn = await pool.getConnection();
-        // userId 체크
         const resultBook = await pool.query(updateBookSql, 
             [data.title, data.intro, data.category, data.id]);
 
@@ -104,5 +104,23 @@ export const delBook = async (bookId) => {
         
     } catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+export const checkBookUser = async (bookId) => {
+    try {
+        console.log("checkBookUser bookId : " + bookId);
+        const conn = await pool.getConnection();
+        const checkResult = await pool.query(checkBookUserSql, [bookId]);
+
+        if(checkResult.length == 0){
+            return -1;
+        }
+
+        conn.release();
+        return checkResult;
+        
+    } catch (err) {
+        throw new BaseError(err);
     }
 }

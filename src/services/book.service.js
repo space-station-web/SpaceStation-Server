@@ -1,7 +1,7 @@
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 import { bookDTO, bookContentsDTO } from "../dtos/book.dto.js"
-import { addBook, getBook, upBook, delBook, getContents } from "../models/book.dao.js";
+import { addBook, getBook, upBook, delBook, getContents, checkBookUser } from "../models/book.dao.js";
 
 export const createBook = async (body) => {
     const createData = await addBook({
@@ -33,6 +33,11 @@ export const readBook = async (params) => {
 }
 
 export const updateBook = async (params, body) => {
+    const bookUser = await checkBookUser(params.bookId);
+    if (bookUser[0][0].user_id != body.userId) {
+        return "user and the author are different.";
+    }
+
     const updateData = await upBook({
         'title': body.title,
         'intro': body.intro,
@@ -50,7 +55,12 @@ export const updateBook = async (params, body) => {
     }
 }
 
-export const deleteBook = async (params) => {
+export const deleteBook = async (params, body) => {
+    const bookUser = await checkBookUser(params.bookId);
+    if (bookUser[0][0].user_id != body.userId) {
+        return "user and the author are different.";
+    }
+
     const deleteData = await delBook(params.bookId);
     console.log("delete Book Result :" + deleteData.resultBook + ", " +deleteData.resultBookContent);
 
