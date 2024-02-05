@@ -1,0 +1,97 @@
+paths:
+  /follow:
+    post:
+      tags:
+        - Follow
+      summary: 책 생성
+      parameters:
+        - name: create follow
+          in: body
+          required: true
+          schema:
+            properties:
+              followId:
+                type: varchar(10)
+                description: 사용자 일련번호
+                example: 1
+              
+      responses:
+        '201':
+          description: Follow 생성 성공!
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "success!"
+              result:
+                type: object
+                example: {
+                  "id": 33,
+                  "title": "책 제목 예시2",
+                  "intro": "책 소개 예시2",
+                  "category": "일상",
+                  "user_id": 1,
+                  "contents": [{
+                        "id": 52,
+                        "title": "목차 제목1",
+                        "content": "목차의 내용1",
+                        "create_at": "2024-02-05T07:41:01.000Z",
+                        "index": 1,
+                        "book_id": 33
+                    },{
+                        "id": 53,
+                        "title": "목차 제목2",
+                        "content": "목차의 내용2",
+                        "create_at": "2024-02-05T07:41:01.000Z",
+                        "index": 2,
+                        "book_id": 33
+                    }]
+                  }
+
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
+
+    

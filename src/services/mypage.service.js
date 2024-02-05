@@ -4,6 +4,7 @@ import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 import { getPosts } from "../models/posts.dao.js";
 import { getQuestions } from "../models/questions.dao.js";
+import { getFollowListByUserId } from "../models/follow.dao.js";
 
 const data = async ({userId, type}) => {
     if (type === 1) {
@@ -18,4 +19,9 @@ const data = async ({userId, type}) => {
 
 }
 
-export default { data }
+const follow = async ({userId, limit, offset}) => {
+    const followList = await getFollowListByUserId({userId, limit, offset})
+    return followList;
+}
+
+export default { data, follow }
