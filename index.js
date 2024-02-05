@@ -5,7 +5,8 @@ import cors from 'cors';
 import { specs } from './config/swagger.config.js';
 import SwaggerUi from 'swagger-ui-express';
 import { tempRouter } from './src/routes/temp.route.js';
-
+import { mypageRouter } from './src/routes/mypage.route.js'
+import { neighborpageRouter } from './src/routes/neighborpage.route.js'
 dotenv.config();
 
 const app = express()
@@ -31,3 +32,15 @@ app.use('/temp', tempRouter);
 
 // swagger
 app.use('/swagger', SwaggerUi.serve, SwaggerUi.setup(specs));
+
+
+// 마이페이지
+app.use('/mypage', mypageRouter);
+
+// 이웃 페이지
+app.use('/neighborpage', neighborpageRouter);
+
+// 나의 이웃 목록
+// app.use('/mypage/follow', followRouter);
+
+
