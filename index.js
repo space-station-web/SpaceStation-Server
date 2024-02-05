@@ -60,7 +60,7 @@ app.use('/swagger', SwaggerUi.serve, SwaggerUi.setup(specs));
 app.use('/mypage', mypageRouter);
 
 // 이웃 페이지
-app.use('/neighborpage', neighborpageRouter);
+app.use('/follow', neighborpageRouter);
 
 // 나의 이웃 목록
 // app.use('/mypage/follow', followRouter);

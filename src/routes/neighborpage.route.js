@@ -1,7 +1,8 @@
 import express from 'express';
-import {neighborpageData} from '../controllers/neighborpage.controller.js';
+import {add, remove} from '../controllers/neighborpage.controller.js';
 
 export const neighborpageRouter = express.Router();
 
-neighborpageRouter.get('/', neighborpageData);
+neighborpageRouter.post('/', add);
+neighborpageRouter.delete('/', remove);
 

@@ -3,10 +3,22 @@ import { flagResponseDTO } from "../dtos/temp.response.dto.js";
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 import { getPosts } from "../models/posts.dao.js";
+import { addFollow, removeFollow } from '../models/follow.dao.js';
 
 const data = async ({userId}) => {
     const posts =  await getPosts(userId);
     return posts;
 }
 
-export default { data }
+const add = async ({userId, followId}) => {
+    const follow = await addFollow({userId, followId})
+    return follow;
+}
+
+const remove = async ({id, userId, followId}) => {
+    const follow = await removeFollow({id, userId, followId})
+    return follow;
+}
+
+
+export default { data, add, remove }
