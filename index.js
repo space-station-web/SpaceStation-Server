@@ -9,6 +9,8 @@ import { signupRouter } from './src/routes/signup.route.js';
 import { emailcheckRouter } from './src/routes/emailcheck.route.js';
 
 import { tempRouter } from './src/routes/temp.route.js';
+import { mypageRouter } from './src/routes/mypage.route.js'
+import { neighborpageRouter } from './src/routes/neighborpage.route.js'
 import { bookRouter } from './src/routes/book.route.js';
 
 
@@ -52,3 +54,15 @@ app.use('/books', bookRouter);
 
 // swagger
 app.use('/swagger', SwaggerUi.serve, SwaggerUi.setup(specs));
+
+
+// 마이페이지
+app.use('/mypage', mypageRouter);
+
+// 이웃 페이지
+app.use('/neighborpage', neighborpageRouter);
+
+// 나의 이웃 목록
+// app.use('/mypage/follow', followRouter);
+
+
