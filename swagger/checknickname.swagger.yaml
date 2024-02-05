@@ -1,56 +1,22 @@
 paths:
-  /signup:
-    post:
+  /signup/{nickname}:
+    get:
       tags:
         - User
-      summary: 회원가입
+      summary: 닉네임 중복확인
       parameters:
-        - name: signup
-          in: body
+        - name: nickname
+          in: path
           required: true
           schema:
             properties:
-              name:
-                type: string
-                maxLength: 10
-                description: 유저 이름
-                example: 홍길동
               nickname:
                 type: string
                 maxLength: 50
-                description: 유저 닉네임
-                example: 테스트
-              email:
-                type: string
-                maxLength: 50
-                description: 유저 이메일
-                example: example@example.com
-              pw:
-                type: string
-                maxLength: 100
-                description: 유져 비밀번호
-                example: 'zxcvasdfqwer'
-              pwcheck:
-                type: string
-                maxLength: 100
-                description: 유져 비밀번호 확인
-                example: 'zxcvasdfqwer'
-              phone:
-                type: string
-                maxLength: 15
-                description: 유저 휴대폰
-                example: '01012345678'
-              b_date:
-                type: date
-                description: 생년월일
-                example: 19980922
-              alarm:
-                type: boolean
-                description: 알람 약관 동의
-                example: True
+                example: "테스트"
       responses:
         '200':
-          description: 회원 가입 성공!
+          description: 이메일 중복 없음
           schema:
             type: object
             properties:
@@ -66,12 +32,6 @@ paths:
               message:
                 type: string
                 example: "success!"
-              data:
-                type: object
-                example: {
-                  "name": "길벗",
-                  "nickname": "출판다",
-                }
 
         '400':
           description: 잘못된 요청

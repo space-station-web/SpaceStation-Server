@@ -1,6 +1,6 @@
 import { pool } from "../../config/db.config.js";
 import { status } from "../../config/response.status.js";
-import { confirmEmail, insertUserSql } from "./user.sql.js";
+import {confirmEmail, confirmNickname, insertUserSql} from "./user.sql.js";
 
 import crypto from 'crypto';
 
@@ -42,6 +42,28 @@ export const addUser = async (data) => {
         return "회원가입이 완료되었습니다.";
     } catch (err) {
         console.error(err); // 에러 출력
-        return "잘못된 매개변수입니다."; // 또는 다른 적절한 값을 반환
+        return "서버에러"; // 또는 다른 적절한 값을 반환
+    }
+};
+
+export const checkNicknameDuplication = async (nickname) => {
+    try {
+        const conn = await pool.getConnection();
+
+        // 닉네임 중복 확인
+        const [nicknameConfirm] = await conn.query(confirmNickname, [nickname]);
+        if( nicknameConfirm[0].isExistNickname) {
+            conn.release()
+            console.log("닉네임 중복")
+            return -1;
+        } else {
+            conn.release()
+
+            console.log("사용가능");
+            return "사용 가능한 닉네임입니다.";
+        }
+    } catch (error) {
+        console.error(error);
+        return '서버 에러'; // 또는 다른 적절한 에러를 throw
     }
 };
