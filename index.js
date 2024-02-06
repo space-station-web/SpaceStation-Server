@@ -5,7 +5,6 @@ import cors from 'cors';
 import { specs } from './config/swagger.config.js';
 import SwaggerUi from 'swagger-ui-express';
 
-import { signupRouter } from './src/routes/signup.route.js';
 import { emailcheckRouter } from './src/routes/emailcheck.route.js';
 
 import { tempRouter } from './src/routes/temp.route.js';
@@ -26,7 +25,6 @@ app.get('/', function (req, res) {
     res.send('Hello World')
 })
 
-app.use('/signup', signupRouter);
 
 app.use('/email-check', emailcheckRouter);
 

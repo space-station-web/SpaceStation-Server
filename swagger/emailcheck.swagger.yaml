@@ -11,11 +11,13 @@ paths:
           schema:
             properties:
               name:
-                type: varchar(10)
+                type: string
+                maxLength: 10
                 description: 유저 이름
                 example: 길벗
               phone:
-                type: varchar(15)
+                type: string
+                maxLength: 15
                 description: 유저 휴대폰
                 example: 01049205843
               b_date:
