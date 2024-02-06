@@ -1,6 +1,5 @@
 import { status } from '../../config/response.status.js';
 import neighborpageService from '../services/neighborpage.service.js';
-import { CheckFlag } from '../services/temp.service.js';
 import { response } from '../../config/response.js';
 
 export const neighborpageData = async (req, res) => {

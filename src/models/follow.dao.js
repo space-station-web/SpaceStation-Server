@@ -1,6 +1,5 @@
 import { pool } from "../../config/db.config.js";
 import { BaseError } from "../../config/error.js";
-import { status } from "../../config/response.status.js";
 import { getFollowByUserId, createFollowSql, deleteFollowSqlById, deleteFollowSqlByFollowIdAndUserId } from "./follow.sql.js";
 
 export const getFollowListByUserId = async ({userId, limit, offset}) => {
