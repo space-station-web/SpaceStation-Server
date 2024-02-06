@@ -2,7 +2,7 @@ import { tempResponseDTO } from "../dtos/temp.response.dto.js";
 import { flagResponseDTO } from "../dtos/temp.response.dto.js";
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
-import { getPosts } from "../models/posts.dao.js";
+import { getPosts } from "../models/myposts.dao.js";
 import { getQuestions } from "../models/questions.dao.js";
 import { getFollowListByUserId } from "../models/follow.dao.js";
 

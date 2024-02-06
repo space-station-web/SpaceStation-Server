@@ -1,7 +1,6 @@
 import { pool } from "../../config/db.config.js";
 import { BaseError } from "../../config/error.js";
-// import { status } from "../../config/response.status.js";
-import { getMyPosts } from "./posts.sql.js";
+import { getMyPosts } from "./myposts.sql.js";
 
 export const getPosts = async (userId) => {
     try {
