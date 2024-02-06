@@ -3,8 +3,9 @@ import neighborpageService from '../services/neighborpage.service.js';
 import { response } from '../../config/response.js';
 
 export const neighborpageData = async (req, res) => {
+    // 로그인 기능 완료 후 최종수정 필요
     const { type } = req.query;
-    req.user = { id: 1}
+    req.user = { id: 1} // 임의로 아이디 식별자 1로 설정
     const userId = req?.user?.id
 
     console.log('userId:', userId)
@@ -26,8 +27,8 @@ export const add = async (req, res) => {
         return res.status(401)
     }
 
-    console.log('userId:', userId)
-    console.log('followId:', followId)
+    // console.log('userId:', userId)
+    // console.log('followId:', followId)
 
     const data = await neighborpageService.add({userId, followId})
     res.send(response(status.SUCCESS, data));
@@ -43,9 +44,9 @@ export const remove = async (req, res) => {
         return res.status(401)
     }
 
-    console.log('id:', id)
-    console.log('userId:', userId)
-    console.log('followId:', followId)
+    // console.log('id:', id)
+    // console.log('userId:', userId)
+    // console.log('followId:', followId)
 
     const data = await neighborpageService.remove({id, userId, followId})
     res.send(response(status.SUCCESS, data));

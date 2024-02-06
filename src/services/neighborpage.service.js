@@ -5,7 +5,7 @@ import { status } from "../../config/response.status.js";
 import { getPosts } from "../models/myposts.dao.js";
 import { addFollow, removeFollow } from '../models/follow.dao.js';
 
-const data = async ({userId}) => {
+const data = async ({userId}) => { // 이웃페이지는 글모음만 보이니 설정 x(추후에 보관 기능 추가시 수정필요할수도)
     const posts =  await getPosts(userId);
     return posts;
 }
