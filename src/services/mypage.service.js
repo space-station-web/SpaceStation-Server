@@ -1,5 +1,5 @@
 import { getPosts } from "../models/myposts.dao.js";
-import { getQuestions } from "../models/questions.dao.js";
+import { getQuestions } from "../models/myquestions.dao.js";
 import { getFollowListByUserId } from "../models/follow.dao.js";
 
 const data = async ({userId, type}) => { // 보관함 추가 시 type === 3 으로 진행할 것

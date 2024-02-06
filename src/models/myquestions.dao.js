@@ -1,7 +1,7 @@
+// 나의 우주선에서 모든 질문 불러오기
 import { pool } from "../../config/db.config.js";
 import { BaseError } from "../../config/error.js";
-// import { status } from "../../config/response.status.js";
-import { getAllQuestions } from "./questions.sql.js";
+import { getAllQuestions } from "./myquestions.sql.js";
 
 export const getQuestions = async () => {
     try {

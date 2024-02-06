@@ -1,3 +1,4 @@
+// 나의 우주선
 import { pool } from "../../config/db.config.js";
 import { BaseError } from "../../config/error.js";
 import { getMyPosts } from "./myposts.sql.js";
