@@ -71,3 +71,14 @@ export const updatePost = async (post_id, body) => {
         throw error;
     }
 }
+
+// 유저 글 리스트 조회
+export const getPostsByUserId = async(user_id) => {
+    try {
+    const posts = await postDao.getPostsByUserId(user_id);
+    return posts;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}

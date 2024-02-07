@@ -1,7 +1,6 @@
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
-import { getPosts } from "../models/myposts.dao.js";
-import { addFollow, removeFollow } from '../models/follow.dao.js';
+import { addFollow, removeFollow, getFollowListByUserId } from '../models/follow.dao.js';
 
 const data = async ({userId}) => { // 이웃페이지는 글모음만 보이니 설정 x(추후에 보관 기능 추가시 수정필요할수도)
     const posts =  await getPosts(userId);
@@ -19,4 +18,10 @@ const remove = async ({id, userId, followId}) => {
 };
 
 
-export default { data, add, remove };
+const followListByUserId = async ({userId, limit, offset}) => {
+    const followList = await getFollowListByUserId({userId, limit, offset})
+    return followList;
+};
+
+
+export default { data, add, remove, followListByUserId };

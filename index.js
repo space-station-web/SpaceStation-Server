@@ -11,7 +11,7 @@ import { emailcheckRouter } from './src/routes/emailcheck.route.js';
 
 import { tempRouter } from './src/routes/temp.route.js';
 import { mypageRouter } from './src/routes/mypage.route.js'
-import { neighborpageRouter } from './src/routes/neighborpage.route.js'
+import { followRouter } from './src/routes/follow.route.js'
 import { bookRouter } from './src/routes/book.route.js';
 import { postRouter } from './src/routes/post.route.js';
 
@@ -62,7 +62,7 @@ app.use('/swagger', SwaggerUi.serve, SwaggerUi.setup(specs));
 app.use('/mypage', mypageRouter);
 
 // 이웃 페이지 API
-app.use('/neighbor', neighborpageRouter);
+app.use('/follow', followRouter);
 // 이웃 페이지 자체는 /neighbor로 진행
 
 // 구독 API

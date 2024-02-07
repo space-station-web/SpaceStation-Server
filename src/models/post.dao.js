@@ -1,7 +1,7 @@
 // post.dao.js
 
 import { pool } from "../../config/db.config.js";
-import { getLastPost, getUserID, insertPostSql, LastPost, deletePostSql, getPostSql, updatePostSql } from "./post.sql.js";
+import { getLastPost, getUserID, insertPostSql, LastPost, deletePostSql, getPostSql, updatePostSql, getPostsByUserIdSql } from "./post.sql.js";
 
 // 글 작성
 export const writeContent = async (data) => {
@@ -78,4 +78,19 @@ export const updatePost = async (data, post_id) => {
     }
 }
 
+// 유저의 글 리스트 조회
+export const getPostsByUserId = async (userId) => {
+    try {
+        const conn = await pool.getConnection();
+        const myPosts = await pool.query(getPostsByUserIdSql, [userId]);
+        if(myPosts.length == 0){
+            return -1;
+        }
 
+        conn.release();
+        return myPosts[0];
+        
+    } catch (err) {
+        throw err;
+    }
+}

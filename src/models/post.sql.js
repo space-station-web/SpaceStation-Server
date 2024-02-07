@@ -13,3 +13,5 @@ export const deletePostSql = "DELETE FROM post WHERE post_id = ?";
 export const getPostSql = "SELECT post_id, user_id, title, content, visibility, created_at, self_destructTime FROM post WHERE post_id = ?";
 
 export const updatePostSql = "UPDATE post SET title = ?, content = ?, visibility = ?, self_destructTime = ? WHERE post_id = ?"
+
+export const getPostsByUserIdSql = "SELECT * FROM post WHERE user_id = ?;";

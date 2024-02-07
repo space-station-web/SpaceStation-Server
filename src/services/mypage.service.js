@@ -1,4 +1,3 @@
-import { getPosts } from "../models/myposts.dao.js";
 import { getQuestions } from "../models/myquestions.dao.js";
 import { getFollowListByUserId } from "../models/follow.dao.js";
 
@@ -15,9 +14,4 @@ const data = async ({userId, type}) => { // 보관함 추가 시 type === 3 으�
 
 };
 
-const follow = async ({userId, limit, offset}) => {
-    const followList = await getFollowListByUserId({userId, limit, offset})
-    return followList;
-};
-
-export default { data, follow };
+export default { data };

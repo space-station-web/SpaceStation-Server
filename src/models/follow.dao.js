@@ -3,10 +3,10 @@ import { BaseError } from "../../config/error.js";
 import { getFollowByUserId, createFollowSql, deleteFollowSqlById, deleteFollowSqlByFollowIdAndUserId } from "./follow.sql.js";
 
 export const getFollowListByUserId = async ({userId, limit, offset}) => {
+    console.log('userId:', userId)
     try {
         const conn = await pool.getConnection();
         const refinedLimit = limit || 8;
-        console.log('userId:', userId)
         const followList = await pool.query(getFollowByUserId(refinedLimit), [userId, refinedLimit, offset || 0]);
 
         console.log('followList', followList)
@@ -25,7 +25,11 @@ export const getFollowListByUserId = async ({userId, limit, offset}) => {
 export const addFollow = async ({userId, followId}) => {
     try{
         const conn = await pool.getConnection();
+        const followList = await getFollowListByUserId({userId})
+        const isAlreadyHas = followList.some((follow) => follow.follow_id === followId)
 
+        if(isAlreadyHas) return;
+        
         const resultFollow = await pool.query(createFollowSql, 
             [userId, followId] );
 

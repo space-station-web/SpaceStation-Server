@@ -53,3 +53,11 @@ export const getPost = async (req, res, next) => {
 
     return res.send(response(status.SUCCESS, await postService.getPost(post_id)));
 }
+
+// 유저의 글 리스트 조회
+export const getPostsByUserId = async (req, res) => {
+    const { user_id } = req.params;
+
+    return res.send(response(status.SUCCESS, await postService.getPostsByUserId(user_id)));
+
+}
