@@ -1,4 +1,3 @@
-// 모든 질문 불러오기
 import { pool } from "../../config/db.config.js";
 import { BaseError } from "../../config/error.js";
 import { getAllQuestions } from "./myquestions.sql.js";

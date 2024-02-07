@@ -5,12 +5,9 @@ import cors from 'cors';
 import { specs } from './config/swagger.config.js';
 import SwaggerUi from 'swagger-ui-express';
 import { status } from './config/response.status.js';
-
 import { signupRouter } from './src/routes/signup.route.js';
 import { emailcheckRouter } from './src/routes/emailcheck.route.js';
-
 import { tempRouter } from './src/routes/temp.route.js';
-import { mypageRouter } from './src/routes/mypage.route.js'
 import { followRouter } from './src/routes/follow.route.js'
 import { bookRouter } from './src/routes/book.route.js';
 import { postRouter } from './src/routes/post.route.js';
