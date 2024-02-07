@@ -56,12 +56,15 @@ app.use('/books', bookRouter);
 app.use('/swagger', SwaggerUi.serve, SwaggerUi.setup(specs));
 
 
-// 마이페이지
+// 마이페이지 API
 app.use('/mypage', mypageRouter);
 
-// 이웃 페이지
-app.use('/follow', neighborpageRouter);
+// 이웃 페이지 API
+app.use('/neighbor', neighborpageRouter);
+// 이웃 페이지 자체는 /neighbor로 진행
 
-
+// 구독 API
+// follow 기능을 따로 분리하고 싶음
+// app.use('/follow', followRouter);
 
 

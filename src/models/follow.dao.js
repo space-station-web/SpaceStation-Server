@@ -20,7 +20,7 @@ export const getFollowListByUserId = async ({userId, limit, offset}) => {
     } catch (err) {
         throw new BaseError(err);
     }
-}
+};
 
 export const addFollow = async ({userId, followId}) => {
     try{
@@ -36,7 +36,7 @@ export const addFollow = async ({userId, followId}) => {
     }catch (err) {
         throw new BaseError(err);
     }
-}
+};
 
 export const removeFollow = async ({id, userId, followId}) => {
     try{
@@ -56,4 +56,4 @@ export const removeFollow = async ({id, userId, followId}) => {
     }catch (err) {
         throw new BaseError(err);
     }
-}
+};

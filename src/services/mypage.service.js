@@ -13,11 +13,11 @@ const data = async ({userId, type}) => { // 보관함 추가 시 type === 3 으�
         return -1;
     }
 
-}
+};
 
 const follow = async ({userId, limit, offset}) => {
     const followList = await getFollowListByUserId({userId, limit, offset})
     return followList;
-}
+};
 
-export default { data, follow }
+export default { data, follow };
