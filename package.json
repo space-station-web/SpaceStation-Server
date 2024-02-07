@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "description": "우주정거장 서버",
   "main": "index.js",
-  "type" : "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "nodemon --exec babel-node index.js",
