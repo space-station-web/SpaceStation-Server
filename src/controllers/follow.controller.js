@@ -41,10 +41,6 @@ export const remove = async (req, res) => {
         return res.status(401)
     }
 
-    // console.log('id:', id)
-    // console.log('userId:', userId)
-    // console.log('followId:', followId)
-
     const data = await followService.remove({id, userId, followId})
     res.send(response(status.SUCCESS, data));
 };

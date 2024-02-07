@@ -15,3 +15,16 @@ export const getPostSql = "SELECT post_id, user_id, title, content, visibility, 
 export const updatePostSql = "UPDATE post SET title = ?, content = ?, visibility = ?, self_destructTime = ? WHERE post_id = ?"
 
 export const getPostsByUserIdSql = "SELECT * FROM post WHERE user_id = ?;";
+
+export const getAllPostsSql = ({orderColumn, orderDirection}) => `
+with post_with_like as (select p.post_id, count(pl.post_like_id) as like_count
+    from post as p
+            left join postLike as pl on p.post_id = pl.post_id
+    group by p.post_id)
+
+    select *
+    from    post as p
+    left join post_with_like as pl on pl.post_id = p.post_id
+    order by ${orderColumn} ${orderDirection}
+    limit ? offset ?;
+`

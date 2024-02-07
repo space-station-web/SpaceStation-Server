@@ -2,10 +2,12 @@
 
 import express from "express";
 import asyncHandler from 'express-async-handler';
-import { addPost, deletePost, editPost, getPost, getPostsByUserId } from '../controllers/post.controller.js';
+import { getPosts, addPost, deletePost, editPost, getPost, getPostsByUserId } from '../controllers/post.controller.js';
 
 export const postRouter = express.Router();
 
+// 전체 글 조회
+postRouter.get('/', asyncHandler(getPosts))
 
 // 글 생성
 postRouter.post('/', asyncHandler(addPost));
