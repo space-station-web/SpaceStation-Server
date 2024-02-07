@@ -1,7 +1,6 @@
 import { pool } from "../../config/db.config.js";
 import { BaseError } from "../../config/error.js";
-// import { status } from "../../config/response.status.js";
-import { getAllQuestions } from "./questions.sql.js";
+import { getAllQuestions } from "./myquestions.sql.js";
 
 export const getQuestions = async () => {
     try {

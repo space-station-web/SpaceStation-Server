@@ -5,6 +5,13 @@ import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 import * as postService from '../services/post.service.js';
 
+// 전체 글 조회
+export const getPosts = async (req, res) => {
+    const { orderColumn, orderDirection, limit, offset } = req.query;
+    const list = await postService.getPosts({orderColumn, orderDirection, limit, offset})
+    return res.send(response(status.SUCCESS, list))
+}
+
 // 글 작성
 export const addPost = async (req, res, next) => {
     console.log("글 작성");
@@ -52,4 +59,12 @@ export const getPost = async (req, res, next) => {
     const { post_id } = req.params;
 
     return res.send(response(status.SUCCESS, await postService.getPost(post_id)));
+}
+
+// 유저의 글 리스트 조회
+export const getPostsByUserId = async (req, res) => {
+    const { user_id } = req.params;
+
+    return res.send(response(status.SUCCESS, await postService.getPostsByUserId(user_id)));
+
 }
