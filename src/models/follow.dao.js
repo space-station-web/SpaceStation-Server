@@ -9,7 +9,7 @@ export const getFollowListByUserId = async ({userId, limit, offset}) => {
         const refinedLimit = limit || 8;
         const followList = await pool.query(getFollowByUserId(refinedLimit), [userId, refinedLimit, offset || 0]);
 
-        console.log('followList', followList)
+        //console.log('followList', followList)
         if(followList.length == 0){
             return -1;
         }
