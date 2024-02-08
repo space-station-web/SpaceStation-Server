@@ -63,7 +63,7 @@ export const logintry = async (data) => {
             .digest('hex');
 
         // 해싱된 비밀번호와 데이터베이스에 저장된 해시 값 비교
-        if (hashedInputPw === user[0].password) {
+        if (hashedInputPw.substring(0, 100) === user[0].pw) {
             // 로그인 성공
             console.log("로그인이 완료되었습니다.", user[0].nickname);
             return user[0].nickname;
