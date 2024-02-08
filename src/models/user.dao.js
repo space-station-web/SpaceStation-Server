@@ -1,6 +1,12 @@
 import { pool } from "../../config/db.config.js";
 import { userCheckSql } from "./user.sql.js";
 import crypto from 'crypto';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const createdHash = process.env.createdHash;
+const digest = process.env.digest;
 
 export const logintry = async (data) => {
     try {
@@ -20,9 +26,9 @@ export const logintry = async (data) => {
 
         // 입력된 비밀번호를 동일한 솔트와 알고리즘으로 해싱
         const hashedInputPw = crypto
-            .createHash('sha512')
+            .createHash(createdHash)
             .update(data.pw + savedSalt)
-            .digest('hex');
+            .digest(digest);
 
         // 해싱된 비밀번호와 데이터베이스에 저장된 해시 값 비교
         if (hashedInputPw.substring(0, 100) === user[0].pw) {
