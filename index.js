@@ -4,8 +4,10 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { specs } from './config/swagger.config.js';
 import SwaggerUi from 'swagger-ui-express';
+// const jwt = require('jsonwebtoken');
+// const cookieParser = require('cookie-parser');
 
-import { signupRouter } from './src/routes/signup.route.js';
+import { loginRouter } from './src/routes/login.route.js';
 
 import { tempRouter } from './src/routes/temp.route.js';
 
@@ -14,6 +16,7 @@ dotenv.config();
 
 const app = express()
 
+// app.use(cookieParser());
 app.set('port', process.env.PORT || 8080)   // 서버 포트 지정
 app.use(cors());                            // cors 방식 허용
 app.use(express.static('public'));          // 정적 파일 접근
@@ -25,7 +28,7 @@ app.get('/', function (req, res) {
     res.send('Hello World')
 })
 
-app.use('/signup', signupRouter);
+app.use('/login', loginRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`Example app listening on port ${process.env.PORT}`)

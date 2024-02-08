@@ -1,23 +1,15 @@
 paths:
-  /signup:
+  /login:
     post:
       tags:
         - User
-      summary: 회원가입
+      summary: 로그인
       parameters:
         - name: signup
           in: body
           required: true
           schema:
             properties:
-              name:
-                type: varchar(10)
-                description: 유저 이름
-                example: 길벗
-              nickname:
-                type: varchar(50)
-                description: 유저 닉네임
-                example: 출판다
               email:
                 type: varchar(50)
                 description: 유저 이메일
@@ -25,23 +17,7 @@ paths:
               pw:
                 type: varchar(100)
                 description: 유져 비밀번호
-                example: ABCDEFG
-              pwcheck:
-                type: varchar(100)
-                description: 유져 비밀번호 확인
-                example: ABCDEFG
-              phone:
-                type: varchar(15)
-                description: 유저 휴대폰
-                example: 01049205843
-              b_date:
-                type: date
-                description: 생년월일
-                example: 20040204
-              alarm:
-                type: boolean
-                description: 알람 약관 동의
-                example: True
+                example: ABCDE
       responses:
         '200':
           description: 회원 가입 성공!
