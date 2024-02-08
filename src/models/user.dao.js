@@ -33,7 +33,8 @@ export const addUser = async (data) => {
             data.alarm, // 약관 동의 여부
             new Date(), // created
             'active', // status
-            'local' // provider
+            'local',// provider
+            salt
         ]);
 
         conn.release();
