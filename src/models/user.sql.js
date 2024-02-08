@@ -1,6 +1,3 @@
-
-export const insertUserSql = "INSERT INTO user (name, nickname, email, pw, phone, b_date, alarm, created, status, provider) VALUES (?,?,?,?,?,?,?,?,?,?)";
-
 export const insertUserSql = "INSERT INTO user (name, nickname, email, pw, phone, b_date, alarm, created, status, provider, salt) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
 
 

@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "spacestation-server",
   "version": "1.0.0",
   "description": "우주정거장 서버",
