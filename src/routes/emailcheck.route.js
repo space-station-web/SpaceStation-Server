@@ -1,6 +1,6 @@
 import express from "express";
-import { emailcheck } from "../controllers/emailcheck.controller.js";
+import {  } from "../controllers/emailcheck.controller.js";
 
-export const emailcheckRouter = express.Router();
+export const emailauthRouter = express.Router();
 
-emailcheckRouter.post('/', emailcheck)
+emailauthRouter.post('/', emailauth)
