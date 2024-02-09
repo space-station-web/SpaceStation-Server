@@ -14,6 +14,7 @@ import { mypageRouter } from './src/routes/mypage.route.js'
 import { neighborpageRouter } from './src/routes/neighborpage.route.js'
 import { bookRouter } from './src/routes/book.route.js';
 import { postRouter } from './src/routes/post.route.js';
+import { questionRouter } from './src/routes/question.route.js';
 
 
 dotenv.config();
@@ -69,5 +70,8 @@ app.use('/follow', neighborpageRouter);
 
 // 글쓰기 API
 app.use('/posts', postRouter);
+
+// 오늘의 질문 API
+app.use('/questions', questionRouter)
 
 
