@@ -1,8 +1,26 @@
 // post.dao.js
-
 import { pool } from "../../config/db.config.js";
-import { getLastPost, getUserID, insertPostSql, LastPost, deletePostSql, getPostSql, updatePostSql } from "./post.sql.js";
+import { getAllPostsSql, getLastPost, getUserID, insertPostSql, LastPost, deletePostSql, getPostSql, updatePostSql, getPostsByUserIdSql } from "./post.sql.js";
 
+
+//  전체 글 조회
+export const getAllPosts = async({orderColumn, orderDirection, limit, offset}) => {
+    try {
+        
+        const conn = await pool.getConnection();
+
+        console.table({orderColumn, orderDirection, limit, offset})
+        const result = await pool.query(getAllPostsSql({orderColumn, orderDirection}), [ 
+            limit, offset
+        ]);
+
+        conn.release();
+
+        return result[0];
+    } catch (err) {
+        throw err;
+    }
+}
 // 글 작성
 export const writeContent = async (data) => {
     try {
@@ -78,4 +96,19 @@ export const updatePost = async (data, post_id) => {
     }
 }
 
+// 유저의 글 리스트 조회
+export const getPostsByUserId = async (userId) => {
+    try {
+        const conn = await pool.getConnection();
+        const myPosts = await pool.query(getPostsByUserIdSql, [userId]);
+        if(myPosts.length == 0){
+            return -1;
+        }
 
+        conn.release();
+        return myPosts[0];
+        
+    } catch (err) {
+        throw err;
+    }
+}

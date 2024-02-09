@@ -10,4 +10,4 @@ export const tempTest = (req, res, next) => {
 export const tempException = (req, res, next) => {
     console.log("/temp/exception/"+req.params.flag);
     return res.send(response(status.SUCCESS, CheckFlag(req.params.flag)));
-}
+}; 

@@ -14,32 +14,32 @@ paths:
                 type: string
                 maxLength: 10
                 description: 유저 이름
-                example: 홍길동
+                example: 김대붕
               nickname:
                 type: string
                 maxLength: 50
                 description: 유저 닉네임
-                example: 테스트
+                example: 붕붕이
               email:
                 type: string
                 maxLength: 50
                 description: 유저 이메일
-                example: example@example.com
+                example: example15@example.com
               pw:
                 type: string
                 maxLength: 100
                 description: 유져 비밀번호
-                example: 'zxcvasdfqwer'
+                example: 'poiuqwer'
               pwcheck:
                 type: string
                 maxLength: 100
                 description: 유져 비밀번호 확인
-                example: 'zxcvasdfqwer'
+                example: 'poiuqwer'
               phone:
                 type: string
                 maxLength: 15
                 description: 유저 휴대폰
-                example: '01012345678'
+                example: '01008971324'
               b_date:
                 type: date
                 description: 생년월일

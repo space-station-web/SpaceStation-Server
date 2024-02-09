@@ -14,6 +14,7 @@ export const updateBookContentsSql = "UPDATE bookContents "
                                 + "WHERE id = ?;";
 
 export const deleteBookSql = "DELETE FROM book WHERE id = ?;";
+
 export const deleteBookContentsSql = "DELETE FROM bookContents WHERE book_id = ?;";
 
 export const checkBookUserSql = "SELECT user_id FROM book WHERE id = ?;";

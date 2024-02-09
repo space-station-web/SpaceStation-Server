@@ -1,8 +1,14 @@
 import { pool } from "../../config/db.config.js";
 import { status } from "../../config/response.status.js";
+
 import { confirmEmailSql, insertUserSql, emailcheckSql, confirmNicknameSql } from "./user.sql.js";
 
 import crypto from 'crypto';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const createdHash = process.env.createdHash;
+const digest = process.env.digest;
 
 export const addUser = async (data) => {
     try {
@@ -19,9 +25,9 @@ export const addUser = async (data) => {
 
         const salt = crypto.randomBytes(128).toString('base64');
         const hashedPw = crypto
-            .createHash('sha512')
+            .createHash(createdHash)
             .update(data.pw + salt)
-            .digest('hex');
+            .digest(digest);
 
         // 사용자 데이터 삽입
         const result = await pool.query(insertUserSql, [
@@ -34,7 +40,8 @@ export const addUser = async (data) => {
             data.alarm, // 약관 동의 여부
             new Date(), // created
             'active', // status
-            'local' // provider
+            'local',// provider
+            salt
         ]);
 
         conn.release();

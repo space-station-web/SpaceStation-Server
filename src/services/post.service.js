@@ -7,6 +7,17 @@ import { postResponseDTO } from "../dtos/post.dto.js";
 import * as postDao from '../models/post.dao.js';
 import { response } from "../../config/response.js";
 
+// 전체 글 조회
+export const getPosts = async ({orderColumn = 'created_at', orderDirection = 'desc', limit = 10, offset = 0}) => {
+    try {
+        const result = await postDao.getAllPosts({orderColumn, orderDirection, limit, offset})
+        
+        return result;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
 
 // 글 생성
 export const addNewPost = async (body) => {
@@ -66,6 +77,17 @@ export const updatePost = async (post_id, body) => {
         const getPostData = await postDao.getPost(post_id);
 
         return getPostData;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+// 유저 글 리스트 조회
+export const getPostsByUserId = async(user_id) => {
+    try {
+    const posts = await postDao.getPostsByUserId(user_id);
+    return posts;
     } catch (error) {
         console.error(error);
         throw error;
