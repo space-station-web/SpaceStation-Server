@@ -11,6 +11,7 @@ import { tempRouter } from './src/routes/temp.route.js';
 import { followRouter } from './src/routes/follow.route.js'
 import { bookRouter } from './src/routes/book.route.js';
 import { postRouter } from './src/routes/post.route.js';
+import { questionRouter } from './src/routes/question.route.js';
 
 
 dotenv.config();
@@ -61,5 +62,8 @@ app.use('/follow', followRouter);
 
 // 글쓰기 API
 app.use('/posts', postRouter);
+
+// 오늘의 질문 API
+app.use('/questions', questionRouter)
 
 
