@@ -30,22 +30,28 @@ export const logintry = async (data) => {
             .createHash(createdHash)
             .update(data.pw + savedSalt)
             .digest(digest);
-
+        console.log(hashedInputPw)
+        console.log(user[0].pw)
         // 해싱된 비밀번호와 데이터베이스에 저장된 해시 값 비교
         if (hashedInputPw.substring(0, 100) === user[0].pw) {
             // 로그인 성공
             console.log("로그인이 완료되었습니다.", user[0].nickname);
 
-            const accessToken = jwtUtil.sign(user[0]);
+            const userNickname = user[0].nickname;
 
-            // Refresh Token 발급
-            const refreshToken = jwtUtil.refresh();
+            // const accessToken = jwtUtil.sign(user[0]);
+            //
+            // // Refresh Token 발급
+            // const refreshToken = jwtUtil.refresh();
 
             // Refresh Token을 사용자 DB에 저장
             await pool.query('UPDATE users SET refresh_token = ? WHERE id = ?', [refreshToken, user[0].id]);
 
+            // 로그인 성공 시 사용자 데이터와 accessToken과 refreshToken 반환
+            // return { userNickname, accessToken, refreshToken };
+            return userNickname;
 
-            return user[0];
+
         } else {
             // 비밀번호 불일치 - 에러 처리
             console.log("로그인 실패: 비밀번호가 일치하지 않습니다.");

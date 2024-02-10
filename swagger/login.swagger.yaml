@@ -13,11 +13,11 @@ paths:
               email:
                 type: varchar(50)
                 description: 유저 이메일
-                example: example5@example.com
+                example: jade@example.com
               pw:
                 type: varchar(100)
                 description: 유져 비밀번호
-                example: ABCDE
+                example: kongji0717!
       responses:
         '200':
           description: 회원 가입 성공!
@@ -39,7 +39,7 @@ paths:
               data:
                 type: object
                 example: {
-                  "nickname": "호이호이",
+                  "nickname": "Jade",
                 }
 
         '400':
