@@ -30,7 +30,7 @@ export const logintry = async (data) => {
             .createHash(createdHash)
             .update(data.pw + savedSalt)
             .digest(digest);
-        console.log(hashedInputPw)
+
         console.log(user[0].pw)
         // 해싱된 비밀번호와 데이터베이스에 저장된 해시 값 비교
         if (hashedInputPw.substring(0, 100) === user[0].pw) {
