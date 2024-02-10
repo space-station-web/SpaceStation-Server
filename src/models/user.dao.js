@@ -77,6 +77,8 @@ export const checkNicknameDuplication = async (nickname) => {
         return '서버 에러'; // 또는 다른 적절한 에러를 throw
     }
 };
+import { emailcheckSql } from "./user.sql.js";
+
 
 export const findemail = async (data) => {
     try {

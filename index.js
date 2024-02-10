@@ -4,8 +4,12 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { specs } from './config/swagger.config.js';
 import SwaggerUi from 'swagger-ui-express';
+<<<<<<< HEAD
 import { status } from './config/response.status.js';
 import { signupRouter } from './src/routes/signup.route.js';
+=======
+
+>>>>>>> feature/email-check
 import { emailcheckRouter } from './src/routes/emailcheck.route.js';
 import { tempRouter } from './src/routes/temp.route.js';
 import { followRouter } from './src/routes/follow.route.js'
@@ -32,7 +36,6 @@ app.use((err, req, res, next) => {
     res.status(err.data.status || status.INTERNAL_SERVER_ERROR).send(response(err.data));
 });
 
-app.use('/signup', signupRouter);
 
 app.use('/email-check', emailcheckRouter);
 
