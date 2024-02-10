@@ -16,7 +16,7 @@ export const checkemail = async (body) => {
             const userProvider = userData.provider
             const successMessage = `${userNickname}이 가입한 이메일은 ${userEmail}입니다.`;
             console.log(successMessage)
-            return response(status.SUCCESS, { userNickname, userEmail, userProvider, message: successMessage });
+            return response(status.SUCCESS, { userNickname, userEmail, userProvider});
         } else {
             // 사용자 정보가 없는 경우
             return response(status.BAD_REQUEST, "일치하는 사용자 정보를 찾을 수 없습니다.");
