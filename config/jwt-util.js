@@ -45,23 +45,6 @@ const jwtUtil = {
             expiresIn: expiresIn,
         });
     },
-
-    refreshVerify: async (token, userId) => {
-        const result = await pool.query('SELECT refresh_token FROM user_tokens WHERE user_id = ?', [userId]);
-        const storedToken = result.length > 0 ? result[0].refresh_token : null;
-
-        if (token === storedToken) {
-          try {
-            jwt.verify(token, secretkey);
-            return true;
-          } catch (err) {
-            return false;
-          }
-        } else {
-          return false;
-        }
-
-    },
-};
+}
 
 export default jwtUtil;
