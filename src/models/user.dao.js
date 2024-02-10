@@ -21,7 +21,7 @@ export const findemail = async (data) => {
         // 조회된 사용자 반환
         const user = userResult[0];
         console.log(user.email)
-        return user;
+        return await user;
 
     } catch (err) {
         console.error(err); // 에러 출력
