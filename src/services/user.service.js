@@ -1,13 +1,14 @@
-import { addUser, findemail, checkNicknameDuplication } from "../models/user.dao.js";
+import {addUser, checkNicknameDuplication, logintry, findemail} from "../models/user.dao.js";
 import { status } from "../../config/response.status.js";
 import { response } from "../../config/response.js";
 import { BaseError } from "../../config/error.js";
+
 
 export const joinUser = async (body) => {
     try {
         // 비밀번호와 비밀번호 확인 일치 여부 확인
         if (body.pw !== body.pwcheck) {
-            return response(status.BAD_REQUEST);
+            throw new BaseError(status.BAD_REQUEST);
         }
 
         const joinUserData = await addUser({
@@ -22,18 +23,17 @@ export const joinUser = async (body) => {
         });
 
         if (joinUserData === -1) {
-            return response(status.BAD_REQUEST);
+            throw new BaseError(status.BAD_REQUEST);
         } else {
             // 회원가입 성공 시 응답 데이터 구성 (사용자 정보 반환하지 않음)
             const successMessage = "회원가입에 성공했습니다."; // 성공 메시지 추가
-            return response(status.SUCCESS, {message: successMessage});
+            return response(status.SUCCESS, null);
         }
     } catch (error) {
         // 예외 처리
         throw error;
     }
 };
-
 
 export const checkNickName = async (nickname) => {
     try {
@@ -55,6 +55,29 @@ export const checkNickName = async (nickname) => {
         return response(status.INTERNAL_SERVER_ERROR, '서버 에러');
     }
 };
+
+
+export const loginUser = async (body) => {
+    try {
+
+        const loginUserData = await logintry({
+            email: body.email,
+            pw: body.pw,
+        });
+
+        if (!loginUserData) {
+            return -1;
+        } else {
+            // 회원가입 성공 시 응답 데이터 구성 (사용자 정보 반환하지 않음)
+            const successMessage = `로그인에 성공했습니다. 닉네임: ${loginUserData.nickname}`;
+            return response(status.SUCCESS, successMessage); // 성공 메시지 추가
+        }
+    } catch (error) {
+        // 예외 처리
+        throw error;
+    }
+};
+
 
 export const checkemail = async (body) => {
     try{

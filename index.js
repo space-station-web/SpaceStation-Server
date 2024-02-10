@@ -4,12 +4,13 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { specs } from './config/swagger.config.js';
 import SwaggerUi from 'swagger-ui-express';
-<<<<<<< HEAD
+
 import { status } from './config/response.status.js';
 import { signupRouter } from './src/routes/signup.route.js';
-=======
+// const jwt = require('jsonwebtoken');
+// const cookieParser = require('cookie-parser');
 
->>>>>>> feature/email-check
+import { loginRouter } from './src/routes/login.route.js';
 import { emailcheckRouter } from './src/routes/emailcheck.route.js';
 import { tempRouter } from './src/routes/temp.route.js';
 import { followRouter } from './src/routes/follow.route.js'
@@ -22,6 +23,7 @@ dotenv.config();
 
 const app = express()
 
+// app.use(cookieParser());
 app.set('port', process.env.PORT || 8080)   // 서버 포트 지정
 app.use(cors());                            // cors 방식 허용
 app.use(express.static('public'));          // 정적 파일 접근
@@ -37,8 +39,12 @@ app.use((err, req, res, next) => {
     res.status(err.data.status || status.INTERNAL_SERVER_ERROR).send(response(err.data));
 });
 
+app.use('/signup', signupRouter);
 
 app.use('/email-check', emailcheckRouter);
+
+app.use('/login', loginRouter);
+
 
 app.listen(process.env.PORT, () => {
     console.log(`Example app listening on port ${process.env.PORT}`);
