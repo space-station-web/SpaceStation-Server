@@ -45,7 +45,7 @@ export const logintry = async (data) => {
             await pool.query('UPDATE users SET refresh_token = ? WHERE id = ?', [refreshToken, user[0].id]);
 
 
-            return user[0].nickname;
+            return user[0];
         } else {
             // 비밀번호 불일치 - 에러 처리
             console.log("로그인 실패: 비밀번호가 일치하지 않습니다.");
