@@ -1,5 +1,6 @@
 import { pool } from "../../config/db.config.js";
 import { userCheckSql } from "./user.sql.js";
+import jwtUtil from "../../config/jwt-util.js";
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 
@@ -34,6 +35,16 @@ export const logintry = async (data) => {
         if (hashedInputPw.substring(0, 100) === user[0].pw) {
             // 로그인 성공
             console.log("로그인이 완료되었습니다.", user[0].nickname);
+
+            const accessToken = jwtUtil.sign(user[0]);
+
+            // Refresh Token 발급
+            const refreshToken = jwtUtil.refresh();
+
+            // Refresh Token을 사용자 DB에 저장
+            await pool.query('UPDATE users SET refresh_token = ? WHERE id = ?', [refreshToken, user[0].id]);
+
+
             return user[0].nickname;
         } else {
             // 비밀번호 불일치 - 에러 처리
