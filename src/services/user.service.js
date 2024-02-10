@@ -10,16 +10,17 @@ export const loginUser = async (body) => {
         const loginUserData = await logintry({
             email: body.email,
             pw: body.pw,
+            auto: body.auto
         });
 
         if (!loginUserData) {
             return -1;
         } else {
             const user = loginUserData.userNickname;
-            const accessToken = loginUserData.accessToken;
-            const refreshToken = loginUserData.refreshToken;
+            // const accessToken = loginUserData.accessToken;
+            // const refreshToken = loginUserData.refreshToken;
 
-            return response(status.SUCCESS, { user, accessToken, refreshToken });
+            return response(status.SUCCESS, { user });
         }
     } catch (error) {
         // 예외 처리

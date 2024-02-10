@@ -8,7 +8,7 @@ dotenv.config();
 
 const conn = await pool.getConnection();
 
-const secretkey = process.env["jwtsecret "]
+const secretkey = process.env.secret
 
 const jwtUtil = {
     sign: (user) => {
@@ -37,10 +37,12 @@ const jwtUtil = {
             };
         }
     },
-    refresh: () => {
+    refresh: (data) => {
+        const expiresIn = data ? '14d' : '1d';
+
         return jwt.sign({}, secretkey, {
             algorithm: 'HS256',
-            expiresIn: '14d',
+            expiresIn: expiresIn,
         });
     },
 

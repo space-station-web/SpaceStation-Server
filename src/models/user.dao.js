@@ -31,7 +31,6 @@ export const logintry = async (data) => {
             .update(data.pw + savedSalt)
             .digest(digest);
 
-        console.log(user[0].pw)
         // 해싱된 비밀번호와 데이터베이스에 저장된 해시 값 비교
         if (hashedInputPw.substring(0, 100) === user[0].pw) {
             // 로그인 성공
@@ -39,13 +38,17 @@ export const logintry = async (data) => {
 
             const userNickname = user[0].nickname;
 
-            // const accessToken = jwtUtil.sign(user[0]);
+            const accessToken = jwtUtil.sign(user[0]);
             //
             // // Refresh Token 발급
-            // const refreshToken = jwtUtil.refresh();
+            const autologin = data.auto
+            const refreshToken = jwtUtil.refresh(autologin);
+
+            console.log("엑세스", accessToken);
+            console.log("리프레시", refreshToken);
 
             // Refresh Token을 사용자 DB에 저장
-            await pool.query('UPDATE users SET refresh_token = ? WHERE id = ?', [refreshToken, user[0].id]);
+            // await pool.query('UPDATE users SET refresh_token = ? WHERE id = ?', [refreshToken, user[0].id]);
 
             // 로그인 성공 시 사용자 데이터와 accessToken과 refreshToken 반환
             // return { userNickname, accessToken, refreshToken };

@@ -18,6 +18,10 @@ paths:
                 type: varchar(100)
                 description: 유져 비밀번호
                 example: kongji0717!
+              auto:
+                type: boolean
+                description: 자동 로그인
+                example: True
       responses:
         '200':
           description: 회원 가입 성공!
