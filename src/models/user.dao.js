@@ -51,8 +51,8 @@ export const logintry = async (data) => {
             // await pool.query('UPDATE users SET refresh_token = ? WHERE id = ?', [refreshToken, user[0].id]);
 
             // 로그인 성공 시 사용자 데이터와 accessToken과 refreshToken 반환
-            // return { userNickname, accessToken, refreshToken };
-            return userNickname;
+            return { userNickname, accessToken, refreshToken };
+            // return userNickname;
 
 
         } else {

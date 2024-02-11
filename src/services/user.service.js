@@ -17,10 +17,10 @@ export const loginUser = async (body) => {
             return -1;
         } else {
             const user = loginUserData.userNickname;
-            // const accessToken = loginUserData.accessToken;
-            // const refreshToken = loginUserData.refreshToken;
+            const accessToken = loginUserData.accessToken;
+            const refreshToken = loginUserData.refreshToken;
 
-            return response(status.SUCCESS, { user });
+            return response(status.SUCCESS, { user, accessToken, refreshToken });
         }
     } catch (error) {
         // 예외 처리
