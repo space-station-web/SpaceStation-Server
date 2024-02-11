@@ -12,6 +12,8 @@ import { tempRouter } from './src/routes/temp.route.js';
 import { mypageRouter } from './src/routes/mypage.route.js'
 import { neighborpageRouter } from './src/routes/neighborpage.route.js'
 import { bookRouter } from './src/routes/book.route.js';
+import { storageRouter } from './src/routes/storage.route.js';
+
 
 
 dotenv.config();
@@ -65,4 +67,5 @@ app.use('/follow', neighborpageRouter);
 // 나의 이웃 목록
 // app.use('/mypage/follow', followRouter);
 
-
+// 보관 API
+app.use('/storages', storageRouter);
