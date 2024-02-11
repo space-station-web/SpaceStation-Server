@@ -138,7 +138,7 @@ export const logintry = async (data) => {
             const refreshToken = jwtUtil.refresh();
 
             // Refresh Token을 사용자 DB에 저장
-            await pool.query('UPDATE users SET refresh_token = ? WHERE id = ?', [refreshToken, user[0].id]);
+            await pool.query('UPDATE user SET refresh = ? WHERE id = ?', [refreshToken, user[0].id]);
 
 
             return user[0];
@@ -152,3 +152,4 @@ export const logintry = async (data) => {
         return -1;
     }
 };
+

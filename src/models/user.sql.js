@@ -2,9 +2,11 @@ export const insertUserSql = "INSERT INTO user (name, nickname, email, pw, phone
 
 export const confirmEmailSql = "SELECT EXISTS(SELECT 1 FROM user WHERE email = ?) as isExistEmail";
 
+
 export const confirmNicknameSql = "SELECT EXISTS(SELECT 1 FROM user WHERE nickname = ?) as isExistNickname";
 
 export const emailcheckSql = "SELECT * FROM user WHERE name = ? AND phone = ? AND b_date = ?";
+
 export const confirmNickname = "SELECT EXISTS(SELECT 1 FROM user WHERE nickname = ?) as isExistNickname";
 
 export const userCheckSql = "SELECT * FROM user WHERE email = ?";

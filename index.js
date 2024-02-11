@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { specs } from './config/swagger.config.js';
 import SwaggerUi from 'swagger-ui-express';
+// const jwt = require('jsonwebtoken');
+// const cookieParser = require('cookie-parser');
 
 import { status } from './config/response.status.js';
 import { signupRouter } from './src/routes/signup.route.js';
@@ -41,9 +43,13 @@ app.use((err, req, res, next) => {
 
 app.use('/signup', signupRouter);
 
+app.use('/login', loginRouter);
+
 app.use('/email-check', emailcheckRouter);
 
 app.use('/login', loginRouter);
+
+
 
 
 app.listen(process.env.PORT, () => {

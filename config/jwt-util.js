@@ -8,7 +8,7 @@ dotenv.config();
 
 const conn = await pool.getConnection();
 
-const secretkey = process.env["jwtsecret "]
+const secretkey = process.env.secret
 
 const jwtUtil = {
     sign: (user) => {
@@ -37,29 +37,14 @@ const jwtUtil = {
             };
         }
     },
-    refresh: () => {
+    refresh: (data) => {
+        const expiresIn = data ? '14d' : '1d';
+
         return jwt.sign({}, secretkey, {
             algorithm: 'HS256',
-            expiresIn: '14d',
+            expiresIn: expiresIn,
         });
     },
-
-    refreshVerify: async (token, userId) => {
-        const result = await pool.query('SELECT refresh_token FROM user_tokens WHERE user_id = ?', [userId]);
-        const storedToken = result.length > 0 ? result[0].refresh_token : null;
-
-        if (token === storedToken) {
-          try {
-            jwt.verify(token, secretkey);
-            return true;
-          } catch (err) {
-            return false;
-          }
-        } else {
-          return false;
-        }
-
-    },
-};
+}
 
 export default jwtUtil;
