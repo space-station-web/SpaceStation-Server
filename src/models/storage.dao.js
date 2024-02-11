@@ -11,9 +11,10 @@ export const searchStorageBook = async (data) => {
         const resultSearch = await pool.query(searchStorageBookSql, [data.book_id, data.user_id]);
         conn.release();
         if (resultSearch[0][0] != null) {
-            return { "storageBookId": resultSearch[0][0].book_storage_id }; 
+            console.log("storageBookId : " + resultSearch[0][0].book_storage_id);
+            return true; 
         } else {
-            return { "storageBookId": null }; 
+            return false; 
         } 
     }catch (err) {
         throw new BaseError(err);
@@ -98,7 +99,7 @@ export const delStorageByPostId = async (postId) => {
     try {
         const conn = await pool.getConnection();
         console.log("delStorageByPostId : " + postId);
-        const resultStorage = await pool.query(delStorageByBookIdSql, [postId]);
+        const resultStorage = await pool.query(delStorageByPostIdSql, [postId]);
         conn.release();
 
         return resultStorage[0].affectedRows; 
