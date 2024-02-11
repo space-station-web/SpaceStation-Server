@@ -1,24 +1,27 @@
 paths:
-  /mypage:
+  /login:
     post:
       tags:
-        - Mypage
-      summary: 마이페이지
+        - User
+      summary: 로그인
       parameters:
-        - name: mypage
+        - name: signup
           in: body
           required: true
           schema:
             properties:
-              name:
-                type: varchar(10)
-                description: 유저 이름
-                example: 길벗
-              nickname:
+              email:
                 type: varchar(50)
-                description: 유저 닉네임
-                example: 출판다
-              
+                description: 유저 이메일
+                example: jade@example.com
+              pw:
+                type: varchar(100)
+                description: 유져 비밀번호
+                example: kongji0717!
+              auto:
+                type: boolean
+                description: 자동 로그인
+                example: True
       responses:
         '200':
           description: 회원 가입 성공!
@@ -40,7 +43,7 @@ paths:
               data:
                 type: object
                 example: {
-                  "nickname": "호이호이",
+                  "nickname": "Jade",
                 }
 
         '400':

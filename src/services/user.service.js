@@ -1,15 +1,18 @@
 
-import { addUser, findemail, checkNicknameDuplication } from "../models/user.dao.js";
+import {addUser, checkNicknameDuplication, logintry, findemail} from "../models/user.dao.js";
 
 import { status } from "../../config/response.status.js";
 import { response } from "../../config/response.js";
 import { BaseError } from "../../config/error.js";
+import jwtUtil from "../../config/jwt-util.js";
+
+
 
 export const joinUser = async (body) => {
     try {
         // 비밀번호와 비밀번호 확인 일치 여부 확인
         if (body.pw !== body.pwcheck) {
-            return response(status.BAD_REQUEST);
+            throw new BaseError(status.BAD_REQUEST);
         }
 
         const joinUserData = await addUser({
@@ -24,11 +27,11 @@ export const joinUser = async (body) => {
         });
 
         if (joinUserData === -1) {
-            return response(status.BAD_REQUEST);
+            throw new BaseError(status.BAD_REQUEST);
         } else {
             // 회원가입 성공 시 응답 데이터 구성 (사용자 정보 반환하지 않음)
             const successMessage = "회원가입에 성공했습니다."; // 성공 메시지 추가
-            return response(status.SUCCESS, {message: successMessage});
+            return response(status.SUCCESS, null);
         }
     } catch (error) {
         // 예외 처리
@@ -58,6 +61,8 @@ export const checkNickName = async (nickname) => {
     }
 };
 
+
+
 export const checkemail = async (body) => {
     try{
         const userData = await findemail({
@@ -66,14 +71,41 @@ export const checkemail = async (body) => {
             b_date:body.b_date
         });
         if (userData) {
+            const userNickname = userData.nickname
             const userEmail = userData.email
-            const successMessage = `가입된 이메일은 ${userEmail}입니다.`;
-            return response(status.SUCCESS, { message: successMessage });
+            const userProvider = userData.provider
+            const successMessage = `${userNickname}이 가입한 이메일은 ${userEmail}입니다.`;
+            console.log(successMessage)
+            return response(status.SUCCESS, { userNickname, userEmail, userProvider});
         } else {
             // 사용자 정보가 없는 경우
             return response(status.BAD_REQUEST, "일치하는 사용자 정보를 찾을 수 없습니다.");
         }
     } catch (error) {
         throw error
+    }
+};
+
+export const loginUser = async (body) => {
+    try {
+
+        const loginUserData = await logintry({
+            email: body.email,
+            pw: body.pw,
+            auto: body.auto
+        });
+
+        if (!loginUserData) {
+            return -1;
+        } else {
+            const user = loginUserData.userNickname;
+            const accessToken = loginUserData.accessToken;
+            const refreshToken = loginUserData.refreshToken;
+
+            return response(status.SUCCESS, { user, accessToken, refreshToken });
+        }
+    } catch (error) {
+        // 예외 처리
+        throw error;
     }
 };

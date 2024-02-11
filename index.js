@@ -4,22 +4,30 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { specs } from './config/swagger.config.js';
 import SwaggerUi from 'swagger-ui-express';
+// const jwt = require('jsonwebtoken');
+// const cookieParser = require('cookie-parser');
 
+import { status } from './config/response.status.js';
 import { signupRouter } from './src/routes/signup.route.js';
-import { emailcheckRouter } from './src/routes/emailcheck.route.js';
+// const jwt = require('jsonwebtoken');
+// const cookieParser = require('cookie-parser');
 
+import { loginRouter } from './src/routes/login.route.js';
+import { emailcheckRouter } from './src/routes/emailcheck.route.js';
 import { tempRouter } from './src/routes/temp.route.js';
-import { mypageRouter } from './src/routes/mypage.route.js'
-import { neighborpageRouter } from './src/routes/neighborpage.route.js'
+import { followRouter } from './src/routes/follow.route.js'
 import { bookRouter } from './src/routes/book.route.js';
 import { storageRouter } from './src/routes/storage.route.js';
 
+import { postRouter } from './src/routes/post.route.js';
+import { questionRouter } from './src/routes/question.route.js';
 
 
 dotenv.config();
 
 const app = express()
 
+// app.use(cookieParser());
 app.set('port', process.env.PORT || 8080)   // 서버 포트 지정
 app.use(cors());                            // cors 방식 허용
 app.use(express.static('public'));          // 정적 파일 접근
@@ -37,7 +45,14 @@ app.use((err, req, res, next) => {
 
 app.use('/signup', signupRouter);
 
+app.use('/login', loginRouter);
+
 app.use('/email-check', emailcheckRouter);
+
+app.use('/login', loginRouter);
+
+
+
 
 app.listen(process.env.PORT, () => {
     console.log(`Example app listening on port ${process.env.PORT}`);
@@ -50,22 +65,22 @@ app.get('/', function (req, res) {
 // 테스트 API
 app.use('/temp', tempRouter);
 
-// 책 API
-app.use('/books', bookRouter);
-
 
 // swagger
 app.use('/swagger', SwaggerUi.serve, SwaggerUi.setup(specs));
 
 
-// 마이페이지
-app.use('/mypage', mypageRouter);
+// 이웃 api
+app.use('/follow', followRouter);
 
-// 이웃 페이지
-app.use('/follow', neighborpageRouter);
+// 글쓰기 API
+app.use('/posts', postRouter);
 
-// 나의 이웃 목록
-// app.use('/mypage/follow', followRouter);
+// 오늘의 질문 API
+app.use('/questions', questionRouter)
+
+// 책 API
+app.use('/books', bookRouter);
 
 // 보관 API
 app.use('/storages', storageRouter);
