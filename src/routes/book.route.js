@@ -7,7 +7,7 @@ export const bookRouter = express.Router();
 bookRouter.post('/', bookCreate);
 
 // 책 상세조회
-bookRouter.get('/:bookId', bookRead);
+bookRouter.get('/:bookId/:userId', bookRead);
 
 // 책 수정
 bookRouter.patch('/:bookId', bookUpdate);
