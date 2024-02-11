@@ -21,6 +21,7 @@ import { storageRouter } from './src/routes/storage.route.js';
 
 import { postRouter } from './src/routes/post.route.js';
 import { questionRouter } from './src/routes/question.route.js';
+import { draftRouter } from './src/routes/draft.route.js';
 
 
 dotenv.config();
@@ -84,3 +85,6 @@ app.use('/books', bookRouter);
 
 // 보관 API
 app.use('/storages', storageRouter);
+
+// 임시저장 API
+app.use('/drafts', draftRouter);
