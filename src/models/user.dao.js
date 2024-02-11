@@ -105,6 +105,7 @@ export const findemail = async (data) => {
     }
 };
 
+
 export const logintry = async (data) => {
     try {
         const conn = await pool.getConnection();
@@ -132,16 +133,25 @@ export const logintry = async (data) => {
             // 로그인 성공
             console.log("로그인이 완료되었습니다.", user[0].nickname);
 
-            const accessToken = jwtUtil.sign(user[0]);
+            const userNickname = user[0].nickname;
 
-            // Refresh Token 발급
-            const refreshToken = jwtUtil.refresh();
+            const accessToken = jwtUtil.sign(user[0]);
+            //
+            // // Refresh Token 발급
+            const autologin = data.auto
+            const refreshToken = jwtUtil.refresh(autologin);
+
+            console.log("엑세스", accessToken);
+            console.log("리프레시", refreshToken);
 
             // Refresh Token을 사용자 DB에 저장
-            await pool.query('UPDATE user SET refresh = ? WHERE id = ?', [refreshToken, user[0].id]);
+            // await pool.query('UPDATE users SET refresh_token = ? WHERE id = ?', [refreshToken, user[0].id]);
+
+            // 로그인 성공 시 사용자 데이터와 accessToken과 refreshToken 반환
+            return { userNickname, accessToken, refreshToken };
+            // return userNickname;
 
 
-            return user[0];
         } else {
             // 비밀번호 불일치 - 에러 처리
             console.log("로그인 실패: 비밀번호가 일치하지 않습니다.");
@@ -152,4 +162,3 @@ export const logintry = async (data) => {
         return -1;
     }
 };
-
