@@ -7,6 +7,7 @@ import SwaggerUi from 'swagger-ui-express';
 // const jwt = require('jsonwebtoken');
 // const cookieParser = require('cookie-parser');
 
+<<<<<<< HEAD
 
 import { status } from './config/response.status.js';
 import { signupRouter } from './src/routes/signup.route.js';
@@ -15,6 +16,9 @@ import { signupRouter } from './src/routes/signup.route.js';
 
 import { loginRouter } from './src/routes/login.route.js';
 import { emailcheckRouter } from './src/routes/emailcheck.route.js';
+=======
+import { changepwRouter, emailauthRouter } from './src/routes/emailauth.route.js';
+>>>>>>> feature/email-auth
 
 import { tempRouter } from './src/routes/temp.route.js';
 import { followRouter } from './src/routes/follow.route.js'
@@ -46,11 +50,15 @@ app.use((err, req, res, next) => {
     res.status(err.data.status || status.INTERNAL_SERVER_ERROR).send(response(err.data));
 });
 
-app.use('/signup', signupRouter);
+app.use('/email-auth', emailauthRouter);
 
+<<<<<<< HEAD
 app.use('/login', loginRouter);
 
 app.use('/email-check', emailcheckRouter);
+=======
+app.use('/changepw', changepwRouter);
+>>>>>>> feature/email-auth
 
 app.use('/login', loginRouter);
 
