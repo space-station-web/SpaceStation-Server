@@ -55,6 +55,7 @@ const jwtUtil = {
             const [reToken] = await pool.query(getRefresh, [id]);
 
             if (reToken == 0){
+                conn.release()
                 return -1
             }
             const store_reToken = reToken[0].refresh;
@@ -62,11 +63,14 @@ const jwtUtil = {
             if (retoken === store_reToken) {
                 try {
                     jwt.verify(retoken, secretkey);
+                    conn.release()
                     return true;
                 } catch (err) {
+                    conn.release()
                     return false
                 }
             } else {
+                conn.release()
                 return false
             }
         } catch (err) {
@@ -75,7 +79,7 @@ const jwtUtil = {
         }
     },
 }
-export const tokenChecker = async(req, res, next) => {
+export const tokenChecker = async (req, res, next) => {
     try{
         if (req.headers["authorization"] && req.headers["refresh"]) {
             const access = req.headers["authorization"].split(TOKEN_PREFIX)[1];
