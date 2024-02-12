@@ -7,7 +7,7 @@ import SwaggerUi from 'swagger-ui-express';
 // const jwt = require('jsonwebtoken');
 // const cookieParser = require('cookie-parser');
 
-import { loginRouter } from './src/routes/login.route.js';
+import {loginRouter, refreshRouter} from './src/routes/login.route.js';
 
 import { tempRouter } from './src/routes/temp.route.js';
 

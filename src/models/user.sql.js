@@ -5,3 +5,5 @@ export const confirmEmail = "SELECT EXISTS(SELECT 1 FROM user WHERE email = ?) a
 export const confirmNickname = "SELECT EXISTS(SELECT 1 FROM user WHERE nickname = ?) as isExistNickname";
 
 export const userCheckSql = "SELECT * FROM user WHERE email = ?";
+
+export const getRefresh = "SELECT refresh FROM user WHERE id = ?";
