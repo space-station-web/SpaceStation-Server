@@ -57,7 +57,37 @@ export const codeCheck = async (body) => {
     }
 };
 
-<<<<<<< HEAD
+export const joinUser = async (body) => {
+    try {
+        // 비밀번호와 비밀번호 확인 일치 여부 확인
+        if (body.pw !== body.pwcheck) {
+            throw new BaseError(status.BAD_REQUEST);
+        }
+
+        const joinUserData = await addUser({
+            name: body.name,
+            nickname: body.nickname,
+            email: body.email,
+            pw: String(body.pw),
+            pwcheck: String(body.pwcheck),
+            b_date: body.b_date,
+            phone: String(body.phone),
+            alarm: body.alarm
+        });
+
+        if (joinUserData === -1) {
+            throw new BaseError(status.BAD_REQUEST);
+        } else {
+            // 회원가입 성공 시 응답 데이터 구성 (사용자 정보 반환하지 않음)
+            const successMessage = "회원가입에 성공했습니다."; // 성공 메시지 추가
+            return response(status.SUCCESS, null);
+        }
+    } catch (error) {
+        // 예외 처리
+        throw error;
+    }
+};
+
 
 export const checkNickName = async (nickname) => {
     try {
@@ -93,10 +123,20 @@ export const checkemail = async (body) => {
             const userNickname = userData.nickname
             const userEmail = userData.email
             const userProvider = userData.provider
-            const successMessage = `${userNickname}이 가입한 이메일은 ${userEmail}입니다.`;
+            const successMessage = `${userNickname}님이 가입한 이메일은 ${userEmail}입니다.`;
             console.log(successMessage)
+            console.log(response(status.SUCCESS, { userNickname, userEmail, userProvider}));
             return response(status.SUCCESS, { userNickname, userEmail, userProvider});
-=======
+        } else {
+            // 사용자 정보가 없는 경우
+            console.log(status.NOT_USER);
+            return response(status.NOT_USER);
+        }
+    } catch (error) {
+        throw error
+    }
+};
+
 export const pwChange = async (body) => {
     try {
         // 비밀번호와 비밀번호 확인 일치 여부 확인
@@ -113,7 +153,7 @@ export const pwChange = async (body) => {
 
         if (joinUserData === -1) {
             return response(status.BAD_REQUEST);
->>>>>>> feature/email-auth
+
         } else {
             // 회원가입 성공 시 응답 데이터 구성 (사용자 정보 반환하지 않음)
             const successMessage = "회원가입에 성공했습니다."; // 성공 메시지 추가
@@ -123,9 +163,8 @@ export const pwChange = async (body) => {
         // 예외 처리
         throw error;
     }
-<<<<<<< HEAD
-};
 
+};
 export const loginUser = async (body) => {
     try {
 
@@ -148,6 +187,4 @@ export const loginUser = async (body) => {
         // 예외 처리
         throw error;
     }
-=======
->>>>>>> feature/email-auth
 };

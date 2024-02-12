@@ -18,10 +18,7 @@
     "@babel/preset-react": "^7.23.3",
     "babel-loader": "^9.1.3",
     "body-parser": "^1.20.2",
-<<<<<<< HEAD
     "cookie-parser": "^1.4.6",
-=======
->>>>>>> feature/email-auth
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.3.1",
