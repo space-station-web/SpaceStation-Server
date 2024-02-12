@@ -12,7 +12,7 @@ import { status } from './config/response.status.js';
 import { signupRouter } from './src/routes/signup.route.js';
 // const jwt = require('jsonwebtoken');
 // const cookieParser = require('cookie-parser');
-
+import { emailcheckRouter } from './src/routes/emailcheck.route.js';
 import { loginRouter } from './src/routes/login.route.js';
 
 import { changepwRouter, emailauthRouter } from './src/routes/emailauth.route.js';
