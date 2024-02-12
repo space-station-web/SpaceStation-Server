@@ -79,7 +79,7 @@ export const getQnAnswer = async () => {
     }
 }
 
-// 유저의 답변 조회
+// 유저의 답변 조회 
 export const getUserAnswer = async ({limit, offset, userId}) => {
     try {
         const conn = await pool.getConnection();

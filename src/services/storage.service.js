@@ -65,3 +65,4 @@ export const getPostStorageByUserId= async ({limit = 12, offset = 0, userId}) =>
     const result = await getPostStorageListByUserId({limit, offset, userId});
     return result;
 }  
+
