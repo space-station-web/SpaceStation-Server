@@ -15,7 +15,7 @@ dotenv.config();
 const createdHash = process.env.createdHash;
 const digest = process.env.digest;
 
-export const sendCode = async (data) => {
+export const addUser = async (data) => {
     try {
         const conn = await pool.getConnection();
 

@@ -50,6 +50,7 @@ app.use((err, req, res, next) => {
 
 app.use('/email-auth', emailauthRouter);
 
+app.use('/signup', signupRouter);
 
 app.use('/login', loginRouter);
 
