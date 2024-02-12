@@ -1,6 +1,6 @@
 import { response } from "../../config/response.js";
 import { status } from "../../config/response.status.js";
-
+import jwtUtil from "../../config/jwt-util.js";
 import { loginUser } from "../services/user.service.js";
 
 export const userLogin = async (req, res, next) => {

@@ -1,31 +1,27 @@
 import jwt from 'jsonwebtoken';
 import { pool } from "./db.config.js";
+import {getRefresh, userCheckSql} from "../src/models/user.sql.js";
 
 import dotenv from 'dotenv';
+import {response} from "./response.js";
+import {status} from "./response.status.js";
 
 dotenv.config();
 
 
+
 const conn = await pool.getConnection();
+
+
 const TOKEN_PREFIX = 'Bearer '
 const secretkey = process.env.secret
 
-const tokenChecker = (req, res, next) => { // 로그인 검증 미들웨어
-    const auth = req.headers.authorization;
-    const token = auth?.split(TOKEN_PREFIX)[1];
-    const {ok, id} = jwtUtil.verify(token)
-    
-    if(ok)
-        req.userId = id;
-
-    next()
-}
 
 const jwtUtil = {
     sign: (user) => {
         const payload = {
             id: user.id,
-            role: user.email,
+            mail: user.email,
         };
 
         return jwt.sign(payload, secretkey, {
@@ -39,12 +35,12 @@ const jwtUtil = {
             return {
                 ok: true,
                 id: decoded.id,
-                role: decoded.role,
+                mail: decoded.mail
             };
         } catch (err) {
             return {
                 ok: false,
-                message: err.message,
+                message: "jwt expired",
             };
         }
     },
@@ -56,7 +52,70 @@ const jwtUtil = {
             expiresIn: expiresIn,
         });
     },
+
+    refreshverify: async (retoken, id) => {
+        try {
+            const conn = await pool.getConnection();
+            const [reToken] = await pool.query(getRefresh, [id]);
+
+            if (reToken == 0){
+                conn.release()
+                return -1
+            }
+            const store_reToken = reToken[0].refresh;
+
+            if (retoken === store_reToken) {
+                try {
+                    jwt.verify(retoken, secretkey);
+                    conn.release()
+                    return true;
+                } catch (err) {
+                    conn.release()
+                    return false
+                }
+            } else {
+                conn.release()
+                return false
+            }
+        } catch (err) {
+            console.log(err);
+            return false;
+        }
+    },
+}
+export const tokenChecker = async (req, res, next) => {
+    try{
+        if (req.headers["authorization"] && req.headers["refresh"]) {
+            const access = req.headers["authorization"].split(TOKEN_PREFIX)[1];
+            const refresh = req.headers["refresh"];
+
+            const accessResult = jwtUtil.verify(access);
+            if (!accessResult) { //결과가 없으면 권한 없음
+                return res.send(response(status.UNAUTHORIZED));
+            }
+        } else {
+            return res.send(response(status.BAD_REQUEST));
+        }
+
+        const refreshResult = await jwtUtil.refreshverify(refresh, accessResult.id); //access에서 유저id 가져와서 refresh 검증
+
+        if (accessResult.ok === false && accessResult.message === "jwt expired") { // access 만료 + refresh 만료 -> 재로그인
+            if (refreshResult === false) {
+                return res.redirect('/login');
+            } else { // access 만료, refresh 만료X -> access token 재발급
+                const newAccessToken = jwtUtil.sign(accessResult);
+                res.send(response(status.SUCCESS, {newAccessToken, refresh}));
+                req.userID = accessResult.id
+                next();
+            }
+        } else { // access 만료X 그냥 진행
+            res.send(response(status.SUCCESS))
+            req.userID = accessResult.id
+            next();
+        }
+    } catch {
+        return res.send(response(status.BAD_REQUEST));
+    }
 }
 
 export default jwtUtil;
-export { tokenChecker };

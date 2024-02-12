@@ -145,7 +145,9 @@ export const logintry = async (data) => {
             console.log("리프레시", refreshToken);
 
             // Refresh Token을 사용자 DB에 저장
+
             await pool.query('UPDATE user SET refresh = ? WHERE id = ?', [refreshToken, user[0].id]);
+
 
             // 로그인 성공 시 사용자 데이터와 accessToken과 refreshToken 반환
             return { userNickname, accessToken, refreshToken };
