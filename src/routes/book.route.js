@@ -1,16 +1,17 @@
 import express from 'express';
 import { bookCreate, bookRead, bookUpdate, bookDelete } from '../controllers/book.controller.js';
+import { tokenChecker } from '../../config/jwt-util.js';
 
 export const bookRouter = express.Router();
 
 // 책 생성
-bookRouter.post('/', bookCreate);
+bookRouter.post('/', tokenChecker, bookCreate);
 
 // 책 상세조회
-bookRouter.get('/:bookId/:userId', bookRead);
+bookRouter.get('/:bookId', tokenChecker, bookRead);
 
 // 책 수정
-bookRouter.patch('/:bookId', bookUpdate);
+bookRouter.patch('/:bookId', tokenChecker, bookUpdate);
 
 // 책 삭제
-bookRouter.delete('/:bookId', bookDelete);
+bookRouter.delete('/:bookId', tokenChecker, bookDelete);

@@ -14,15 +14,23 @@ paths:
                 type: integer
                 description: 책 일련번호
                 example: 31
-        - in: body 
-          name: userId
+        - in: header 
+          name: authorization
           required: true
           schema:
             properties:
-              userId:
-                type: integer
-                description: 사용자 일련번호
-                example: 1
+              authorization:
+                type: string
+                description: accessToken
+                example: Bearer 
+        - in: header
+          name: refresh
+          required: true
+          schema:
+            properties:
+              refresh:
+                type: string
+                description: refreshToken
       responses:
         '200':
           description: 책 보관 생성 성공!
@@ -93,15 +101,23 @@ paths:
                 type: integer
                 description: 책 일련번호
                 example: 31
-        - in: body 
-          name: userId
+        - in: header 
+          name: authorization
           required: true
           schema:
             properties:
-              userId:
-                type: integer
-                description: 사용자 일련번호
-                example: 1
+              authorization:
+                type: string
+                description: accessToken
+                example: Bearer 
+        - in: header
+          name: refresh
+          required: true
+          schema:
+            properties:
+              refresh:
+                type: string
+                description: refreshToken
       responses:
         '200':
           description: 책 보관 삭제 성공!
@@ -174,15 +190,23 @@ paths:
                 type: integer
                 description: 글 일련번호
                 example: 31
-        - in: body 
-          name: userId
+        - in: header 
+          name: authorization
           required: true
           schema:
             properties:
-              userId:
-                type: integer
-                description: 사용자 일련번호
-                example: 1
+              authorization:
+                type: string
+                description: accessToken
+                example: Bearer 
+        - in: header
+          name: refresh
+          required: true
+          schema:
+            properties:
+              refresh:
+                type: string
+                description: refreshToken
       responses:
         '200':
           description: 글 보관 생성 성공!
@@ -253,15 +277,23 @@ paths:
                 type: integer
                 description: 책 일련번호
                 example: 31
-        - in: body 
-          name: userId
+        - in: header 
+          name: authorization
           required: true
           schema:
             properties:
-              userId:
-                type: integer
-                description: 사용자 일련번호
-                example: 1
+              authorization:
+                type: string
+                description: accessToken
+                example: Bearer 
+        - in: header
+          name: refresh
+          required: true
+          schema:
+            properties:
+              refresh:
+                type: string
+                description: refreshToken
       responses:
         '200':
           description: 책 보관 삭제 성공!

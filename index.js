@@ -27,6 +27,8 @@ import { postRouter } from './src/routes/post.route.js';
 import { questionRouter } from './src/routes/question.route.js';
 import { draftRouter } from './src/routes/draft.route.js';
 
+import { likeRouter } from './src/routes/like.route.js';
+
 
 dotenv.config();
 
@@ -96,3 +98,6 @@ app.use('/storages', storageRouter);
 
 // 임시저장 API
 app.use('/drafts', draftRouter);
+
+// 좋아요 API
+app.use('/likes', likeRouter);
