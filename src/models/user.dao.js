@@ -19,11 +19,10 @@ export const addUser = async (data) => {
         const conn = await pool.getConnection();
 
         // 이메일 중복 확인
-        const [userCheck] = await pool.query(usercheckSql, data.name, data.email);
+        const [emailConfirm] = await pool.query(confirmEmailSql, data.email);
 
-        if (userCheck[0].isExistEmail) {
+        if (emailConfirm[0].isExistEmail) {
             conn.release();
-            console.log("회원가입 실패되었습니다");
             return -1; // 이메일 중복일 경우 -1 반환 또는 다른 적절한 값을 선택
         }
 
@@ -51,7 +50,6 @@ export const addUser = async (data) => {
         conn.release();
 
         // 반환값을 사용자 닉네임으로 변경
-        console.log("회원가입 완료되었습니다");
         return "회원가입이 완료되었습니다.";
     } catch (err) {
         console.error(err); // 에러 출력
