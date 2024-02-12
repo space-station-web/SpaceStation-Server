@@ -7,8 +7,19 @@ dotenv.config();
 
 
 const conn = await pool.getConnection();
-
+const TOKEN_PREFIX = 'Bearer '
 const secretkey = process.env.secret
+
+const tokenChecker = (req, res, next) => { // 로그인 검증 미들웨어
+    const auth = req.headers.authorization;
+    const token = auth?.split(TOKEN_PREFIX)[1];
+    const {ok, id} = jwtUtil.verify(token)
+    
+    if(ok)
+        req.userId = id;
+
+    next()
+}
 
 const jwtUtil = {
     sign: (user) => {
@@ -48,3 +59,4 @@ const jwtUtil = {
 }
 
 export default jwtUtil;
+export { tokenChecker };

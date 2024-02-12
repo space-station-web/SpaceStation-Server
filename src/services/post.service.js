@@ -84,10 +84,21 @@ export const updatePost = async (post_id, body) => {
 }
 
 // 유저 글 리스트 조회
-export const getPostsByUserId = async(user_id) => {
+export const getPostsByUserId = async({ limit = 12, offset = 0, userId}) => {
     try {
-    const posts = await postDao.getPostsByUserId(user_id);
+    const posts = await postDao.getPostsByUserId({limit, offset, userId});
     return posts;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+// 유저의 모든 이웃의 글 조회
+export const getFollowPostsByUserID = async(userId) => {
+    try {
+        const posts = await postDao.getFollowPostsByUserID(userId);
+        return posts;
     } catch (error) {
         console.error(error);
         throw error;

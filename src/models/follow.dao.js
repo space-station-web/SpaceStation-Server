@@ -3,7 +3,6 @@ import { BaseError } from "../../config/error.js";
 import { getFollowByUserId, createFollowSql, deleteFollowSqlById, deleteFollowSqlByFollowIdAndUserId } from "./follow.sql.js";
 
 export const getFollowListByUserId = async ({userId, limit, offset}) => {
-    console.log('userId:', userId)
     try {
         const conn = await pool.getConnection();
         const refinedLimit = limit || 8;

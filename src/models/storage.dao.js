@@ -3,7 +3,8 @@ import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 import { searchStorageBookSql, searchStoragePostSql,
          addStorageBookSql, delStorageBookSql, delStorageByBookIdSql, 
-         addStoragePostSql, delStoragePostSql, delStorageByPostIdSql } from "./storage.sql.js";
+         addStoragePostSql, delStoragePostSql, delStorageByPostIdSql,
+         getPostStorageListByUserIdSql } from "./storage.sql.js";
 
 export const searchStorageBook = async (data) => {
     try{
@@ -105,5 +106,23 @@ export const delStorageByPostId = async (postId) => {
         return resultStorage[0].affectedRows; 
     } catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);
+    }
+}
+
+// 유저 보관함 글 조회
+export const getPostStorageListByUserId = async ({limit, offset, userId}) => {
+    console.table([userId, limit, offset])
+    try{
+        const conn = await pool.getConnection();
+        const result = await pool.query(getPostStorageListByUserIdSql, [userId, limit, offset]);
+        conn.release();
+
+        if(result.length == 0){
+            return -1;
+        }
+
+        return result[0]
+    }catch (err) {
+        throw new BaseError(err);
     }
 }

@@ -64,7 +64,13 @@ export const getPost = async (req, res, next) => {
 // 유저의 글 리스트 조회
 export const getPostsByUserId = async (req, res) => {
     const { user_id } = req.params;
+    const { limit, offset } = req.query;
+    return res.send(response(status.SUCCESS, await postService.getPostsByUserId({limit: Number(limit), offset: Number(offset), userId: Number(user_id)})));
+}
 
-    return res.send(response(status.SUCCESS, await postService.getPostsByUserId(user_id)));
-
+// 내 모든 이웃의 글 조회
+export const getFollowPosts = async (req, res) => {
+    const { userId } = req;
+    
+    return res.send(response(status.SUCCESS, await postService.getFollowPostsByUserID(userId)))
 }

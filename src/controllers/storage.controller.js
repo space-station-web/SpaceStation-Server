@@ -1,7 +1,7 @@
 import { status } from '../../config/response.status.js';
 import { response } from '../../config/response.js';
 import { createStorageBook, deleteStorageBook,
-         createStoragePost, deleteStoragePost } from "../services/storage.service.js";
+         createStoragePost, deleteStoragePost, getPostStorageByUserId } from "../services/storage.service.js";
 
 export const storageBookPost = async (req, res, next) => {
     console.log("Storage Book Create!");
@@ -34,3 +34,12 @@ export const storagePostDelete = async (req, res, next) => {
 
     res.send(response(status.SUCCESS, await deleteStoragePost(req.params, req.body)));
 };
+
+export const getMyPostStorage = async (req, res) => {
+    const { userId } = req;
+    const { limit = 12, offset = 0 } = req.query;
+    if(!userId) {
+        return res.status(401).send();
+    }
+    res.send(response(status.SUCCESS, await getPostStorageByUserId({limit:Number(limit), offset:Number(offset), userId:Number(userId) })))
+}

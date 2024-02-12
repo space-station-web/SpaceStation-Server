@@ -60,7 +60,7 @@ app.listen(process.env.PORT, () => {
 })
 
 app.get('/', function (req, res) {
-    res.send('Main Api ');
+    res.send('Main');
 })
 
 // 테스트 API

@@ -1,6 +1,6 @@
 // post.dao.js
 import { pool } from "../../config/db.config.js";
-import { getAllPostsSql, getLastPost, getUserID, insertPostSql, LastPost, deletePostSql, getPostSql, updatePostSql, getPostsByUserIdSql } from "./post.sql.js";
+import { getAllPostsSql, getLastPost, getUserID, insertPostSql, LastPost, deletePostSql, getPostSql, updatePostSql, getPostsByUserIdSql, getFollowPostsByUserIDSql } from "./post.sql.js";
 
 
 //  전체 글 조회
@@ -97,10 +97,10 @@ export const updatePost = async (data, post_id) => {
 }
 
 // 유저의 글 리스트 조회
-export const getPostsByUserId = async (userId) => {
+export const getPostsByUserId = async ({ limit, offset, userId}) => {
     try {
         const conn = await pool.getConnection();
-        const myPosts = await pool.query(getPostsByUserIdSql, [userId]);
+        const myPosts = await pool.query(getPostsByUserIdSql, [userId, limit, offset]);
         if(myPosts.length == 0){
             return -1;
         }
@@ -109,6 +109,22 @@ export const getPostsByUserId = async (userId) => {
         return myPosts[0];
         
     } catch (err) {
+        throw err;
+    }
+}
+
+// 유저의 모든 이웃의 글 조회
+export const getFollowPostsByUserID = async (userId) => {
+    try {
+        const conn = await pool.getConnection();
+        const myPosts = await pool.query(getFollowPostsByUserIDSql, [userId]);
+        if(myPosts.length == 0){
+            return -1;
+        }
+
+        conn.release();
+        return myPosts[0];
+    } catch (error) {
         throw err;
     }
 }

@@ -1,7 +1,7 @@
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 import { addStorageBook, delStorageBook,
-         addStoragePost, delStoragePost } from "../models/storage.dao.js";
+         addStoragePost, delStoragePost, getPostStorageListByUserId } from "../models/storage.dao.js";
 
 export const createStorageBook = async (params, body) => {
     const createData = await addStorageBook({
@@ -59,4 +59,9 @@ export const deleteStoragePost = async (params, body) => {
     }else{
         return { "inStorage": false };
     }
+}  
+
+export const getPostStorageByUserId= async ({limit = 12, offset = 0, userId}) => {
+    const result = await getPostStorageListByUserId({limit, offset, userId});
+    return result;
 }  
