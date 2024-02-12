@@ -1,10 +1,9 @@
 import { pool, transporter } from "../../config/db.config.js";
 import { status } from "../../config/response.status.js";
 
-import { emailcheckSql, userCheckSql, confirmEmailSql, confirmNicknameSql, insertUserSql } from "./user.sql.js";
+import { emailcheckSql, userCheckSql,  confirmNicknameSql, insertUserSql } from "./user.sql.js";
 import jwtUtil from "../../config/jwt-util.js";
 
-import { confirmEmailSql, insertUserSql, usercheckSql } from "./user.sql.js";
 
 
 import crypto from 'crypto';

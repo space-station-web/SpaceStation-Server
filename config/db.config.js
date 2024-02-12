@@ -1,5 +1,6 @@
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
+import nodemailer from "nodemailer"
 
 dotenv.config();
 
@@ -16,7 +17,6 @@ export const pool = mysql.createPool({
     queueLimit: 0,              // getConnection에서 오류가 발생하기 전에 Pool에 대기할 요청의 개수 한도
 });
 
-const nodemailer = require('nodemailer')
 
 export const transporter = nodemailer.createTransport({
     service: 'gmail',  // 사용하고자 하는 서비스

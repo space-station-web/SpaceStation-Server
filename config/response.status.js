@@ -12,11 +12,10 @@ export const status = {
     BAD_REQUEST: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "COMMON001", "message": "잘못된 요청입니다." },
     UNAUTHORIZED: {status: StatusCodes.UNAUTHORIZED, "isSuccess": false, "code": "COMMON002", "message": "권한이 잘못되었습니다." },
     METHOD_NOT_ALLOWED: {status: StatusCodes.METHOD_NOT_ALLOWED, "isSuccess": false, "code": "COMMON003", "message": "지원하지 않는 Http Method 입니다." },
-<<<<<<< HEAD
     FORBIDDEN: {status: StatusCodes.FORBIDDEN, "isSuccess": false, "code": "COMMON004", "message": "금지된 요청입니다." }, 
 
     // post
-    UNAUTHORIZED: {status: StatusCodes.UNAUTHORIZED, "isSuccess": false, "code": "POST001", "message": "사용자를 찾을 수 없습니다."},
+
     POST_NOT_FOUND: {status: StatusCodes.NOT_FOUND, "isSuccess": false, "code": "POST002", "message": "해당 글을 찾을 수 없습니다."},
     POST_TITLE_EMPTY: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "POST011", "message": "제목을 입력해 주세요."},
     POST_CONTENT_EMPTY: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "POST012", "message": "내용을 입력해 주세요."},
@@ -24,8 +23,4 @@ export const status = {
     POST_VISIBILITY_EMPTY: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "POST014", "message": "공개여부를 선택해 주세요."},
     POST_TIME_EMPTY: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "POST015", "message": "터뜨리기 시간을 설정해주세요."}
 
-=======
-    FORBIDDEN: {status: StatusCodes.FORBIDDEN, "isSuccess": false, "code": "COMMON004", "message": "금지된 요청입니다." },
-    NOT_USER: {status: StatusCodes.UNAUTHORIZED, "isSuccess": false, "code": "COMMON005", "message": "가입된 사용자가 없습니다." }
->>>>>>> feature/email-check
 }
