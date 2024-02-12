@@ -3,7 +3,7 @@
 import { BaseError } from "../../config/error.js";
 import { pool } from "../../config/db.config.js";
 import { status } from "../../config/response.status.js";
-import { getAnswerSql, getQnAnswerSql, getQuestionContent, getQuestionIdSql, postAnswerSql } from "./question.sql.js";
+import { getAnswerSql, getQnAnswerSql, getQuestionContent, getQuestionIdSql, postAnswerSql, getUserAnswerSql } from "./question.sql.js";
 import { getqnaDTO } from "../dtos/question.dto.js";
 
 // 질문 제공
@@ -76,5 +76,22 @@ export const getQnAnswer = async () => {
         return getqnaDTO(result[0]);
     } catch (err) {
         throw err;
+    }
+}
+
+// 유저의 답변 조회 
+export const getUserAnswer = async ({limit, offset, userId}) => {
+    try {
+        const conn = await pool.getConnection();
+        console.log(userId, limit, offset)
+        const result = await conn.query(getUserAnswerSql, [userId, limit, offset]);
+
+        console.log('result:', result[0])
+
+        conn.release();
+
+        return getqnaDTO(result[0]);
+    } catch (error) {
+        
     }
 }

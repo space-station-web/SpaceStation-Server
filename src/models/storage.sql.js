@@ -14,3 +14,10 @@ export const addStoragePostSql = "INSERT INTO postStorage (post_storage_id, post
 export const delStoragePostSql = "DELETE FROM postStorage WHERE post_id = ? AND user_id = ?;";
 
 export const delStorageByPostIdSql = "DELETE FROM postStorage WHERE post_id = ?;";
+
+export const getPostStorageListByUserIdSql = `select  *
+from    postStorage as ps
+join post as p on ps.post_id = p.post_id
+where   ps.user_id = ?
+order by p.created_at asc
+limit ? offset ?;`
