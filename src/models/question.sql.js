@@ -2,7 +2,7 @@
 
 export const getQuestionContent = "SELECT question_id, content FROM questions WHERE date = CURRENT_DATE();"
 
-export const postAnswerSql = "INSERT INTO answer (question_id, answer_id, content, create_at) VALUES (?, ?, ?, ?);"
+export const postAnswerSql = "INSERT INTO answer (question_id, answer_id, user_id, content, create_at) VALUES (?, ?, ?, ?, ?);"
 
 export const getAnswerSql = "SELECT content FROM answer WHERE answer_id = ?;"
 
