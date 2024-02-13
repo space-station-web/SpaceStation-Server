@@ -25,12 +25,12 @@ export const searchStorageBook = async (data) => {
 export const addStorageBook = async (data) => {
     try{
         const conn = await pool.getConnection();
-        const resultSearch = await pool.query(searchStorageBookSql, [data.book_id, data.user_id]);
+        const resultSearch = await pool.query(searchStorageBookSql, [data.book_id, data.user_id, data.storage_type_id]);
         if (resultSearch[0][0] != null) {
             conn.release();
             return { "storageBookId": resultSearch[0][0].book_storage_id }; 
         }
-        const resultStorage = await pool.query(addStorageBookSql, [null, data.book_id, data.user_id]);
+        const resultStorage = await pool.query(addStorageBookSql, [null, data.book_id, data.user_id, data.storage_type_id]);
         conn.release();
 
         return { "storageBookId": resultStorage[0].insertId };  
@@ -69,12 +69,12 @@ export const delStorageByBookId = async (bookId) => {
 export const addStoragePost = async (data) => {
     try{
         const conn = await pool.getConnection();
-        const resultSearch = await pool.query(searchStoragePostSql, [data.post_id, data.user_id]);
+        const resultSearch = await pool.query(searchStoragePostSql, [data.post_id, data.user_id, data.storage_type_id]);
         if (resultSearch[0][0] != null) {
             conn.release();
             return { "storagePostId": resultSearch[0][0].post_storage_id }; 
         }
-        const resultStorage = await pool.query(addStoragePostSql, [null, data.post_id, data.user_id]);
+        const resultStorage = await pool.query(addStoragePostSql, [null, data.post_id, data.user_id, data.storage_type_id]);
         conn.release();
 
         return { "storagePostId": resultStorage[0].insertId };  

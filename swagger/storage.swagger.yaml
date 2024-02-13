@@ -31,6 +31,15 @@ paths:
               refresh:
                 type: string
                 description: refreshToken
+        - in: body
+          name: typeId
+          required: true
+          schema:
+            properties:
+              typeId:
+                type: integer
+                description: 보관함 일련번호
+                example: 1
       responses:
         '200':
           description: 책 보관 생성 성공!
@@ -207,6 +216,15 @@ paths:
               refresh:
                 type: string
                 description: refreshToken
+        - in: body
+          name: typeId
+          required: true
+          schema:
+            properties:
+              typeId:
+                type: integer
+                description: 보관함 일련번호
+                example: 1
       responses:
         '200':
           description: 글 보관 생성 성공!
