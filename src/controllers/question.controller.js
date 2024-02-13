@@ -22,9 +22,9 @@ export const postAnswer = async (req, res, next) => {
 export const todayAnswer = async (req, res, next) => {
     console.log("답변 조회");
 
-    const { qeustion_id } = req.params;
+    const { question_id } = req.params;
 
-    res.send(response(status.SUCCESS, await getQnAnswer(qeustion_id)));
+    res.send(response(status.SUCCESS, await getQnAnswer(question_id)));
 };
 
 // 내 답변 조회

@@ -10,7 +10,7 @@ export const addAnswer = async (body) => {
 
         const getPostData = await getAnswer(postData.answer_id);
 
-        return getPostData;
+        return getPostData[0];
     } catch (error) {
         console.error(error);
         throw error;
