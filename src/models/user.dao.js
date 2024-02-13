@@ -11,9 +11,9 @@ export const sendCode = async (data) => {
         // 이메일 중복 확인
         const [userCheck] = await pool.query(usercheckSql, data.name, data.email);
 
-        if (userCheck[0].isExistEmail) {
+        if (userCheck[0].isExistUser) {
             conn.release();
-            console.log("메일로 인증메일이 전송되었습니다.")// 이메일 중복일 경우 -1 반환 또는 다른 적절한 값을 선택
+            console.log("메일로 인증메일이 전송되었습니다.")
         }
         else {
             console.log("가입된 사용자가 없습니다.")

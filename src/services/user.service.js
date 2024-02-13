@@ -16,7 +16,7 @@ export const codeSend = async (body) => {
             return response(status.BAD_REQUEST);
         } else {
             // 회원가입 성공 시 응답 데이터 구성 (사용자 정보 반환하지 않음)
-            const successMessage = "회원가입에 성공했습니다."; // 성공 메시지 추가
+            const successMessage = "인증번호가 메일로 전송되었습니다."; // 성공 메시지 추가
             return response(status.SUCCESS, {message: successMessage});
         }
     } catch (error) {
