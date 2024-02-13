@@ -3,9 +3,10 @@ import { status } from "../../config/response.status.js";
 import { addStorageBook, delStorageBook,
          addStoragePost, delStoragePost, getPostStorageListByUserId } from "../models/storage.dao.js";
 
-export const createStorageBook = async (params, userID) => {
+export const createStorageBook = async (params, body, userID) => {
     const createData = await addStorageBook({
         'book_id': Number(params.bookId),
+        'storage_type_id': body.typeId,
         'user_id': userID
     });
     console.log("createStorageBook StorageBookId : " + createData.storageBookId);
@@ -32,9 +33,10 @@ export const deleteStorageBook = async (params, userID) => {
     }
 }       
 
-export const createStoragePost = async (params, userID) => {
+export const createStoragePost = async (params, body, userID) => {
     const createData = await addStoragePost({
         'post_id': Number(params.postId),
+        'storage_type_id': body.typeId,
         'user_id': userID
     });
     console.log("createStoragePost StoragePostId : " + createData.storagePostId);
