@@ -5,10 +5,10 @@ import { addComment, deleteComment, getComment, getReference, patchComment } fro
 export const commentRouter = express.Router();
 
 // 인용하는 글 조회
-commentRouter.get('/reference/:post_id', asyncHandler(getReference));
+// commentRouter.get('/posts/:post_id', asyncHandler(getReference));
 
 // 인용하기
-commentRouter.post('/:post_id', asyncHandler(addComment));
+commentRouter.post('/posts/:post_id', asyncHandler(addComment));
 
 // 조회
 commentRouter.get('/:comment_id', asyncHandler(getComment));

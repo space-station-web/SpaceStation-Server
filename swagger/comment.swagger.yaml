@@ -1,44 +1,44 @@
 paths:
-  /comments/reference/{post_id}:
-    get:
-      tags:
-        - Comment
-      summary: 인용할 글 조회
-      parameters:
-        - name: post_id
-          in: path
-          required: true
-          description: 인용할 글 ID
-          schema:
-            type: integer
-      responses:
-        '2000':
-          description: 글 조회 성공
-          schema:
-            type: object
-            properties:
-              status:
-                type: integer
-                example: 2000
-              isSuccess:
-                type: boolean
-                example: true
-              code:
-                type: integer
-                example: 2000
-              message:
-                type: string
-                example: "success!"
-              data:
-                type: object
-                example: {
-                  "post_id": 11,
-                  "user_id": 123,
-                  "title": "제목",
-                  "date": "2024.02.11"
-                }
+##  /comments/reference/{post_id}:
+##    get:
+##    tags:
+##      - Comment
+##    summary: 인용할 글 조회
+##    parameters:
+##      - name: post_id
+##        in: path
+##        required: true
+##        description: 인용할 글 ID
+##        schema:
+##          type: integer
+##    responses:
+##      '2000':
+##        description: 글 조회 성공
+##        schema:
+##          type: object
+##          properties:
+##            status:
+##              type: integer
+##              example: 2000
+##            isSuccess:
+##              type: boolean
+##              example: true
+##            code:
+##              type: integer
+##              example: 2000
+##            message:
+##              type: string
+##              example: "success!"
+##            data:
+##              type: object
+##              example: {
+##                "post_id": 11,
+##                "user_id": 123,
+##                "title": "제목",
+##                 "date": "2024.02.11"
+##              }
 
-  /comments/{post_id}:
+  /comments/posts/{post_id}:
     post:
       tags:
         - Comment
