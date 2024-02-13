@@ -16,11 +16,13 @@ export const loginUser = async (body) => {
         if (!loginUserData) {
             return -1;
         } else {
-            const user = loginUserData.userNickname;
+            const userid = loginUserData.userId;
+            const usernick = loginUserData.userNickname;
             const accessToken = loginUserData.accessToken;
             const refreshToken = loginUserData.refreshToken;
 
-            return response(status.SUCCESS, { user, accessToken, refreshToken });
+            console.log(userid, usernick, accessToken, refreshToken)
+            return response(status.SUCCESS, { userid, usernick, accessToken, refreshToken });
         }
     } catch (error) {
         // 예외 처리
