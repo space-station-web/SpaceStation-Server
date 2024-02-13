@@ -1,6 +1,6 @@
 // question.sql.js
 
-export const getQuestionContent = "SELECT question_id, content FROM questions WHERE date = CURRENT_DATE();"
+export const getQuestionContent = "SELECT question_id, content FROM questions WHERE MONTH(DATE) = MONTH(CURRENT_DATE()) AND DAY(DATE) = DAY(CURRENT_DATE());"
 
 export const postAnswerSql = "INSERT INTO answer (question_id, answer_id, user_id, content, create_at) VALUES (?, ?, ?, ?, ?);"
 
