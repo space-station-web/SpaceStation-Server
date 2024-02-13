@@ -17,7 +17,7 @@ draftRouter.post('/', asyncHandler(addDraft));
 draftRouter.patch('/:draft_id', asyncHandler(patchDraft));
 
 // 임시저장 수정 후 저장
-draftRouter.post('/posts/:draft_id', asyncHandler(postDraft));
+draftRouter.post('/:draft_id/posts', asyncHandler(postDraft));
 
 // 임시저장 삭제
 draftRouter.delete('/:draft_id', asyncHandler(deleteDraft));
