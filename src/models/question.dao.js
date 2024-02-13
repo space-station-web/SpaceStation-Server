@@ -33,12 +33,15 @@ export const postAnswer = async (data) => {
 
         const result = await pool.query(postAnswerSql, [
             todayQuestionId[0][0].question_id,
-            data.answer_id, 
+            null, 
+            data.user_id,
             data.content,
             new Date()
         ]);
 
         conn.release();
+
+        return { "answer_id": result[0].insertId };
     } catch (err) {
         throw err;
     }

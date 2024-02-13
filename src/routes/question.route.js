@@ -11,6 +11,6 @@ questionRouter.get('/', asyncHandler(todayQuestion));
 
 questionRouter.get('/my-answer', tokenChecker, asyncHandler(getMyAnswer));
 
-questionRouter.post('/:question_id/answer', asyncHandler(postAnswer));
+questionRouter.post('/answer', asyncHandler(postAnswer));
 
 questionRouter.get('/:question_id/answer', asyncHandler(todayAnswer));
