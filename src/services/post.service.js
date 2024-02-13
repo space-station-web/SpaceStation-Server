@@ -27,7 +27,8 @@ export const addNewPost = async (body) => {
             "title": body.title, 
             "content": body.content,
             "visibility": body.visibility,
-            "self_destructTime": body.self_destructTime
+            "self_destructTime": body.self_destructTime,
+            "topic_id": body.topic_id
         });
 
         const getPostData = await postDao.getPost(postData.post_id);

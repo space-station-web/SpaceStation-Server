@@ -1,7 +1,7 @@
 // post.dao.js
 import { pool } from "../../config/db.config.js";
-import { getAllPostsSql, getLastPost, getUserID, insertPostSql, LastPost, deletePostSql, getPostSql, updatePostSql, getPostsByUserIdSql, getFollowPostsByUserIDSql } from "./post.sql.js";
-
+import { getAllPostsSql,insertPostSql, deletePostSql, getPostSql, updatePostSql, getPostsByUserIdSql, getFollowPostsByUserIDSql, getTopicSql, getUnviewdTopicSql, updateUnviewedTopicSql, updateViewedTopicSql } from "./post.sql.js";
+import { status } from "../../config/response.status.js";
 
 //  전체 글 조회
 export const getAllPosts = async({orderColumn, orderDirection, limit, offset}) => {
@@ -21,6 +21,7 @@ export const getAllPosts = async({orderColumn, orderDirection, limit, offset}) =
         throw err;
     }
 }
+
 // 글 작성
 export const writeContent = async (data) => {
     try {
@@ -33,7 +34,8 @@ export const writeContent = async (data) => {
             data.content,    
             data.visibility, 
             new Date(),
-            data.self_destructTime
+            data.self_destructTime,
+            data.topic_id
         ]);
 
         conn.release();
@@ -125,6 +127,46 @@ export const getFollowPostsByUserID = async (userId) => {
         conn.release();
         return myPosts[0];
     } catch (error) {
+        throw err;
+    }
+}
+
+// 글을 쓸 때 글감을 선택적으로 제공받을 수 있고 글감을 제공받아서 글을 작성했다면 다음에 글을 작성할 때는 새로운 글감을 제공하도록 
+// 랜덤으로 제공하되 viewed 모두 1 이면 0으로 전체 초기화
+
+// 조회 안 한 글감 중 랜덤 반환
+export const getRandomTopic = async (user_id) => {
+  const conn = await pool.getConnection(); 
+
+  let unviewedTopics = await conn.query(getUnviewdTopicSql, [user_id]);
+
+  console.log("unviewedTopics", unviewedTopics[0]);
+
+  if (unviewedTopics[0].length === 0) {
+    await conn.query(updateUnviewedTopicSql, [user_id]);
+
+    unviewedTopics = await conn.query(getUnviewdTopicSql, [user_id]);
+  }
+
+  const randomIndex = Math.floor(Math.random() * unviewedTopics[0].length);
+
+  const randomTopicId = unviewedTopics[0][randomIndex].topic_id;
+
+  await conn.query(updateViewedTopicSql, [user_id, randomTopicId]);
+
+  return getTopic(randomTopicId);
+}
+
+// 글감 제공
+export const getTopic = async (topic_id) => {
+    try {
+        const conn = await pool.getConnection(); 
+        const [topic] = await conn.query(getTopicSql, [topic_id]);
+        console.log(topic[0]);
+        conn.release();
+
+        return topic[0];
+    } catch (err) {
         throw err;
     }
 }

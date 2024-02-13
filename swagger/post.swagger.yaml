@@ -241,3 +241,43 @@ paths:
               message:
                 type: string
                 example: 터뜨리기 시간을 설정해주세요.
+
+  /posts/topics/{user_id}:
+    get:
+      tags:
+        - post
+      summary: 글감 조회
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: 유저 ID
+          schema:
+            type: integer
+      responses:
+        '2000':
+          description: 글감 조회 성공
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 2000
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  "topic_id": 10,
+                  "todaytopic": "눈물",
+                  "content": "감정을 표현하는 수단 중 하나인 눈물. 슬플 때, 기쁠 때, 화날 때 등등 다양한 감정을 표출하기도 하죠. 당신은 언제 눈물을 흘리나요?",
+                  "viewed": 1,
+                  "user_id": 1
+                }

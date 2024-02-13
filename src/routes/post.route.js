@@ -2,7 +2,7 @@
 
 import express from "express";
 import asyncHandler from 'express-async-handler';
-import { getPosts, addPost, deletePost, editPost, getPost, getPostsByUserId, getFollowPosts } from '../controllers/post.controller.js';
+import { getPosts, addPost, deletePost, editPost, getPost, getPostsByUserId, getFollowPosts, getTopic } from '../controllers/post.controller.js';
 import { tokenChecker } from "../../config/jwt-util.js";
 
 export const postRouter = express.Router();
@@ -27,3 +27,6 @@ postRouter.patch('/:post_id', asyncHandler(editPost));
 
 // 유저의 글 리스트 조회
 postRouter.get('/user/:user_id', asyncHandler(getPostsByUserId))
+
+// 글감 제공
+postRouter.get('/topics/:user_id', asyncHandler(getTopic));

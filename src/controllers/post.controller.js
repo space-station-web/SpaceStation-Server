@@ -4,6 +4,7 @@ import { response } from "../../config/response.js";
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 import * as postService from '../services/post.service.js';
+import { getRandomTopic } from "../models/post.dao.js";
 
 // 전체 글 조회
 export const getPosts = async (req, res) => {
@@ -73,4 +74,16 @@ export const getFollowPosts = async (req, res) => {
     const { userId } = req;
     
     return res.send(response(status.SUCCESS, await postService.getFollowPostsByUserID(userId)))
+}
+
+// 글감 제공
+export const getTopic = async (req, res, next) => {
+    console.log("글감 제공");
+
+    const { user_id } = req.params;
+
+    // const topic = await getNewTopic(user_id);
+    return res.send(response(status.SUCCESS, await getRandomTopic(user_id)));
+
+    // return res.send(response(status.SUCCESS, await getNewTopic(user_id)));
 }
