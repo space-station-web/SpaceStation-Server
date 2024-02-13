@@ -225,7 +225,7 @@ paths:
                   "user_id": 1
                 }
                 
-  /drafts/posts/{draft_id}:
+  /drafts/{draft_id}/posts:
     post:
       tags:
         - Draft

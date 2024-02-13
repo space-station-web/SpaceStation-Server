@@ -72,8 +72,6 @@ export const deleteDraft = async (draft_id) => {
 
         conn.release();
 
-        console.log("result: ", result);
-
         return "임시저장 글이 삭제되었습니다.";
     } catch (err) {
         throw err;

@@ -30,8 +30,6 @@ export const patchDraft = async (draft_id, body) => {
 export const postDraft = async (draft_id, body) => {
     const user_id = await draftDao.getUserId(draft_id);
 
-    console.log("user_id: ", user_id);
-
     const draftData = await draftDao.postDraft(draft_id, {
         "user_id": user_id[0],
         "title": body.title, 
