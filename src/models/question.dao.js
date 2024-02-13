@@ -4,7 +4,6 @@ import { BaseError } from "../../config/error.js";
 import { pool } from "../../config/db.config.js";
 import { status } from "../../config/response.status.js";
 import { getAnswerSql, getQnAnswerSql, getQuestionContent, getQuestionIdSql, postAnswerSql, getUserAnswerSql } from "./question.sql.js";
-import { getqnaDTO } from "../dtos/question.dto.js";
 
 // 질문 제공
 export const getQuestion = async (date) => {
@@ -18,7 +17,7 @@ export const getQuestion = async (date) => {
             throw new BaseError(status.QUESTION_NOT_FOUND);
         };
 
-        return questions;
+        return questions[0];
     } catch (err) {
         throw err;
     }
@@ -63,20 +62,19 @@ export const getAnswer = async (answer_id) => {
 }
 
 // 전체 조회
-export const getQnAnswer = async () => {
+export const getQnAnswer = async (question_id) => {
     try{
         const conn = await pool.getConnection();
 
-        const todayQuestionId = await pool.query(getQuestionIdSql);
+        // const todayQuestionId = await pool.query(getQuestionIdSql);
 
-        const result = await conn.query(getQnAnswerSql, [todayQuestionId[0][0].question_id]);
+        const result = await conn.query(getQnAnswerSql, [question_id]);
 
-        console.log("result: ", result[0]);
-        console.log("dto: ", getqnaDTO(result[0]));
+        console.log("result: ", result[0][0]);
 
         conn.release();
 
-        return getqnaDTO(result[0]);
+        return result[0][0];
     } catch (err) {
         throw err;
     }
