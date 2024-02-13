@@ -93,25 +93,25 @@ export const tokenChecker = async (req, res, next) => {
             if (!accessResult) { //결과가 없으면 권한 없음
                 return res.send(response(status.UNAUTHORIZED));
             }
-        } else {
-            return res.send(response(status.BAD_REQUEST));
-        }
 
-        const refreshResult = await jwtUtil.refreshverify(refresh, accessResult.id); //access에서 유저id 가져와서 refresh 검증
+            const refreshResult = await jwtUtil.refreshverify(refresh, accessResult.id); //access에서 유저id 가져와서 refresh 검증
 
-        if (accessResult.ok === false && accessResult.message === "jwt expired") { // access 만료 + refresh 만료 -> 재로그인
-            if (refreshResult === false) {
-                return res.redirect('/login');
-            } else { // access 만료, refresh 만료X -> access token 재발급
-                const newAccessToken = jwtUtil.sign(accessResult);
-                res.send(response(status.SUCCESS, {newAccessToken, refresh}));
+            if (accessResult.ok === false && accessResult.message === "jwt expired") { // access 만료 + refresh 만료 -> 재로그인
+                if (refreshResult === false) {
+                    return res.redirect('/login');
+                } else { // access 만료, refresh 만료X -> access token 재발급
+                    const newAccessToken = jwtUtil.sign(accessResult);
+                    res.send(response(status.SUCCESS, {newAccessToken, refresh}));  // 이것도 반환 두 번에 걸릴 것 같은데.. 어떻게 해야할지 모르겠네요..
+                    req.userID = accessResult.id
+                    next();
+                }
+            } else { // access 만료X 그냥 진행
+                //res.send(response(status.SUCCESS)) // 반환을 두 번 하면 안된다고 하네요..
                 req.userID = accessResult.id
                 next();
             }
-        } else { // access 만료X 그냥 진행
-            res.send(response(status.SUCCESS))
-            req.userID = accessResult.id
-            next();
+        } else {
+            return res.send(response(status.BAD_REQUEST));
         }
     } catch {
         return res.send(response(status.BAD_REQUEST));

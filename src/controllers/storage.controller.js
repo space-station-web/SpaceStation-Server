@@ -6,33 +6,33 @@ import { createStorageBook, deleteStorageBook,
 export const storageBookPost = async (req, res, next) => {
     console.log("Storage Book Create!");
     console.log("params:", req.params);
-    console.log("body:", req.body);
+    console.log("req.userID: ", req.userID);    //토큰으로 받은 유저 아이디
 
-    res.send(response(status.SUCCESS, await createStorageBook(req.params, req.body)));
+    res.send(response(status.SUCCESS, await createStorageBook(req.params, req.userID)));
 };
 
 export const storageBookDelete = async (req, res, next) => {
     console.log("Storage Book Delete!");
     console.log("params:", req.params);
-    console.log("body:", req.body);
+    console.log("req.userID: ", req.userID);    //토큰으로 받은 유저 아이디
 
-    res.send(response(status.SUCCESS, await deleteStorageBook(req.params, req.body)));
+    res.send(response(status.SUCCESS, await deleteStorageBook(req.params, req.userID)));
 };
 
 export const storagePostPost = async (req, res, next) => {
     console.log("Storage Post Create!");
     console.log("params:", req.params);
-    console.log("body:", req.body);
+    console.log("req.userID: ", req.userID);    //토큰으로 받은 유저 아이디
 
-    res.send(response(status.SUCCESS, await createStoragePost(req.params, req.body)));
+    res.send(response(status.SUCCESS, await createStoragePost(req.params, req.userID)));
 };
 
 export const storagePostDelete = async (req, res, next) => {
     console.log("Storage Post Delete!");
     console.log("params:", req.params);
-    console.log("body:", req.body);
+    console.log("req.userID: ", req.userID);    //토큰으로 받은 유저 아이디
 
-    res.send(response(status.SUCCESS, await deleteStoragePost(req.params, req.body)));
+    res.send(response(status.SUCCESS, await deleteStoragePost(req.params, req.userID)));
 };
 
 export const getMyPostStorage = async (req, res) => {

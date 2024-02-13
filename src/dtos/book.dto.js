@@ -1,4 +1,4 @@
-export const bookDTO = (book, storage, contents) => {
+export const bookDTO = (book, storage, like, contents) => {
     const contentList = [];
     for (let i = 0; i < contents[0].length; i++) {
         contentList.push(bookContentsDTO(contents[0][i]));
@@ -10,7 +10,8 @@ export const bookDTO = (book, storage, contents) => {
         "intro": book[0][0].intro,
         "category": book[0][0].category,
         "user_id": book[0][0].user_id,
-        "in_storage": storage,
+        "storage": storage,
+        "like": like,
         "contents": contentList
     };
 }

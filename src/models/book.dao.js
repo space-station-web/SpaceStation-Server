@@ -5,6 +5,7 @@ import { createBookSql, createBookContentsSql, readBookSql, readBookContentsSql,
          updateBookSql, updateBookContentsSql, deleteBookSql, deleteBookContentsSql, 
          checkBookUserSql } from "./book.sql.js";
 import { delStorageByBookIdSql } from "./storage.sql.js";
+import { delLikeByBookIdSql } from "./like.sql.js";
 
 export const addBook = async (data) => {
     try{
@@ -99,13 +100,14 @@ export const delBook = async (bookId) => {
         const conn = await pool.getConnection();
         const resultBookContent = await pool.query(deleteBookContentsSql, [bookId]);
         const resultBookStorage = await pool.query(delStorageByBookIdSql, [bookId]);
+        const resultBookLike = await pool.query(delLikeByBookIdSql, [bookId]);
         const resultBook = await pool.query(deleteBookSql, [bookId]);
-
         conn.release();
+        
         return {"deletedBook": resultBook[0].affectedRows, 
                 "deletedBookContent": resultBookContent[0].affectedRows,
-                "deletedBookStorage": resultBookStorage[0].affectedRows };
-        
+                "deletedBookStorage": resultBookStorage[0].affectedRows,
+                "deletedBookLike": resultBookLike[0].affectedRows };        
     } catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
