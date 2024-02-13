@@ -134,6 +134,8 @@ export const logintry = async (data) => {
             // 로그인 성공
             console.log("로그인이 완료되었습니다.", user[0].nickname);
 
+            const userId = user[0].id;
+
             const userNickname = user[0].nickname;
 
             const accessToken = jwtUtil.sign(user[0]);
@@ -151,7 +153,7 @@ export const logintry = async (data) => {
 
 
             // 로그인 성공 시 사용자 데이터와 accessToken과 refreshToken 반환
-            return { userNickname, accessToken, refreshToken };
+            return { userId, userNickname, accessToken, refreshToken };
             // return userNickname;
 
 
