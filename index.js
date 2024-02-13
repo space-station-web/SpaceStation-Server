@@ -28,6 +28,7 @@ import { questionRouter } from './src/routes/question.route.js';
 import { draftRouter } from './src/routes/draft.route.js';
 
 import { likeRouter } from './src/routes/like.route.js';
+import { commentRouter } from './src/routes/comment.route.js';
 
 
 dotenv.config();
@@ -101,3 +102,6 @@ app.use('/drafts', draftRouter);
 
 // 좋아요 API
 app.use('/likes', likeRouter);
+
+// 인용하기 API
+app.use('/comments', commentRouter);
