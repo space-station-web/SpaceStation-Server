@@ -1,0 +1,78 @@
+paths:
+  /email-auth/verify:
+    post:
+      tags:
+        - User
+      summary: 인증번호 확인
+      parameters:
+        - name: email-auth
+          in: body
+          required: true
+          schema:
+            properties:
+              name:
+                type: varchar(10)
+                description: 유저 이름
+                example: 홍지승
+              email:
+                type: varchar(50)
+                description: 유저 이메일
+                example: jejuhjs09@gmail.com
+              code:
+                type: varchar(6)
+                description: 인증코드
+                example:
+      responses:
+        '200':
+          description: 이메일 전송이 완료되었습니다!
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
