@@ -1,6 +1,8 @@
 import express from 'express';
-import { bookCreate, bookRead, bookUpdate, bookDelete } from '../controllers/book.controller.js';
+import { bookCreate, bookRead, bookUpdate, bookDelete, bookImg } from '../controllers/book.controller.js';
 import { tokenChecker } from '../../config/jwt-util.js';
+import { imageUploader } from '../middleware/image.uploader.js';
+
 
 export const bookRouter = express.Router();
 
@@ -15,3 +17,6 @@ bookRouter.patch('/:bookId', tokenChecker, bookUpdate);
 
 // 책 삭제
 bookRouter.delete('/:bookId', tokenChecker, bookDelete);
+
+// 책 사진 저장 테스트
+bookRouter.post('/img', imageUploader.single('image'), bookImg);

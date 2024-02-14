@@ -30,3 +30,11 @@ export const bookDelete = async (req, res, next) => {
 
     res.send(response(status.SUCCESS, await deleteBook(req.params, req.userID)));
 };
+
+export const bookImg = async (req, res, next) => {
+    console.log("body", req.body);
+    console.log("files", req.file);
+    const test = req.files ?? []; 
+
+    res.send(response(status.SUCCESS, {"body": req.body, "files": req.file}));
+};
