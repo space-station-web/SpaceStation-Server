@@ -1,8 +1,8 @@
 import dotenv from 'dotenv';
+import nodemailer from 'nodemailer'
 
 dotenv.config();
 
-const nodemailer = require('nodemailer')
 
 export const transporter = nodemailer.createTransport({
     service: 'gmail',  // 사용하고자 하는 서비스

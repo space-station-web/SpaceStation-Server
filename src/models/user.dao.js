@@ -1,4 +1,5 @@
 import { pool } from "../../config/db.config.js";
+import { response} from "../../config/response.js";
 import { transporter } from "../../config/email.config.js";
 import { status } from "../../config/response.status.js";
 import { confirmEmailSql, insertUserSql, usercheckSql } from "./user.sql.js";
@@ -47,7 +48,7 @@ export const sendCode = async (data) => {
     try {
         const conn = await pool.getConnection();
 
-        const [userCheck] = await pool.query(usercheckSql, data.name, data.email);
+        const [userCheck] = await pool.query(usercheckSql, [data.name, data.email]);
 
         if (userCheck[0].isExistUser) {
             const now = Date.now();
@@ -85,11 +86,11 @@ export const sendCode = async (data) => {
     }
 };
 
-export const resendcode = async (data) => {
+export const resendCode = async (data) => {
     try {
         const conn = await pool.getConnection();
 
-        const [userCheck] = await pool.query(usercheckSql, data.name, data.email);
+        const [userCheck] = await pool.query(usercheckSql, [data.name, data.email]);
 
         if (userCheck[0].isExistUser) {
             const now = Date.now();

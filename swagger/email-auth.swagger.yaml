@@ -1,11 +1,11 @@
 paths:
-  /email-check:
+  /email-auth:
     post:
       tags:
         - User
-      summary: 이메일 확인
+      summary: 인증번호 전송
       parameters:
-        - name: email-check
+        - name: email-auth
           in: body
           required: true
           schema:
@@ -13,18 +13,14 @@ paths:
               name:
                 type: varchar(10)
                 description: 유저 이름
-                example: 길벗
-              phone:
-                type: varchar(15)
-                description: 유저 휴대폰
-                example: 01049205843
-              b_date:
-                type: date
-                description: 생년월일
-                example: 20040204
+                example: 홍지승
+              email:
+                type: varchar(50)
+                description: 유저 이메일
+                example: jejuhjs09@gmail.com
       responses:
         '200':
-          description: 가입된 이메일이 있습니다.!
+          description: 이메일 전송이 완료되었습니다!
           schema:
             type: object
             properties:
@@ -40,11 +36,6 @@ paths:
               message:
                 type: string
                 example: "success!"
-              data:
-                type: object
-                example: {
-                  "email": "example5@example.com",
-                }
 
         '400':
           description: 잘못된 요청

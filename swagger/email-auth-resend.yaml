@@ -1,56 +1,26 @@
 paths:
-  /signup:
+  /email-auth/resend:
     post:
       tags:
         - User
-      summary: 회원가입
+      summary: 인증번호 재전송
       parameters:
-        - name: signup
+        - name: email-auth
           in: body
           required: true
           schema:
             properties:
               name:
-                type: string
-                maxLength: 10
+                type: varchar(10)
                 description: 유저 이름
-                example: 홍길동
-              nickname:
-                type: string
-                maxLength: 50
-                description: 유저 닉네임
-                example: 테스트
+                example: 홍지승
               email:
-                type: string
-                maxLength: 50
+                type: varchar(50)
                 description: 유저 이메일
-                example: example@example.com
-              pw:
-                type: string
-                maxLength: 100
-                description: 유져 비밀번호
-                example: 'zxcvasdfqwer'
-              pwcheck:
-                type: string
-                maxLength: 100
-                description: 유져 비밀번호 확인
-                example: 'zxcvasdfqwer'
-              phone:
-                type: string
-                maxLength: 15
-                description: 유저 휴대폰
-                example: '01012345678'
-              b_date:
-                type: date
-                description: 생년월일
-                example: 19980922
-              alarm:
-                type: boolean
-                description: 알람 약관 동의
-                example: True
+                example: jejuhjs09@gmail.com
       responses:
         '200':
-          description: 회원 가입 성공!
+          description: 이메일 전송이 완료되었습니다!
           schema:
             type: object
             properties:
@@ -66,12 +36,6 @@ paths:
               message:
                 type: string
                 example: "success!"
-              data:
-                type: object
-                example: {
-                  "name": "길벗",
-                  "nickname": "출판다",
-                }
 
         '400':
           description: 잘못된 요청

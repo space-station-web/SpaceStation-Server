@@ -4,7 +4,7 @@ import { pwchange, codesend, codecheck, recode } from "../controllers/emailauth.
 export const emailauthRouter = express.Router();
 
 emailauthRouter.post('/', codesend)
-emailauthRouter.post('/recodesend', recode)
+emailauthRouter.post('/resend', recode)
 emailauthRouter.post('/verify', codecheck)
 
 export const changepwRouter = express.Router();
