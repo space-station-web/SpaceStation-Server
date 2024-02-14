@@ -28,7 +28,7 @@ export const addUser = async (data) => {
         const conn = await pool.getConnection();
 
         // 이메일 중복 확인
-        const [emailConfirm] = await pool.query(confirmEmail, data.email);
+        const [emailConfirm] = await pool.query(confirmEmailSql, data.email);
 
         if (emailConfirm[0].isExistEmail) {
             conn.release();
