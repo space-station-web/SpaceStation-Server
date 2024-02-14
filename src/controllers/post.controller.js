@@ -71,9 +71,10 @@ export const getPostsByUserId = async (req, res) => {
 
 // 내 모든 이웃의 글 조회
 export const getFollowPosts = async (req, res) => {
-    const { userId } = req;
+    const { userID } = req;
+    // const userID = 20; // 미들웨어 사용안할 시 지정
     
-    return res.send(response(status.SUCCESS, await postService.getFollowPostsByUserID(userId)))
+    return res.send(response(status.SUCCESS, await postService.getFollowPostsByUserID(userID)))
 }
 
 // 글감 제공

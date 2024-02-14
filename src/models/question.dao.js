@@ -4,6 +4,7 @@ import { BaseError } from "../../config/error.js";
 import { pool } from "../../config/db.config.js";
 import { status } from "../../config/response.status.js";
 import { getAnswerSql, getQnAnswerSql, getQuestionContent, getQuestionIdSql, postAnswerSql, getUserAnswerSql } from "./question.sql.js";
+import { getqnaDTO } from '../dtos/question.dto.js'
 
 // 질문 제공
 export const getQuestion = async (date) => {

@@ -44,12 +44,8 @@ export const addFollow = async ({userId, followId}) => {
 export const removeFollow = async ({id, userId, followId}) => {
     try{
         const conn = await pool.getConnection();
-
-        console.log('id === 0 || id:', id === 0 || id)
         const sql = (id === 0 || id) ? deleteFollowSqlById : deleteFollowSqlByFollowIdAndUserId
         const params = (id === 0 || id) ? [id] : [userId, followId]
-
-        console.log('sql:', sql)
         const resultFollow = await pool.query(sql, params);
 
         conn.release();

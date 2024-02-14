@@ -29,10 +29,10 @@ export const todayAnswer = async (req, res, next) => {
 
 // 내 답변 조회
 export const getMyAnswer = async (req, res) => {
-    const { userId } = req;
+    const { userID } = req;
     const { limit, offset } = req.query;
-    if(!userId) {
-        res.status(401).send();
+    if(!userID) {
+        return res.status(401).send();
     }
-    res.send(response(status.SUCCESS, await getUserAnswer({limit:Number(limit), offset:Number(offset), userId:Number(userId) })))
+    res.send(response(status.SUCCESS, await getUserAnswer({limit:Number(limit), offset:Number(offset), userId:Number(userID) })))
 }
