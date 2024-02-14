@@ -2,7 +2,7 @@ paths:
   /posts:
     post:
       tags:
-        - post
+        - Post
       summary: 글 작성
       parameters:
         - name: post
@@ -10,10 +10,6 @@ paths:
           required: true
           schema:
               properties:
-                user_id:
-                  type: integer
-                  description: 유저 ID
-                  example: 13
                 title:
                   type: string
                   description: 제목
@@ -34,6 +30,18 @@ paths:
                 - title
                 - content
                 - visibility
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
       responses:
         '2000':
           description: 글 등록 성공
@@ -97,7 +105,7 @@ paths:
   /posts/{post_id}:
     delete:
       tags:
-        - post
+        - Post
       summary: 글 삭제
       parameters:
         - name: post_id
@@ -106,6 +114,18 @@ paths:
           description: 글 ID
           schema:
             type: integer
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
       responses:
         '2000':
           description: 글 삭제 성공
@@ -132,7 +152,7 @@ paths:
 
     get:
       tags:
-        - post
+        - Post
       summary: 글 조회
       parameters:
         - name: post_id
@@ -141,6 +161,18 @@ paths:
           description: 글 ID
           schema:
             type: integer
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
       responses:
         '2000':
           description: 글 조회 성공
@@ -169,7 +201,7 @@ paths:
 
     patch:
       tags:
-        - post
+        - Post
       summary: 글 수정
       parameters:
         - name: post_id
@@ -178,6 +210,18 @@ paths:
           description: 글 ID
           schema:
             type: integer
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
         - name: update
           in: body
           required: true
@@ -242,18 +286,24 @@ paths:
                 type: string
                 example: 터뜨리기 시간을 설정해주세요.
 
-  /posts/topics/{user_id}:
+  /posts/topics:
     get:
       tags:
-        - post
+        - Post
       summary: 글감 조회
       parameters:
-        - name: user_id
-          in: path
+        - name: Authorization
+          in: header
           required: true
-          description: 유저 ID
-          schema:
-            type: integer
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
       responses:
         '2000':
           description: 글감 조회 성공
