@@ -41,6 +41,7 @@ const sendVerificationCode = async (email, code) => {
         console.log(`인증코드를 ${email}로 전송했습니다.`);
     } catch (err) {
         console.error('이메일 전송 중 오류 발생 : ', err);
+        throw err;
     }
 };
 
