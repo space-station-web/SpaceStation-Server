@@ -2,7 +2,7 @@ import { pool } from "../../config/db.config.js";
 import { response} from "../../config/response.js";
 import { transporter } from "../../config/email.config.js";
 import { status } from "../../config/response.status.js";
-import { confirmEmailSql, insertUserSql, usercheckSql } from "./user.sql.js";
+import {confirmEmailSql, insertUserSql, checkUserkSql} from "./user.sql.js";
 
 import crypto from 'crypto';
 
@@ -48,9 +48,9 @@ export const sendCode = async (data) => {
     try {
         const conn = await pool.getConnection();
 
-        const [userCheck] = await pool.query(usercheckSql, [data.name, data.email]);
+        const [checkUser] = await pool.query(checkUserkSql, [data.name, data.email]);
 
-        if (userCheck[0].isExistUser) {
+        if (checkUser[0].isExistUser) {
             const now = Date.now();
             const cooldownInfo = emailCooldownMap.get(data.email) || { count: 0, lastSent: 0 };
 
@@ -90,9 +90,9 @@ export const resendCode = async (data) => {
     try {
         const conn = await pool.getConnection();
 
-        const [userCheck] = await pool.query(usercheckSql, [data.name, data.email]);
+        const [checkUser] = await pool.query(checkUserkSql, [data.name, data.email]);
 
-        if (userCheck[0].isExistUser) {
+        if (checkUser[0].isExistUser) {
             const now = Date.now();
             const cooldownInfo = emailCooldownMap.get(data.email);
 
