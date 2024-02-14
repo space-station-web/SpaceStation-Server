@@ -95,8 +95,9 @@ export const joinUser = async (body) => {
             return response(status.BAD_REQUEST);
         } else {
             // 회원가입 성공 시 응답 데이터 구성 (사용자 정보 반환하지 않음)
+            console.log("회원가입 성공")
             const successMessage = "회원가입에 성공했습니다."; // 성공 메시지 추가
-            return response(status.SUCCESS, null);
+            return response(status.SUCCESS, successMessage);
         }
     } catch (error) {
         // 예외 처리
@@ -166,7 +167,8 @@ export const pwChange = async (req, body) => {
             pwcheck: String(body.pwcheck),
         });
 
-        if (changePW === -1) {
+        if (changePW.status === -1) {
+            console.log(`비밀번호 변경 실패 : ${changePW.message}`)
             return response(status.BAD_REQUEST);
 
         } else {

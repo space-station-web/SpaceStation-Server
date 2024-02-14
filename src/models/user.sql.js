@@ -20,3 +20,6 @@ export const checkUserkSql = "SELECT EXISTS(SELECT 1 FROM user WHERE name = ? AN
 
 export const updateUserPwSql = "UPDATE user SET pw = ?, update_date = ?, salt = ? WHERE email = ?";
 
+
+export const getStoredPw = "SELECT pw, salt FROM user WHERE email = ?"
+

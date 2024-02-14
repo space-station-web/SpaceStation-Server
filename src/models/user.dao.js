@@ -3,18 +3,19 @@ import { response} from "../../config/response.js";
 import { transporter } from "../../config/email.config.js";
 import { status } from "../../config/response.status.js";
 
-import { emailcheckSql, userCheckSql, checkUserSql,  confirmNicknameSql, insertUserSql, confirmEmailSql } from "./user.sql.js";
+
+import { emailcheckSql, userCheckSql, checkUserSql,  confirmNicknameSql } from "./user.sql.js";
+import {confirmEmailSql, insertUserSql, updateUserPwSql, getStoredPw} from "./user.sql.js";
 import jwtUtil from "../../config/jwt-util.js";
 
 
-const createdHash = process.env.createdHash;
-const digest = process.env.digest;
-
-import {checkUserkSql, updateUserPwSql} from "./user.sql.js";
 import crypto from 'crypto';
 import dotenv from "dotenv";
 
 dotenv.config();
+
+const createdHash = process.env.createdHash;
+const digest = process.env.digest;
 
 
 const emailVerificationMap = new Map(); // 이메일과 인증코드를 저장할 Map
@@ -42,6 +43,7 @@ export const addUser = async (data) => {
             .update(data.pw + salt)
             .digest(digest);
 
+
         // 사용자 데이터 삽입
         const result = await pool.query(insertUserSql, [
             data.name,
@@ -56,7 +58,6 @@ export const addUser = async (data) => {
             'local',// provider
             salt
         ]);
-
         conn.release();
 
         // 반환값을 사용자 닉네임으로 변경
@@ -325,9 +326,21 @@ export const checkCode = async (req, data) => {
 export const updatePW = async (req, data) => {
     try {
         const email = req.session.email
+        console.log(email);
         const conn = await pool.getConnection();
 
+        const [storedpwinfo] = await pool.query(getStoredPw, [email]);
         // 데이터베이스에서 사용자 정보 조회
+        const checkhashedPw = crypto
+            .createHash(createdHash)
+            .update(data.pw + storedpwinfo[0].salt)
+            .digest(digest);
+
+
+        if (checkhashedPw.substring(0, 100) === storedpwinfo[0].pw) {
+           return { status: -1, message: "변경하려는 비밀번호가 기존 비밀번호와 동일합니다." }
+        }
+
         const salt = crypto.randomBytes(128).toString('base64');
         const hashedPw = crypto
             .createHash(createdHash)
@@ -341,7 +354,7 @@ export const updatePW = async (req, data) => {
         return 1
     } catch (err) {
         console.error(err);
-        return -1
+        return { status: -1, message: "서버 에러" }
     }
 }
 
