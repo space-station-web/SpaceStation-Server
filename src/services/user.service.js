@@ -78,7 +78,8 @@ export const pwChange = async (req, body) => {
             pwcheck: String(body.pwcheck),
         });
 
-        if (changePW === -1) {
+        if (changePW.status === -1) {
+            console.log(`비밀번호 변경 실패 : ${changePW.message}`)
             return response(status.BAD_REQUEST);
         } else {
             // 회원가입 성공 시 응답 데이터 구성 (사용자 정보 반환하지 않음)

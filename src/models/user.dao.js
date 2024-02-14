@@ -2,7 +2,7 @@ import { pool } from "../../config/db.config.js";
 import { response} from "../../config/response.js";
 import { transporter } from "../../config/email.config.js";
 import { status } from "../../config/response.status.js";
-import {confirmEmailSql, insertUserSql, checkUserkSql, updateUserPwSql} from "./user.sql.js";
+import {confirmEmailSql, insertUserSql, checkUserkSql, updateUserPwSql, getStoredPw} from "./user.sql.js";
 import crypto from 'crypto';
 import dotenv from "dotenv";
 
@@ -164,9 +164,21 @@ const digest = process.env.digest;
 export const updatePW = async (req, data) => {
     try {
         const email = req.session.email
+        console.log(email);
         const conn = await pool.getConnection();
 
+        const [storedpwinfo] = await pool.query(getStoredPw, [email]);
         // 데이터베이스에서 사용자 정보 조회
+        const checkhashedPw = crypto
+            .createHash(createdHash)
+            .update(data.pw + storedpwinfo[0].salt)
+            .digest(digest);
+
+
+        if (checkhashedPw.substring(0, 100) !== storedpwinfo[0]) {
+           return { status: -1, message: "변경하려는 비밀번호가 기존 비밀번호와 동일합니다." }
+        }
+
         const salt = crypto.randomBytes(128).toString('base64');
         const hashedPw = crypto
             .createHash(createdHash)
@@ -180,6 +192,6 @@ export const updatePW = async (req, data) => {
         return 1
     } catch (err) {
         console.error(err);
-        return -1
+        return { status: -1, message: "서버 에러" }
     }
 }
