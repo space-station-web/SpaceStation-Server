@@ -2,9 +2,11 @@ import { pool } from "../../config/db.config.js";
 import { response} from "../../config/response.js";
 import { transporter } from "../../config/email.config.js";
 import { status } from "../../config/response.status.js";
-import {confirmEmailSql, insertUserSql, checkUserkSql} from "./user.sql.js";
-
+import {confirmEmailSql, insertUserSql, checkUserkSql, updateUserPwSql} from "./user.sql.js";
 import crypto from 'crypto';
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const emailVerificationMap = new Map(); // 이메일과 인증코드를 저장할 Map
 const emailCooldownMap = new Map(); // 이메일에 대한 쿨다운 정보를 저장할 Map
@@ -125,7 +127,7 @@ export const resendCode = async (data) => {
     }
 };
 
-export const checkCode = async (data) => {
+export const checkCode = async (req, data) => {
     try {
         // 이메일과 코드 확인
         const email = data.email;
@@ -145,7 +147,9 @@ export const checkCode = async (data) => {
         if (currentTime - codeTimestamp > expirationDuration) {
             return { status: -1, message: "인증 번호의 유효 기간이 초과되었습니다." };
         }
-
+        req.session.email = email;
+        console.log(req.session.email);
+        expireCodeAndCooldown(email);
         return { status: 1, message: "인증 성공하였습니다." };
     } catch (error) {
         // 예외 처리
@@ -153,3 +157,29 @@ export const checkCode = async (data) => {
         throw error;
     }
 };
+
+
+const createdHash = process.env.createdHash;
+const digest = process.env.digest;
+export const updatePW = async (req, data) => {
+    try {
+        const email = req.session.email
+        const conn = await pool.getConnection();
+
+        // 데이터베이스에서 사용자 정보 조회
+        const salt = crypto.randomBytes(128).toString('base64');
+        const hashedPw = crypto
+            .createHash(createdHash)
+            .update(data.pw + salt)
+            .digest(digest);
+
+        const updatePW = await pool.query(updateUserPwSql, [hashedPw, new Date(), salt, email]);
+
+        conn.release();
+        console.log('비밀번호 변경이 완료되었습니다.')
+        return 1
+    } catch (err) {
+        console.error(err);
+        return -1
+    }
+}

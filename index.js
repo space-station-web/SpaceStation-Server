@@ -1,5 +1,6 @@
 // const express = require('express')   // common JS
-import express from 'express'          // ES6
+import express from 'express'// ES6
+import session from 'express-session'
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { specs } from './config/swagger.config.js';
@@ -19,7 +20,12 @@ app.use(cors());                            // cors 방식 허용
 app.use(express.static('public'));          // 정적 파일 접근
 app.use(express.json());                    // request의 본문을 json으로 해석할 수 있도록 함 (JSON 형태의 요청 body를 파싱하기 위함)
 app.use(express.urlencoded({extended: false})); // 단순 객체 문자열 형태로 본문 데이터 해석
-
+app.use(session({
+    secret: process.env.session_secret,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}))
 
 app.get('/', function (req, res) {
     res.send('Hello World')

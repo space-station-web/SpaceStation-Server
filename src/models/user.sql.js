@@ -5,3 +5,5 @@ export const confirmEmailSql = "SELECT EXISTS(SELECT 1 FROM user WHERE email = ?
 export const confirmNicknameSql = "SELECT EXISTS(SELECT 1 FROM user WHERE nickname = ?) as isExistNickname";
 
 export const checkUserkSql = "SELECT EXISTS(SELECT 1 FROM user WHERE name = ? AND email = ? ) as isExistUser";
+
+export const updateUserPwSql = "UPDATE user SET pw = ?, update_date = ?, salt = ? WHERE email = ?";
