@@ -25,7 +25,7 @@ export const deleteStorageTypeByUserId = async (storageTypeId, userId) =>{
     if(deleteData.storagePostId == -1){
         throw new BaseError(status.INTERNAL_SERVER_ERROR);
     }else{
-        return { "storage": true };
+        return { "storage delete": true };
     }
 }
 
