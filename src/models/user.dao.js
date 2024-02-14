@@ -134,7 +134,7 @@ export const checkCode = async (data) => {
         const sendedCode = emailVerificationMap.get(email);
 
         if (!sendedCode || sendedCode.code !== enteredCode) {
-            return { status: -1, message: "인증 코드가 올바르지 않습니다." };
+            return -1;
         }
 
         // 현재 시간과 인증 코드의 타임스탬프를 비교하여 유효 기간 확인
@@ -143,7 +143,7 @@ export const checkCode = async (data) => {
         const expirationDuration = EXPIRATION_DURATION; // 인증 코드의 유효 기간 (예: 3분)
 
         if (currentTime - codeTimestamp > expirationDuration) {
-            return 1;
+            return -1;
         }
 
         return { status: 1, message: "인증 성공하였습니다." };

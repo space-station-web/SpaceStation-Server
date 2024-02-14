@@ -53,7 +53,7 @@ export const codeCheck = async (body) => {
             code: body.code,
         });
 
-        if (verify.satus === -1) {
+        if (verify === -1) {
             console.log(`인증 실패 : ${verify.message}`)
             return response(status.BAD_REQUEST);
         } else {
