@@ -3,6 +3,7 @@ import { response} from "../../config/response.js";
 import { transporter } from "../../config/email.config.js";
 import { status } from "../../config/response.status.js";
 
+
 import { emailcheckSql, userCheckSql, checkUserSql,  confirmNicknameSql, insertUserSql, confirmEmailSql } from "./user.sql.js";
 import jwtUtil from "../../config/jwt-util.js";
 
@@ -116,12 +117,14 @@ const sendVerificationCode = async (email, code) => {
         console.log(`인증코드를 ${email}로 전송했습니다.`);
     } catch (err) {
         console.error('이메일 전송 중 오류 발생 : ', err);
+        throw err;
     }
 };
 
 export const sendCode = async (data) => {
     try {
         const conn = await pool.getConnection();
+
 
         const [checkUser] = await pool.query(checkUserSql, [data.name, data.email]);
 
