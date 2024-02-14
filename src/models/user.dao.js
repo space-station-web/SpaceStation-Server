@@ -3,7 +3,7 @@ import { response} from "../../config/response.js";
 import { transporter } from "../../config/email.config.js";
 import { status } from "../../config/response.status.js";
 
-import { emailcheckSql, userCheckSql,  confirmNicknameSql, insertUserSql, confirmEmailSql } from "./user.sql.js";
+import { emailcheckSql, userCheckSql, checkUserSql,  confirmNicknameSql, insertUserSql, confirmEmailSql } from "./user.sql.js";
 import jwtUtil from "../../config/jwt-util.js";
 
 
@@ -123,9 +123,9 @@ export const sendCode = async (data) => {
     try {
         const conn = await pool.getConnection();
 
-        const [userCheck] = await pool.query(usercheckSql, [data.name, data.email]);
+        const [checkUser] = await pool.query(checkUserSql, [data.name, data.email]);
 
-        if (userCheck[0].isExistUser) {
+        if (checkUser[0].isExistUser) {
             const now = Date.now();
             const cooldownInfo = emailCooldownMap.get(data.email) || { count: 0, lastSent: 0 };
 
@@ -165,9 +165,9 @@ export const resendCode = async (data) => {
     try {
         const conn = await pool.getConnection();
 
-        const [userCheck] = await pool.query(usercheckSql, [data.name, data.email]);
+        const [checkUser] = await pool.query(checkUserSql, [data.name, data.email]);
 
-        if (userCheck[0].isExistUser) {
+        if (checkUser[0].isExistUser) {
             const now = Date.now();
             const cooldownInfo = emailCooldownMap.get(data.email);
 
