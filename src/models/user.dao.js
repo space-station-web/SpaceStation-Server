@@ -175,7 +175,7 @@ export const updatePW = async (req, data) => {
             .digest(digest);
 
 
-        if (checkhashedPw.substring(0, 100) !== storedpwinfo[0]) {
+        if (checkhashedPw.substring(0, 100) === storedpwinfo[0].pw) {
            return { status: -1, message: "변경하려는 비밀번호가 기존 비밀번호와 동일합니다." }
         }
 
