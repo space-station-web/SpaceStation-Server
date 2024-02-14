@@ -16,3 +16,10 @@ export const getRefresh = "SELECT refresh FROM user WHERE id = ?";
 export const checkUserSql = "SELECT EXISTS(SELECT 1 FROM user WHERE name = ? AND email = ? ) as isExistUser";
 
 
+export const checkUserkSql = "SELECT EXISTS(SELECT 1 FROM user WHERE name = ? AND email = ? ) as isExistUser";
+
+export const updateUserPwSql = "UPDATE user SET pw = ?, update_date = ?, salt = ? WHERE email = ?";
+
+
+export const getStoredPw = "SELECT pw, salt FROM user WHERE email = ?"
+

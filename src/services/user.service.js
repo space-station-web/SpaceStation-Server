@@ -1,5 +1,6 @@
+import {addUser, checkNicknameDuplication, logintry, findemail, sendCode, resendCode, checkCode, updatePW} from "../models/user.dao.js";
 
-import {addUser, checkNicknameDuplication, logintry, findemail, sendCode, resendCode, checkCode} from "../models/user.dao.js";
+
 import { status } from "../../config/response.status.js";
 import { response } from "../../config/response.js";
 import { BaseError } from "../../config/error.js";
@@ -49,9 +50,9 @@ export const recodeSend = async (body) => {
     }
 };
 
-export const codeCheck = async (body) => {
+export const codeCheck = async (req, body) => {
     try {
-        const verify = await checkCode({
+        const verify = await checkCode(req,{
             name: body.name,
             email: body.email,
             code: body.code,
@@ -69,6 +70,7 @@ export const codeCheck = async (body) => {
         throw error;
     }
 };
+
 
 export const joinUser = async (body) => {
     try {
@@ -89,15 +91,17 @@ export const joinUser = async (body) => {
         });
 
         if (joinUserData === -1) {
-            throw new BaseError(status.BAD_REQUEST);
+            console.log("이메일 중복");
+            return response(status.BAD_REQUEST);
         } else {
             // 회원가입 성공 시 응답 데이터 구성 (사용자 정보 반환하지 않음)
+            console.log("회원가입 성공")
             const successMessage = "회원가입에 성공했습니다."; // 성공 메시지 추가
-            return response(status.SUCCESS, null);
+            return response(status.SUCCESS, successMessage);
         }
     } catch (error) {
         // 예외 처리
-        throw error;
+        return response(status.BAD_REQUEST);
     }
 };
 
@@ -150,26 +154,26 @@ export const checkemail = async (body) => {
     }
 };
 
-export const pwChange = async (body) => {
+
+export const pwChange = async (req, body) => {
     try {
         // 비밀번호와 비밀번호 확인 일치 여부 확인
         if (body.pw !== body.pwcheck) {
             return response(status.BAD_REQUEST);
         }
 
-        const joinUserData = await addUser({
-            name: body.name,
-            email: body.email,
+        const changePW = await updatePW(req,{
             pw: String(body.pw),
             pwcheck: String(body.pwcheck),
         });
 
-        if (joinUserData === -1) {
+        if (changePW.status === -1) {
+            console.log(`비밀번호 변경 실패 : ${changePW.message}`)
             return response(status.BAD_REQUEST);
 
         } else {
             // 회원가입 성공 시 응답 데이터 구성 (사용자 정보 반환하지 않음)
-            const successMessage = "회원가입에 성공했습니다."; // 성공 메시지 추가
+            const successMessage = "비밀번호가 변경되었습니다."; // 성공 메시지 추가
             return response(status.SUCCESS, {message: successMessage});
         }
     } catch (error) {

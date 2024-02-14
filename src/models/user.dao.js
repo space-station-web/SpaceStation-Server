@@ -4,18 +4,19 @@ import { transporter } from "../../config/email.config.js";
 import { status } from "../../config/response.status.js";
 
 
-import { emailcheckSql, userCheckSql, checkUserSql,  confirmNicknameSql, insertUserSql, confirmEmailSql } from "./user.sql.js";
+import { emailcheckSql, userCheckSql, checkUserSql,  confirmNicknameSql } from "./user.sql.js";
+import {confirmEmailSql, insertUserSql, updateUserPwSql, getStoredPw} from "./user.sql.js";
 import jwtUtil from "../../config/jwt-util.js";
 
 
-
 import crypto from 'crypto';
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 dotenv.config();
 
 const createdHash = process.env.createdHash;
 const digest = process.env.digest;
+
 
 const emailVerificationMap = new Map(); // 이메일과 인증코드를 저장할 Map
 const emailCooldownMap = new Map(); // 이메일에 대한 쿨다운 정보를 저장할 Map
@@ -42,6 +43,7 @@ export const addUser = async (data) => {
             .update(data.pw + salt)
             .digest(digest);
 
+
         // 사용자 데이터 삽입
         const result = await pool.query(insertUserSql, [
             data.name,
@@ -56,7 +58,6 @@ export const addUser = async (data) => {
             'local',// provider
             salt
         ]);
-
         conn.release();
 
         // 반환값을 사용자 닉네임으로 변경
@@ -290,7 +291,7 @@ export const resendCode = async (data) => {
     }
 };
 
-export const checkCode = async (data) => {
+export const checkCode = async (req, data) => {
     try {
         // 이메일과 코드 확인
         const email = data.email;
@@ -305,12 +306,14 @@ export const checkCode = async (data) => {
         // 현재 시간과 인증 코드의 타임스탬프를 비교하여 유효 기간 확인
         const currentTime = Date.now();
         const codeTimestamp = sendedCode.timestamp;
-        const expirationDuration = EXPIRATION_DURATION; // 인증 코드의 유효 기간 (예: 3분)
+        const expirationDuration = EXPIRATION_DURATION; // 인증 코드의 유효 기간
 
         if (currentTime - codeTimestamp > expirationDuration) {
             return { status: -1, message: "인증 번호의 유효 기간이 초과되었습니다." };
         }
-
+        req.session.email = email;
+        console.log(req.session.email);
+        expireCodeAndCooldown(email); // 인증 관련 map 삭제
         return { status: 1, message: "인증 성공하였습니다." };
     } catch (error) {
         // 예외 처리
@@ -318,4 +321,40 @@ export const checkCode = async (data) => {
         throw error;
     }
 };
+
+
+export const updatePW = async (req, data) => {
+    try {
+        const email = req.session.email
+        console.log(email);
+        const conn = await pool.getConnection();
+
+        const [storedpwinfo] = await pool.query(getStoredPw, [email]);
+        // 데이터베이스에서 사용자 정보 조회
+        const checkhashedPw = crypto
+            .createHash(createdHash)
+            .update(data.pw + storedpwinfo[0].salt)
+            .digest(digest);
+
+
+        if (checkhashedPw.substring(0, 100) === storedpwinfo[0].pw) {
+           return { status: -1, message: "변경하려는 비밀번호가 기존 비밀번호와 동일합니다." }
+        }
+
+        const salt = crypto.randomBytes(128).toString('base64');
+        const hashedPw = crypto
+            .createHash(createdHash)
+            .update(data.pw + salt)
+            .digest(digest);
+
+        const updatePW = await pool.query(updateUserPwSql, [hashedPw, new Date(), salt, email]);
+
+        conn.release();
+        console.log('비밀번호 변경이 완료되었습니다.')
+        return 1
+    } catch (err) {
+        console.error(err);
+        return { status: -1, message: "서버 에러" }
+    }
+}
 
