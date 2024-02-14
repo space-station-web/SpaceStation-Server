@@ -23,9 +23,12 @@ export const delStorageByPostIdSql = "DELETE FROM postStorage WHERE post_id = ?;
 export const delStoragePostByTypeIdSql = "DELETE FROM postStorage WHERE storage_type_id = ?;";
 
 
-export const getPostStorageListByUserIdSql = `select  *
+export const getPostStorageListByUserIdSql = `
+select  *
 from    postStorage as ps
 join post as p on ps.post_id = p.post_id
 where   ps.user_id = ?
+and     ps.storage_type_id = ?
 order by p.created_at asc
-limit ? offset ?;`
+limit ? offset ?;
+`

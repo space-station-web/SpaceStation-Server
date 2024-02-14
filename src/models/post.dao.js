@@ -9,7 +9,6 @@ export const getAllPosts = async({orderColumn, orderDirection, limit, offset}) =
         
         const conn = await pool.getConnection();
 
-        console.table({orderColumn, orderDirection, limit, offset})
         const result = await pool.query(getAllPostsSql({orderColumn, orderDirection}), [ 
             limit, offset
         ]);

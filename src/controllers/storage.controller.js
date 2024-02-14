@@ -1,7 +1,8 @@
 import { status } from '../../config/response.status.js';
 import { response } from '../../config/response.js';
 import { createStorageBook, deleteStorageBook,
-         createStoragePost, deleteStoragePost, getPostStorageByUserId } from "../services/storage.service.js";
+         createStoragePost, deleteStoragePost, getPostStorageByUserId,
+         } from "../services/storage.service.js";
 
 export const storageBookPost = async (req, res, next) => {
     console.log("Storage Book Create!");
@@ -36,10 +37,15 @@ export const storagePostDelete = async (req, res, next) => {
 };
 
 export const getMyPostStorage = async (req, res) => {
-    const { userId } = req;
-    const { limit = 12, offset = 0 } = req.query;
-    if(!userId) {
+    const { userID } = req;
+    const { limit = 12, offset = 0, storageType } = req.query;
+    if(!userID) {
         return res.status(401).send();
     }
-    res.send(response(status.SUCCESS, await getPostStorageByUserId({limit:Number(limit), offset:Number(offset), userId:Number(userId) })))
+
+    console.log('storageType:', storageType)
+    if(!storageType) {
+        return res.status(400).send(Object.assign({}, status.BAD_REQUEST, {message: '보관함 타입이 없습니다.'}));
+    }
+    res.send(response(status.SUCCESS, await getPostStorageByUserId({limit:Number(limit), offset:Number(offset), userId:Number(userID), storageType:Number(storageType) })))
 }

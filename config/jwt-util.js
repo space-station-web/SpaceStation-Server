@@ -90,13 +90,13 @@ export const tokenChecker = async (req, res, next) => {
             const refresh = req.headers["refresh"];
 
             const accessResult = jwtUtil.verify(access);
-            if (!accessResult) { //결과가 없으면 권한 없음
-                return res.send(response(status.UNAUTHORIZED));
+            if (!accessResult.ok) { //결과가 없으면 권한 없음
+                return res.status(status.UNAUTHORIZED.status).send(response(status.UNAUTHORIZED));
             }
 
-            const refreshResult = await jwtUtil.refreshverify(refresh, accessResult.id); //access에서 유저id 가져와서 refresh 검증
-
             if (accessResult.ok === false && accessResult.message === "jwt expired") { // access 만료 + refresh 만료 -> 재로그인
+                const refreshResult = await jwtUtil.refreshverify(refresh, accessResult.id); //access에서 유저id 가져와서 refresh 검증
+
                 if (refreshResult === false) {
                     return res.redirect('/login');
                 } else { // access 만료, refresh 만료X -> access token 재발급

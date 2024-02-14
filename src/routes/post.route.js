@@ -17,7 +17,8 @@ postRouter.post('/', asyncHandler(addPost));
 postRouter.delete('/:post_id', asyncHandler(deletePost));
 
 // 내 모든 이웃의 글 조회
-postRouter.get('/follow-posts', tokenChecker, asyncHandler(getFollowPosts))
+postRouter.get('/follow-posts', tokenChecker, asyncHandler(getFollowPosts));
+// postRouter.get('/follow-posts', asyncHandler(getFollowPosts)); // 미들웨어 사용안한것
 
 // 글 조회
 postRouter.get('/:post_id', asyncHandler(getPost));

@@ -11,14 +11,25 @@ export const updatePostSql = "UPDATE post SET title = ?, content = ?, visibility
 export const getPostsByUserIdSql = `SELECT * FROM post WHERE user_id = ? order by created_at desc limit ? offset ?`;
 
 export const getAllPostsSql = ({orderColumn, orderDirection}) => `
-with post_with_like as (select p.post_id, count(pl.post_like_id) as like_count
+with post_with_like as (select u.name, p.post_id, count(pl.post_like_id) as like_count
     from post as p
             left join postLike as pl on p.post_id = pl.post_id
+            left join user as u on p.user_id = u.id
     group by p.post_id)
 
-    select *
+, post_with_image as (
+    select  p.post_id, min(img.topicimage_id) as image_id
+    from    post_with_like as p
+    left join topicsimage as img on p.post_id = img.post_id
+    group by p.post_id
+)
+
+    select p.title, pl.*
+         , img.image_url
     from    post as p
     left join post_with_like as pl on pl.post_id = p.post_id
+    left join post_with_image as pwi on pwi.post_id = p.post_id
+    left join topicsimage as img on pwi.image_id = img.topicimage_id
     order by ${orderColumn} ${orderDirection}
     limit ? offset ?;
 `

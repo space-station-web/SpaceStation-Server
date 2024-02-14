@@ -19,7 +19,6 @@ const remove = async ({id, userId, followId}) => {
 
 
 const followListByUserId = async ({userId, limit = 12, offset = 0}) => {
-    console.table({userId, limit, offset})
     const followList = await getFollowListByUserId({userId, limit, offset})
     return followList;
 };

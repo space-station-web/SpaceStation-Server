@@ -110,11 +110,11 @@ export const delStorageByPostId = async (postId) => {
 }
 
 // 유저 보관함 글 조회
-export const getPostStorageListByUserId = async ({limit, offset, userId}) => {
+export const getPostStorageListByUserId = async ({limit, offset, userId, storageType}) => {
     console.table([userId, limit, offset])
     try{
         const conn = await pool.getConnection();
-        const result = await pool.query(getPostStorageListByUserIdSql, [userId, limit, offset]);
+        const result = await pool.query(getPostStorageListByUserIdSql, [userId, storageType, limit, offset]);
         conn.release();
 
         if(result.length == 0){
