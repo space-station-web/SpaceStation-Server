@@ -20,10 +20,10 @@ export const getPosts = async ({orderColumn = 'created_at', orderDirection = 'de
 }
 
 // 글 생성
-export const addNewPost = async (body) => {
+export const addNewPost = async (body, user_id) => {
     try {
         const postData = await postDao.writeContent({
-            "user_id": body.user_id,
+            "user_id": user_id,
             "title": body.title, 
             "content": body.content,
             "visibility": body.visibility,
@@ -31,7 +31,7 @@ export const addNewPost = async (body) => {
             "topic_id": body.topic_id
         });
 
-        const getPostData = await postDao.getPost(postData.post_id);
+        const getPostData = await postDao.getPost(postData.post_id, user_id);
 
         return getPostData;
     } catch (error) {
@@ -40,42 +40,17 @@ export const addNewPost = async (body) => {
     }
 }
 
-// 글 삭제
-export const deletePost = async (post_id) => {
-    try {
-        const result = await postDao.deletePost(post_id);
-        console.log(result);
-
-        return result;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
-
-// 글 조회
-export const getPost = async (post_id) => {
-    try {
-        const result = await postDao.getPost(post_id);
-        
-        return result;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
-
 // 글 수정
-export const updatePost = async (post_id, body) => {
+export const updatePost = async (post_id, body, user_id) => {
     try {
         const upData = await postDao.updatePost({
             "title": body.title, 
             "content": body.content,
             "visibility": body.visibility,
             "self_destructTime": body.self_destructTime
-        }, post_id);
+        }, post_id, user_id);
 
-        const getPostData = await postDao.getPost(post_id);
+        const getPostData = await postDao.getPost(post_id, user_id);
 
         return getPostData;
     } catch (error) {

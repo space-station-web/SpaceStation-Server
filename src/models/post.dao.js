@@ -1,6 +1,6 @@
 // post.dao.js
 import { pool } from "../../config/db.config.js";
-import { getAllPostsSql,insertPostSql, deletePostSql, getPostSql, updatePostSql, getPostsByUserIdSql, getFollowPostsByUserIDSql, getTopicSql, getUnviewdTopicSql, updateUnviewedTopicSql, updateViewedTopicSql } from "./post.sql.js";
+import { getAllPostsSql,insertPostSql, deletePostSql, getPostSql, updatePostSql, getPostsByUserIdSql, getFollowPostsByUserIDSql, getTopicSql, getUnviewdTopicSql, updateUnviewedTopicSql, updateViewedTopicSql, deleteViewedTopicSql, insertViewedTopicSql } from "./post.sql.js";
 import { status } from "../../config/response.status.js";
 
 //  전체 글 조회
@@ -47,11 +47,11 @@ export const writeContent = async (data) => {
 
 
 // 글 삭제
-export const deletePost = async (post_id) => {
+export const deletePost = async (post_id, user_id) => {
     try{
         const conn = await pool.getConnection();
 
-        const result = await conn.query(deletePostSql, [post_id]);
+        const result = await conn.query(deletePostSql, [post_id, user_id]);
 
         conn.release();
 
@@ -63,11 +63,11 @@ export const deletePost = async (post_id) => {
 }
 
 // 글 조회
-export const getPost = async (post_id) => {
+export const getPost = async (post_id, user_id) => {
     try{
         const conn = await pool.getConnection();
 
-        const result = await conn.query(getPostSql, [post_id]);
+        const result = await conn.query(getPostSql, [post_id, user_id]);
 
 
         conn.release();
@@ -79,7 +79,7 @@ export const getPost = async (post_id) => {
 }
 
 // 글 수정
-export const updatePost = async (data, post_id) => {
+export const updatePost = async (data, post_id, user_id) => {
     try{
         const conn = await pool.getConnection();
 
@@ -88,7 +88,8 @@ export const updatePost = async (data, post_id) => {
             data.content,    
             data.visibility,
             data.self_destructTime,
-            post_id
+            post_id,
+            user_id
         ]);
 
         conn.release();
@@ -135,25 +136,26 @@ export const getFollowPostsByUserID = async (userId) => {
 
 // 조회 안 한 글감 중 랜덤 반환
 export const getRandomTopic = async (user_id) => {
-  const conn = await pool.getConnection(); 
-
-  let unviewedTopics = await conn.query(getUnviewdTopicSql, [user_id]);
-
-  console.log("unviewedTopics", unviewedTopics[0]);
-
-  if (unviewedTopics[0].length === 0) {
-    await conn.query(updateUnviewedTopicSql, [user_id]);
-
-    unviewedTopics = await conn.query(getUnviewdTopicSql, [user_id]);
-  }
-
-  const randomIndex = Math.floor(Math.random() * unviewedTopics[0].length);
-
-  const randomTopicId = unviewedTopics[0][randomIndex].topic_id;
-
-  await conn.query(updateViewedTopicSql, [user_id, randomTopicId]);
-
-  return getTopic(randomTopicId);
+    const conn = await pool.getConnection(); 
+  
+    let unviewedTopics = await conn.query(getUnviewdTopicSql, [user_id]);
+  
+    console.log("unviewedTopics", unviewedTopics[0]);
+  
+    if (unviewedTopics[0].length === 0) {
+      // 모든 토픽을 다 본 경우에는 'viewedtopic' 테이블에서 해당 사용자의 모든 행을 삭제
+      await conn.query(deleteViewedTopicSql, [user_id]);
+  
+      unviewedTopics = await conn.query(getUnviewdTopicSql, [user_id]);
+    }
+  
+    const randomIndex = Math.floor(Math.random() * unviewedTopics[0].length);
+  
+    const randomTopicId = unviewedTopics[0][randomIndex].topic_id;
+  
+    await conn.query(insertViewedTopicSql, [user_id, randomTopicId]);
+  
+    return getTopic(randomTopicId);
 }
 
 // 글감 제공

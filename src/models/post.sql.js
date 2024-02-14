@@ -2,11 +2,11 @@
 
 export const insertPostSql = "INSERT INTO post (post_id, user_id, title, content, visibility, created_at, self_destructTime, topic_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-export const deletePostSql = "DELETE FROM post WHERE post_id = ?";
+export const deletePostSql = "DELETE FROM post WHERE post_id = ? AND user_id = ?";
 
-export const getPostSql = "SELECT post_id, user_id, title, content, visibility, created_at, self_destructTime FROM post WHERE post_id = ?";
+export const getPostSql = "SELECT post_id, user_id, title, content, visibility, created_at, self_destructTime FROM post WHERE post_id = ? AND user_id = ?";
 
-export const updatePostSql = "UPDATE post SET title = ?, content = ?, visibility = ?, self_destructTime = ? WHERE post_id = ?"
+export const updatePostSql = "UPDATE post SET title = ?, content = ?, visibility = ?, self_destructTime = ? WHERE post_id = ? AND user_id = ?"
 
 export const getPostsByUserIdSql = `SELECT * FROM post WHERE user_id = ? order by created_at desc limit ? offset ?`;
 
@@ -42,8 +42,12 @@ export const getTopicSql = "SELECT * FROM topic WHERE topic_id = ?";
 
 export const getRandomTopicSql = "SELECT * FROM topic WHERE user_id NOT IN (?) ORDER BY RAND() LIMIT 1";
 
-export const getUnviewdTopicSql = "SELECT topic_id FROM topic WHERE user_id = ? AND viewed = false";
+export const getUnviewdTopicSql = "SELECT t.topic_id FROM topic t WHERE NOT EXISTS (SELECT 1 FROM viewedtopic vt WHERE vt.user_id = ? AND vt.topic_id = t.topic_id)";
 
 export const updateUnviewedTopicSql = "UPDATE topic SET viewed = false WHERE user_id = ?";
 
 export const updateViewedTopicSql = "UPDATE topic SET viewed = true WHERE user_id = ? AND topic_id = ?";
+
+export const insertViewedTopicSql = "INSERT INTO viewedtopic (user_id, topic_id, viewed_at) VALUES (?, ?, NOW())";
+
+export const deleteViewedTopicSql = "DELETE FROM viewedtopic WHERE user_id = ?";

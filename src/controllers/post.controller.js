@@ -4,7 +4,7 @@ import { response } from "../../config/response.js";
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 import * as postService from '../services/post.service.js';
-import { getRandomTopic } from "../models/post.dao.js";
+import * as postDao from "../models/post.dao.js";
 
 // 전체 글 조회
 export const getPosts = async (req, res) => {
@@ -17,6 +17,7 @@ export const getPosts = async (req, res) => {
 export const addPost = async (req, res, next) => {
     console.log("글 작성");
     console.log("body:", req.body);
+    console.log("유저: ", req.userID); 
 
     if (!req.body.title) return res.send(new BaseError(status.POST_TITLE_EMPTY));
     if (!req.body.content) return res.send(new BaseError(status.POST_CONTENT_EMPTY));
@@ -24,7 +25,7 @@ export const addPost = async (req, res, next) => {
     if (!req.body.visibility) return res.send(new BaseError(status.POST_VISIBILITY_EMPTY));
     if (req.body.visibility == "터뜨리기" && req.body.self_destructTime == null) res.send(new BaseError(status.POST_TIME_EMPTY));
 
-    return res.send(response(status.SUCCESS, await postService.addNewPost(req.body)));
+    return res.send(response(status.SUCCESS, await postService.addNewPost(req.body, req.userID)));
 };
 
 // 글 삭제
@@ -33,7 +34,7 @@ export const deletePost = async (req, res, next) => {
 
     const { post_id } = req.params;
 
-    return res.send(response(status.SUCCESS, await postService.deletePost(post_id)));
+    return res.send(response(status.SUCCESS, await postDao.deletePost(post_id, req.userID)));
 }
 
 
@@ -50,7 +51,7 @@ export const editPost = async (req, res, next) => {
     if (!req.body.visibility) return res.send(new BaseError(status.POST_VISIBILITY_EMPTY));
     if (req.body.visibility == "터뜨리기" && !req.body.self_destructTime) return res.send(new BaseError(status.POST_TIME_EMPTY));
 
-    return res.send(response(status.SUCCESS, await postService.updatePost(post_id, req.body)));
+    return res.send(response(status.SUCCESS, await postService.updatePost(post_id, req.body, req.userID)));
 }
 
 // 글 조회
@@ -59,7 +60,7 @@ export const getPost = async (req, res, next) => {
 
     const { post_id } = req.params;
 
-    return res.send(response(status.SUCCESS, await postService.getPost(post_id)));
+    return res.send(response(status.SUCCESS, await postDao.getPost(post_id, req.userID)));
 }
 
 // 유저의 글 리스트 조회
@@ -81,10 +82,7 @@ export const getFollowPosts = async (req, res) => {
 export const getTopic = async (req, res, next) => {
     console.log("글감 제공");
 
-    const { user_id } = req.params;
+    console.log("유저: ", req.userID);
 
-    // const topic = await getNewTopic(user_id);
-    return res.send(response(status.SUCCESS, await getRandomTopic(user_id)));
-
-    // return res.send(response(status.SUCCESS, await getNewTopic(user_id)));
+    return res.send(response(status.SUCCESS, await postDao.getRandomTopic(req.userID)));
 }
