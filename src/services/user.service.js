@@ -1,11 +1,10 @@
-import { sendCode, resendCode } from "../models/user.dao.js";
+import { sendCode, resendCode, checkCode } from "../models/user.dao.js";
 import { status } from "../../config/response.status.js";
 import { response } from "../../config/response.js";
 import { BaseError } from "../../config/error.js";
 
 export const codeSend = async (body) => {
     try {
-        // 비밀번호와 비밀번호 확인 일치 여부 확인
 
         const findUserData = await sendCode({
             name: body.name,
@@ -27,7 +26,6 @@ export const codeSend = async (body) => {
 
 export const recodeSend = async (body) => {
     try {
-        // 비밀번호와 비밀번호 확인 일치 여부 확인
 
         const findUserData = await resendCode({
             name: body.name,
@@ -49,23 +47,18 @@ export const recodeSend = async (body) => {
 
 export const codeCheck = async (body) => {
     try {
-        // 비밀번호와 비밀번호 확인 일치 여부 확인
-        if (body.pw !== body.pwcheck) {
-            return response(status.BAD_REQUEST);
-        }
-
-        const joinUserData = await addUser({
+        const verify = await checkCode({
             name: body.name,
             email: body.email,
-            pw: String(body.pw),
-            pwcheck: String(body.pwcheck),
+            code: body.code,
         });
 
-        if (joinUserData === -1) {
+        if (verify.satus === -1) {
+            console.log(`인증 실패 : ${verify.message}`)
             return response(status.BAD_REQUEST);
         } else {
-            // 회원가입 성공 시 응답 데이터 구성 (사용자 정보 반환하지 않음)
-            const successMessage = "회원가입에 성공했습니다."; // 성공 메시지 추가
+            const successMessage = "인증 성공하였습니다."; // 성공 메시지 추가
+            console.log(successMessage);
             return response(status.SUCCESS, {message: successMessage});
         }
     } catch (error) {

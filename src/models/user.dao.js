@@ -125,3 +125,31 @@ export const resendCode = async (data) => {
     }
 };
 
+export const checkCode = async (data) => {
+    try {
+        // 이메일과 코드 확인
+        const email = data.email;
+        const enteredCode = data.code;
+
+        const sendedCode = emailVerificationMap.get(email);
+
+        if (!sendedCode || sendedCode.code !== enteredCode) {
+            return { status: -1, message: "인증 코드가 올바르지 않습니다." };
+        }
+
+        // 현재 시간과 인증 코드의 타임스탬프를 비교하여 유효 기간 확인
+        const currentTime = Date.now();
+        const codeTimestamp = sendedCode.timestamp;
+        const expirationDuration = EXPIRATION_DURATION; // 인증 코드의 유효 기간 (예: 3분)
+
+        if (currentTime - codeTimestamp > expirationDuration) {
+            return 1;
+        }
+
+        return { status: 1, message: "인증 성공하였습니다." };
+    } catch (error) {
+        // 예외 처리
+        console.error(error);
+        throw error;
+    }
+};
