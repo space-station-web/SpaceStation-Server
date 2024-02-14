@@ -1,6 +1,6 @@
 import { response } from "../../config/response.js";
 import { status } from "../../config/response.status.js";
-import { codeSend, codeCheck, pwChange} from "../services/user.service.js";
+import { codeSend, codeCheck, pwChange, recodeSend} from "../services/user.service.js";
 
 
 export const codesend = async (req, res, next) => {

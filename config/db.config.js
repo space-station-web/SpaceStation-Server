@@ -15,16 +15,3 @@ export const pool = mysql.createPool({
     connectionLimit: 10,        // 몇 개의 커넥션을 가지게끔 할 것인지
     queueLimit: 0,              // getConnection에서 오류가 발생하기 전에 Pool에 대기할 요청의 개수 한도
 });
-
-const nodemailer = require('nodemailer')
-
-export const transporter = nodemailer.createTransport({
-    service: 'gmail',  // 사용하고자 하는 서비스
-    host: 'smtp.gmail.com', // host를 gmail로 설정
-    port: 587,
-    secure: false,
-    auth: {
-        user: process.env.MAIL_USER, // Gmail 주소 입력
-        pass: process.env.MAIL_PASSWORD // 앱 비밀번호 입력
-    }
-})
