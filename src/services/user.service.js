@@ -53,13 +53,12 @@ export const codeCheck = async (body) => {
             code: body.code,
         });
 
-        if (verify === -1) {
+        if (verify.status === -1) {
             console.log(`인증 실패 : ${verify.message}`)
             return response(status.BAD_REQUEST);
         } else {
-            const successMessage = "인증 성공하였습니다."; // 성공 메시지 추가
-            console.log(successMessage);
-            return response(status.SUCCESS, {message: successMessage});
+            console.log(verify.message); // 성공 메시지 추가
+            return response(status.SUCCESS);
         }
     } catch (error) {
         // 예외 처리
