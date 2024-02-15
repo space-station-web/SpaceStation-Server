@@ -6,6 +6,8 @@ export const delLikeBookSql = "DELETE FROM bookLike WHERE book_id = ? AND user_i
 
 export const delLikeByBookIdSql = "DELETE FROM bookLike WHERE book_id = ?;";
 
+export const searchLikeBookCountSql = "SELECT COUNT(user_id) AS cnt FROM bookLike WHERE book_id = ?;";
+
 
 export const searchLikePostSql = "SELECT * FROM postLike WHERE post_id = ? AND user_id = ?;";
 
@@ -15,3 +17,4 @@ export const delLikePostSql = "DELETE FROM postLike WHERE post_id = ? AND user_i
 
 export const delLikeByPostIdSql = "DELETE FROM postLike WHERE post_id = ?;";
 
+export const searchLikePostCountSql = "SELECT COUNT(user_id) AS cnt FROM postLike WHERE post_id = ?;";

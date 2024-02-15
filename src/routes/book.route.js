@@ -22,4 +22,7 @@ bookRouter.patch('/:bookId', tokenChecker, bookUpdate);
 bookRouter.patch('/:bookId/contents', tokenChecker, bookUpdate);
 
 // 책 삭제
-bookRouter.delete('/:bookId', bookDelete);
+bookRouter.delete('/:bookId', tokenChecker, bookDelete);
+
+// 책 리스트 조회
+bookRouter.get('/list', tokenChecker, );
