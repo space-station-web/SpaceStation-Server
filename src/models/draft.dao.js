@@ -23,7 +23,7 @@ export const addDraft = async (data) => {
 };
 
 // 임시저장 글 수정 후 임시저장
-export const patchDraft = async (draft_id, data) => {
+export const patchDraft = async (user_id, draft_id, data) => {
     try {
         const conn = await pool.getConnection();
 
@@ -31,7 +31,8 @@ export const patchDraft = async (draft_id, data) => {
             data.title,    
             data.content,    
             new Date(),
-            draft_id
+            draft_id,
+            user_id
         ]);
 
         conn.release();
@@ -41,13 +42,13 @@ export const patchDraft = async (draft_id, data) => {
 };
 
 // 임시저장 글 수정 후 저장
-export const postDraft = async (draft_id, data) => {
+export const postDraft = async (data, user_id) => {
     try {
         const conn = await pool.getConnection();
 
         const result = await pool.query(postDraftSql, [
             null, 
-            data.user_id,
+            user_id,
             data.title,      
             data.content,    
             data.visibility, 
@@ -64,11 +65,11 @@ export const postDraft = async (draft_id, data) => {
 };
 
 // 임시저장 글 삭제
-export const deleteDraft = async (draft_id) => {
+export const deleteDraft = async (draft_id, user_id) => {
     try{
         const conn = await pool.getConnection();
 
-        const result = await conn.query(deleteDraftSql, [draft_id]);
+        const result = await conn.query(deleteDraftSql, [draft_id, user_id]);
 
         conn.release();
 
@@ -79,22 +80,22 @@ export const deleteDraft = async (draft_id) => {
 };
 
 // 임시저장 전체 조회
-export const getAllDraft = async () => {
+export const getAllDraft = async (user_id) => {
     const conn = await pool.getConnection();
 
-    const result = await pool.query(getAllDraftSql);
+    const result = await pool.query(getAllDraftSql, [user_id]);
 
     conn.release();
 
-    console("result: ", result[0]);
+    console.log("result: ", result[0]);
     return result[0];
 };
 
 // 임시저장 상세 조회
-export const getDraft = async (draft_id) => {
+export const getDraft = async (draft_id, user_id) => {
     const conn = await pool.getConnection();
 
-    const result = await conn.query(getDraftSql, [draft_id]);
+    const result = await conn.query(getDraftSql, [draft_id, user_id]);
     
     conn.release();
 

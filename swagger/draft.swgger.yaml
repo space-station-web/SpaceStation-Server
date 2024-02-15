@@ -10,10 +10,6 @@ paths:
           required: true
           schema:
               properties:
-                user_id:
-                  type: integer
-                  description: 유저 ID
-                  example: 1
                 title:
                   type: string
                   description: 제목
@@ -22,10 +18,18 @@ paths:
                   type: string
                   description: 내용
                   example: 겨울은 붕어빵의 계절이다
-              required:
-                - title
-                - content
-                - visibility
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
       responses:
         '2000':
           description: 글 등록 성공
@@ -57,6 +61,19 @@ paths:
       tags:
        - Draft
       summary: 임시저장 글 전체 조회
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
       responses:
         '2000':
           description: 임시저장 글 조회 성공
@@ -111,6 +128,18 @@ paths:
           description: 임시저장 글 ID
           schema:
             type: integer
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
         - name: update
           in: body
           required: true
@@ -156,6 +185,18 @@ paths:
         - Draft
       summary: 임시저장 글 삭제
       parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
         - name: draft_id
           in: path
           required: true
@@ -190,6 +231,18 @@ paths:
         - Draft
       summary: 임시저장 글 상세 조회
       parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
         - name: draft_id
           in: path
           required: true
@@ -231,6 +284,18 @@ paths:
         - Draft
       summary: 임시저장 글 수정 후 저장
       parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
         - name: draft_id
           in: path
           required: true
