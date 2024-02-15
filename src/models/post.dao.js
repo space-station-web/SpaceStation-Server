@@ -63,11 +63,11 @@ export const deletePost = async (post_id, user_id) => {
 }
 
 // 글 조회
-export const getPost = async (post_id, user_id) => {
+export const getPost = async (post_id) => {
     try{
         const conn = await pool.getConnection();
 
-        const result = await conn.query(getPostSql, [post_id, user_id]);
+        const result = await conn.query(getPostSql, [post_id]);
 
 
         conn.release();

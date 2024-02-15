@@ -50,7 +50,7 @@ export const updatePost = async (post_id, body, user_id) => {
             "self_destructTime": body.self_destructTime
         }, post_id, user_id);
 
-        const getPostData = await postDao.getPost(post_id, user_id);
+        const getPostData = await postDao.getPost(post_id);
 
         return getPostData;
     } catch (error) {
