@@ -14,17 +14,19 @@ export const todayQuestion = async (req, res, next) => {
 export const postAnswer = async (req, res, next) => {
     console.log("답변");
     console.log("body: ", req.body);
+    console.log("유저: ", req.userID);
 
-    res.send(response(status.SUCCESS, await addAnswer(req.body)));
+    res.send(response(status.SUCCESS, await addAnswer(req.body, req.userID)));
 };
 
 // 답변 조회
 export const todayAnswer = async (req, res, next) => {
     console.log("답변 조회");
+    console.log("유저: ", req.userID);
 
     const { question_id } = req.params;
 
-    res.send(response(status.SUCCESS, await getQnAnswer(question_id)));
+    res.send(response(status.SUCCESS, await getQnAnswer(question_id, req.userID)));
 };
 
 // 내 답변 조회

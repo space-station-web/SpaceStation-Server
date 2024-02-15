@@ -25,7 +25,7 @@ export const getQuestion = async (date) => {
 };
 
 // 답변
-export const postAnswer = async (data) => {
+export const postAnswer = async (data, user_id) => {
     try {
         const conn = await pool.getConnection();
         
@@ -34,7 +34,7 @@ export const postAnswer = async (data) => {
         const result = await pool.query(postAnswerSql, [
             todayQuestionId[0][0].question_id,
             null, 
-            data.user_id,
+            user_id,
             data.content,
             new Date()
         ]);
@@ -48,11 +48,11 @@ export const postAnswer = async (data) => {
 };
 
 // 답변 불러오기
-export const getAnswer = async (answer_id) => {
+export const getAnswer = async (answer_id, user_id) => {
     try{
         const conn = await pool.getConnection();
 
-        const result = await conn.query(getAnswerSql, [answer_id]);
+        const result = await conn.query(getAnswerSql, [answer_id, user_id]);
 
         conn.release();
 
@@ -63,13 +63,13 @@ export const getAnswer = async (answer_id) => {
 }
 
 // 전체 조회
-export const getQnAnswer = async (question_id) => {
+export const getQnAnswer = async (question_id, user_id) => {
     try{
         const conn = await pool.getConnection();
 
         // const todayQuestionId = await pool.query(getQuestionIdSql);
 
-        const result = await conn.query(getQnAnswerSql, [question_id]);
+        const result = await conn.query(getQnAnswerSql, [question_id, user_id]);
 
         console.log("result: ", result[0][0]);
 
