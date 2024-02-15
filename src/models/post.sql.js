@@ -24,7 +24,7 @@ with post_with_like as (select u.name, p.post_id, count(pl.post_like_id) as like
     group by p.post_id
 )
 
-    select p.title, pl.*
+    select p.title, p.content, pl.*
          , img.image_url
     from    post as p
     left join post_with_like as pl on pl.post_id = p.post_id
