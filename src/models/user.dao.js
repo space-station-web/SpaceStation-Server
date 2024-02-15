@@ -364,7 +364,9 @@ export const updatePW = async (req, data) => {
 
             const updatePW = await pool.query(updateUserPwSql, [hashedPw, new Date(), salt, email]);
 
-            console.log('비밀번호 변경이 완료되었습니다.')
+            console.log('비밀번호 변경이 완료되었습니다.');
+            req.session.destroy();
+            console.log(req.session)
             return {status: 1, message: "비밀번호 변경이 완료되었습니다."};
         } finally {
             conn.release();
