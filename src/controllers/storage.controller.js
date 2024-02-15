@@ -37,7 +37,8 @@ export const storagePostDelete = async (req, res, next) => {
 };
 
 export const getMyPostStorage = async (req, res) => {
-    const { userID } = req;
+    const userID = 20;
+    //const { userID } = req;
     const { limit = 12, offset = 0, storageType } = req.query;
     if(!userID) {
         return res.status(401).send();

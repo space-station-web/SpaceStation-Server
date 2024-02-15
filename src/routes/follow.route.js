@@ -1,10 +1,10 @@
 import express from 'express';
 import {add, remove, followListByUserId} from '../controllers/follow.controller.js';
-import { tokenChecker } from '../../config/jwt-util.js';
+// import { tokenChecker } from '../../config/jwt-util.js';
 
 export const followRouter = express.Router();
 
-followRouter.use(tokenChecker)
+// followRouter.use(tokenChecker)
 
 // 추가
 followRouter.post('/', add);
