@@ -142,14 +142,17 @@ export const checkCode = async (req, data) => {
         // 현재 시간과 인증 코드의 타임스탬프를 비교하여 유효 기간 확인
         const currentTime = Date.now();
         const codeTimestamp = sendedCode.timestamp;
-        const expirationDuration = EXPIRATION_DURATION; // 인증 코드의 유효 기간 (예: 3분)
+        const expirationDuration = EXPIRATION_DURATION; // 인증 코드의 유효 기간
 
         if (currentTime - codeTimestamp > expirationDuration) {
             return { status: -1, message: "인증 번호의 유효 기간이 초과되었습니다." };
         }
+        console.log(req.session);
         req.session.email = email;
-        console.log(req.session.email);
-        expireCodeAndCooldown(email);
+        await req.session.save();
+        console.log(req.session);
+
+        expireCodeAndCooldown(email); // 인증 관련 map 삭제
         return { status: 1, message: "인증 성공하였습니다." };
     } catch (error) {
         // 예외 처리
@@ -159,10 +162,9 @@ export const checkCode = async (req, data) => {
 };
 
 
-const createdHash = process.env.createdHash;
-const digest = process.env.digest;
 export const updatePW = async (req, data) => {
     try {
+        console.log(req.session)
         const email = req.session.email
         if (!email) {
             return {status:-1, message: "세션에서 이메일을 찾을 수 없습니다."}
@@ -198,7 +200,9 @@ export const updatePW = async (req, data) => {
 
             const updatePW = await pool.query(updateUserPwSql, [hashedPw, new Date(), salt, email]);
 
-            console.log('비밀번호 변경이 완료되었습니다.')
+            console.log('비밀번호 변경이 완료되었습니다.');
+            req.session.destroy();
+            console.log(req.session)
             return {status: 1, message: "비밀번호 변경이 완료되었습니다."};
         } finally {
             conn.release();
