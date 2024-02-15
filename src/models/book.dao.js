@@ -29,7 +29,7 @@ export const addBookContent = async (data) => {
         const conn = await pool.getConnection();
 
         const resultContent = await pool.query(createBookContentsSql, 
-                [null, data.title, data.context, new Date(), data.index, data.book_id] );
+                [null, data.title, data.text, new Date(), data.index, data.book_id] );
         
         let resultContentImg = 0;
         if ((data.files != []) && (resultContent[0].insertId != -1)) {

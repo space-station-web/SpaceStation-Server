@@ -25,7 +25,7 @@ export const createBook = async (body, userID) => {
 export const createBookContent = async (params, body, files, userID) => {
     const createData = await addBookContent({
         'title': body.title,
-        'context': body.context,
+        'text': body.text,
         'index': body.index,
         'book_id': params.bookId,
         'files':  files,

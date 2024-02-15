@@ -12,7 +12,6 @@ export const bookCreate = async (req, res, next) => {
 export const bookContentCreate = async (req, res, next) => {
     console.log("bookCreate!");
     console.log("body:", req.body);
-    console.log("file", req.file);
     console.log("files", req.files);
     const files = req.files ?? []; 
     console.log("req.userID: ", req.userID); 
@@ -39,12 +38,4 @@ export const bookDelete = async (req, res, next) => {
     console.log("req.userID: ", req.userID); 
 
     res.send(response(status.SUCCESS, await deleteBook(req.params, req.userID)));
-};
-
-export const bookImg = async (req, res, next) => {
-    console.log("body", req.body);
-    console.log("files", req.file);
-    const test = req.files ?? []; 
-
-    res.send(response(status.SUCCESS, {"body": req.body, "files": req.file}));
 };
