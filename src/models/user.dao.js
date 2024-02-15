@@ -326,36 +326,45 @@ export const checkCode = async (req, data) => {
 export const updatePW = async (req, data) => {
     try {
         const email = req.session.email
+        if (!email) {
+            return {status:-1, message: "세션에서 이메일을 찾을 수 없습니다."}
+        }
+
         console.log(email);
+
         const conn = await pool.getConnection();
 
-        const [storedpwinfo] = await pool.query(getStoredPw, [email]);
+        try {
+            const [storedpwinfo] = await pool.query(getStoredPw, [email]);
 
-        if (!storedpwinfo) {
-            return { status: -1, message: "서버 에러" }
+            if (!storedpwinfo) {
+                return {status: -1, message: "사용자 정보를 찾을 수 없습니다."};
+            }
+
+            // 데이터베이스에서 사용자 정보 조회
+            const checkhashedPw = crypto
+                .createHash(createdHash)
+                .update(data.pw + storedpwinfo[0].salt)
+                .digest(digest);
+
+
+            if (checkhashedPw.substring(0, 100) === storedpwinfo[0].pw) {
+                return {status: -1, message: "변경하려는 비밀번호가 기존 비밀번호와 동일합니다."}
+            }
+
+            const salt = crypto.randomBytes(128).toString('base64');
+            const hashedPw = crypto
+                .createHash(createdHash)
+                .update(data.pw + salt)
+                .digest(digest);
+
+            const updatePW = await pool.query(updateUserPwSql, [hashedPw, new Date(), salt, email]);
+
+            console.log('비밀번호 변경이 완료되었습니다.')
+            return {status: 1, message: "비밀번호 변경이 완료되었습니다."};
+        } finally {
+            conn.release();
         }
-        // 데이터베이스에서 사용자 정보 조회
-        const checkhashedPw = crypto
-            .createHash(createdHash)
-            .update(data.pw + storedpwinfo[0].salt)
-            .digest(digest);
-
-
-        if (checkhashedPw.substring(0, 100) === storedpwinfo[0].pw) {
-           return { status: -1, message: "변경하려는 비밀번호가 기존 비밀번호와 동일합니다." }
-        }
-
-        const salt = crypto.randomBytes(128).toString('base64');
-        const hashedPw = crypto
-            .createHash(createdHash)
-            .update(data.pw + salt)
-            .digest(digest);
-
-        const updatePW = await pool.query(updateUserPwSql, [hashedPw, new Date(), salt, email]);
-
-        conn.release();
-        console.log('비밀번호 변경이 완료되었습니다.')
-        return 1
     } catch (err) {
         console.error(err);
         return { status: -1, message: "서버 에러" }
