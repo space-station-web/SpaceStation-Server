@@ -83,7 +83,7 @@ paths:
                   content: 저는 딸기를 가장 좋아해요. 싱싱한 딸기를 살 수 있다는 건 포근하고 차가운 겨울이 다가온다는 의미니까요.
                 }
 
-  /questions/{question_id}/answer:
+  /questions/answer/{question_id}:
     get:
       tags:
         - Todayquestion
