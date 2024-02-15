@@ -15,10 +15,10 @@ export const getPosts = async (req, res) => {
 
 // 글 검색
 export const searchPost = async (req, res) => {
-    const {orderType, postSearchWord} = req.query;
+    const {orderType, postSearchWord} = req.query; 
     // 로그인 인증 미들웨어 사용 x
-    const list = await postService.searchPost({orderType, postSearchWord});
-    return res.send(response(status.SUCCESS, list));
+    const searchList = await postService.searchPost({orderType, postSearchWord});
+    return res.send(response(status.SUCCESS, searchList));
 }
 
 // 글 작성

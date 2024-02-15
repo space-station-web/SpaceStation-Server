@@ -30,8 +30,8 @@ with post_with_like as (select u.name, p.post_id, count(pl.post_like_id) as like
     left join post_with_like as pl on pl.post_id = p.post_id
     left join post_with_image as pwi on pwi.post_id = p.post_id
     left join topicsimage as img on pwi.image_id = img.topicimage_id
-    order by ${orderColumn} ${orderDirection}
-    limit ? offset ?;
+    order by ${orderColumn} ${orderDirection};
+    
 `
 
 //export const getSearchPostsSql = ({orderType, postSearchWord}) => "SELECT * from post where ${orderType} like ${postSearchWord}";
