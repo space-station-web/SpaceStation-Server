@@ -19,4 +19,5 @@ storageRouter.post('/posts/:postId', tokenChecker, storagePostPost);
 storageRouter.delete('/posts/:postId', tokenChecker, storagePostDelete);
 
 // 내 보관함 글 조회
-storageRouter.get('/my-post-storage', tokenChecker, getMyPostStorage);
+//storageRouter.get('/my-post-storage', tokenChecker, getMyPostStorage);
+storageRouter.get('/my-post-storage', getMyPostStorage);

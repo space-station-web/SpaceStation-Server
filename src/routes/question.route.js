@@ -9,7 +9,9 @@ export const questionRouter = express.Router();
 
 questionRouter.get('/', asyncHandler(todayQuestion));
 
-questionRouter.get('/my-answer', tokenChecker, asyncHandler(getMyAnswer));
+// 나의 오늘의 질문 모음
+// questionRouter.get('/my-answer', tokenChecker, asyncHandler(getMyAnswer));
+questionRouter.get('/my-answer', asyncHandler(getMyAnswer));
 
 questionRouter.post('/answer', tokenChecker, asyncHandler(postAnswer));
 
