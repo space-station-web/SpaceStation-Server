@@ -50,6 +50,18 @@ paths:
           description: 인용할 글 ID
           schema:
             type: integer
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
         - name: post
           in: body
           required: true
@@ -103,6 +115,18 @@ paths:
           description: 인용 글 ID
           schema:
             type: integer
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
       responses:
         '2000':
           description: 글 조회 성공
@@ -150,6 +174,18 @@ paths:
           description: 인용 글 ID
           schema:
             type: integer
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
       responses:
         '2000':
           description: 글 삭제 성공
@@ -185,6 +221,18 @@ paths:
           description: 인용 글 ID
           schema:
             type: integer
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
         - name: post
           in: body
           required: true

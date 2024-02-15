@@ -16,13 +16,13 @@ export const getReference = async (post_id) => {
 };
 
 // 인용하기
-export const addComment = async (post_id, body) => {
+export const addComment = async (post_id, body, user_id) => {
     try {
         const conn = await pool.getConnection();
 
         const result = await pool.query(addCommentSql, [
             null, 
-            body.user_id,      
+            user_id,      
             body.content,    
             post_id, 
             new Date()
@@ -37,13 +37,16 @@ export const addComment = async (post_id, body) => {
 };
 
 // 글 조회
-export const getComment = async (commemt_id) => {
+export const getComment = async (commemt_id, user_id) => {
     try{
         const conn = await pool.getConnection();
+        console.log("comment_id: ", commemt_id, "user_id: ", user_id);
 
-        const result = await conn.query(getCommentSql, [commemt_id]);
+        const result = await conn.query(getCommentSql, [commemt_id, user_id]);
 
         conn.release();
+
+        console.log("result: ", result);
 
         return {"reference": await getReference(result[0][0].post_id), "comment": result[0][0]};
     } catch (err) {
@@ -52,11 +55,11 @@ export const getComment = async (commemt_id) => {
 };
 
 // 글 삭제
-export const deleteComment = async (commemt_id) => {
+export const deleteComment = async (commemt_id, user_id) => {
     try{
         const conn = await pool.getConnection();
 
-        const result = await conn.query(deleteCommentSql, [commemt_id]);
+        const result = await conn.query(deleteCommentSql, [commemt_id, user_id]);
 
         conn.release();
 
@@ -67,14 +70,15 @@ export const deleteComment = async (commemt_id) => {
 };
 
 // 글 수정
-export const patchComment = async (commemt_id, data) => {
+export const patchComment = async (commemt_id, data, user_id) => {
     try {
         const conn = await pool.getConnection();
 
         const result = await pool.query(patchCommentSql, [
             data.content,    
             new Date(),
-            commemt_id
+            commemt_id,
+            user_id
         ]);
 
         conn.release();
