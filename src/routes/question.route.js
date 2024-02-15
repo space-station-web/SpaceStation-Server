@@ -13,6 +13,6 @@ questionRouter.get('/', asyncHandler(todayQuestion));
 // questionRouter.get('/my-answer', tokenChecker, asyncHandler(getMyAnswer));
 questionRouter.get('/my-answer', asyncHandler(getMyAnswer));
 
-questionRouter.post('/answer', tokenChecker, asyncHandler(postAnswer));
+questionRouter.post('/', tokenChecker, asyncHandler(postAnswer));
 
-questionRouter.get('/answer/:question_id', tokenChecker, asyncHandler(todayAnswer));
+questionRouter.get('/:question_id', tokenChecker, asyncHandler(todayAnswer));
