@@ -159,6 +159,7 @@ export const pwChange = async (req, body) => {
     try {
         // 비밀번호와 비밀번호 확인 일치 여부 확인
         if (body.pw !== body.pwcheck) {
+            console.log('비밀번호 변경 실패 : 변경 비밀번호와, 변경 비밀번호 확인이 다릅니다.')
             return response(status.BAD_REQUEST);
         }
 
