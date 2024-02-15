@@ -313,6 +313,7 @@ export const checkCode = async (req, data) => {
         }
         console.log(req.session);
         req.session.email = email;
+        await req.session.save();
         console.log(req.session);
 
         expireCodeAndCooldown(email); // 인증 관련 map 삭제
