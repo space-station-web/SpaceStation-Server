@@ -4,6 +4,8 @@ import express from "express";
 import asyncHandler from 'express-async-handler';
 import { getPosts, searchPost, addPost, deletePost, editPost, getPost, getPostsByUserId, getFollowPosts, getTopic } from '../controllers/post.controller.js';
 import { tokenChecker } from "../../config/jwt-util.js";
+import { imageUploader } from "../middleware/image.uploader.js";
+import { postImg } from "../models/post.dao.js";
 
 export const postRouter = express.Router();
 
@@ -14,7 +16,7 @@ postRouter.get('/', asyncHandler(getPosts))
 postRouter.get('/topics', tokenChecker, getTopic);
 
 // 글 생성
-postRouter.post('/', tokenChecker, asyncHandler(addPost));
+postRouter.post('/', imageUploader.single('image'), tokenChecker, asyncHandler(addPost));
 
 // 글 삭제
 postRouter.delete('/:post_id', tokenChecker, asyncHandler(deletePost));
@@ -35,3 +37,6 @@ postRouter.patch('/:post_id', tokenChecker, asyncHandler(editPost));
 
 // 유저의 글 리스트 조회
 postRouter.get('/user/:user_id', asyncHandler(getPostsByUserId))
+
+// 사진 업로드
+postRouter.post('/img', imageUploader.single('image'), postImg);

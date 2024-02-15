@@ -26,6 +26,7 @@ export const addPost = async (req, res, next) => {
     console.log("글 작성");
     console.log("body:", req.body);
     console.log("유저: ", req.userID); 
+    console.log("files", req.file.location);
 
     if (!req.body.title) return res.send(new BaseError(status.POST_TITLE_EMPTY));
     if (!req.body.content) return res.send(new BaseError(status.POST_CONTENT_EMPTY));
@@ -33,7 +34,7 @@ export const addPost = async (req, res, next) => {
     if (!req.body.visibility) return res.send(new BaseError(status.POST_VISIBILITY_EMPTY));
     if (req.body.visibility == "터뜨리기" && req.body.self_destructTime == null) res.send(new BaseError(status.POST_TIME_EMPTY));
 
-    return res.send(response(status.SUCCESS, await postService.addNewPost(req.body, req.userID)));
+    return res.send(response(status.SUCCESS, await postService.addNewPost(req.body, req.userID, req.file.location)));
 };
 
 // 글 삭제
@@ -94,3 +95,11 @@ export const getTopic = async (req, res, next) => {
 
     return res.send(response(status.SUCCESS, await postDao.getRandomTopic(req.userID)));
 }
+
+export const postImg = async (req, res, next) => {
+    console.log("body", req.body);
+    console.log("files", req.file);
+    const test = req.files ?? []; 
+
+    res.send(response(status.SUCCESS, {"body": req.body, "files": req.file}));
+};
