@@ -330,6 +330,10 @@ export const updatePW = async (req, data) => {
         const conn = await pool.getConnection();
 
         const [storedpwinfo] = await pool.query(getStoredPw, [email]);
+
+        if (!storedpwinfo) {
+            return { status: -1, message: "서버 에러" }
+        }
         // 데이터베이스에서 사용자 정보 조회
         const checkhashedPw = crypto
             .createHash(createdHash)
