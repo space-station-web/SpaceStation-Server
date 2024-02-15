@@ -1,4 +1,7 @@
 export const searchStorageBookSql = "SELECT * FROM bookStorage "
+                                    + "WHERE book_id = ? AND user_id = ?;";
+
+export const searchStorageBookByStorgeTypeSql = "SELECT * FROM bookStorage "
                                     + "WHERE book_id = ? AND user_id = ? AND storage_type_id = ?;";
 
 export const addStorageBookSql = "INSERT INTO bookStorage (book_storage_id, book_id, user_id, storage_type_id) VALUES (?, ?, ?, ?);";

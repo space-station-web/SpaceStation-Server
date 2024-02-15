@@ -3,8 +3,9 @@ import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 import { createBookSql, createBookContentsSql, createBookContentsImgSql,
          readBookSql, readBookContentsSql, readBookContentSql,
-         updateBookSql, updateBookContentsSql, deleteBookSql, deleteBookContentsSql, 
-         checkBookUserSql } from "./book.sql.js";
+         updateBookSql, updateBookContentsSql, 
+         deleteBookSql, deleteBookContentsSql, deleteBookContentsImgSql, 
+         searchBookContentsIdByBookIdSql, checkBookUserSql } from "./book.sql.js";
 import { delStorageByBookIdSql } from "./storage.sql.js";
 import { delLikeByBookIdSql } from "./like.sql.js";
 
@@ -70,18 +71,18 @@ export const getBook = async (bookId) => {
         throw new BaseError(err);
     }
 }
-export const getContents = async (bookContentId) => {
+export const getContents = async (bookId) => {
     try {
-        console.log("getContents bookId : " + bookContentId);
+        console.log("getContents bookId : " + bookId);
         const conn = await pool.getConnection();
-        const bookContent = await pool.query(readBookContentSql, [bookContentId]);
+        const bookContents = await pool.query(readBookContentsSql, [bookId]);
 
-        if(bookContent.length == 0){
+        if(bookContents.length == 0){
             return -1;
         }
 
         conn.release();
-        return bookContent;
+        return bookContents;
         
     } catch (err) {
         throw new BaseError(err);
@@ -133,6 +134,13 @@ export const upBook = async (data) => {
 export const delBook = async (bookId) => {
     try {
         const conn = await pool.getConnection();
+        const BookContentId = await pool.query(searchBookContentsIdByBookIdSql, [bookId]);
+        let resultBookContentImgs = 0;
+        for (let i = 0; i < BookContentId[0].length; i++) {
+            console.log("BookContentId : " + BookContentId[0][i].book_contents_id);
+            const resultBookContent = await pool.query(deleteBookContentsImgSql, [BookContentId[0][i].book_contents_id]);
+            resultBookContentImgs += resultBookContent[0].affectedRows;            
+        }
         const resultBookContent = await pool.query(deleteBookContentsSql, [bookId]);
         const resultBookStorage = await pool.query(delStorageByBookIdSql, [bookId]);
         const resultBookLike = await pool.query(delLikeByBookIdSql, [bookId]);
@@ -141,10 +149,11 @@ export const delBook = async (bookId) => {
         
         return {"deletedBook": resultBook[0].affectedRows, 
                 "deletedBookContent": resultBookContent[0].affectedRows,
+                "deletedBookContentImages": resultBookContentImgs,
                 "deletedBookStorage": resultBookStorage[0].affectedRows,
                 "deletedBookLike": resultBookLike[0].affectedRows };        
     } catch (err) {
-        throw new BaseError(status.PARAMETER_IS_WRONG);
+        throw new BaseError(err);
     }
 }
 

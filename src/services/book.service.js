@@ -90,10 +90,10 @@ export const updateBook = async (params, body, userID) => {
 }
 
 export const deleteBook = async (params, userID) => {
-    const bookUser = await checkBookUser(params.bookId);
-    if (bookUser[0][0].user_id != userID) {
-        return "user and the author are different.";
-    }
+    // const bookUser = await checkBookUser(params.bookId);
+    // if (bookUser[0][0].user_id != userID) {
+    //     return "user and the author are different.";
+    // }
 
     const deleteData = await delBook(params.bookId);
     console.log("delete Book Result :" + deleteData.deletedBook 
