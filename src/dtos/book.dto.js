@@ -7,7 +7,8 @@ export const bookDTO = (book, storage, like, contents) => {
         "intro": book[0][0].intro,
         "category": book[0][0].category,
         "storage": storage,
-        "like": like,
+        "like": like.bookLike,
+        "likeCount": like.bookLikeCount,
         "contents": bookContentsDTO(contents)
     };
 }
