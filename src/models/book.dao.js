@@ -2,7 +2,8 @@ import { pool } from "../../config/db.config.js";
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 import { createBookSql, createBookContentsSql, createBookContentsImgSql,
-         readBookSql, readBookContentsSql, readBookContentSql,
+         readBookListSql, readBookListAllSql,
+         readBookSql, readBookContentsSql, readBookContentSql, 
          updateBookSql, updateBookContentsSql, 
          deleteBookSql, deleteBookContentsSql, deleteBookContentsImgSql, 
          searchBookContentsIdByBookIdSql, checkBookUserSql } from "./book.sql.js";
@@ -14,7 +15,7 @@ export const addBook = async (data) => {
         const conn = await pool.getConnection();
 
         const resultBook = await pool.query(createBookSql, 
-            [null, data.title, data.intro, data.category, new Date(), data.user_id] );
+            [null, data.title, data.intro, data.category, data.thumbnail, new Date(), data.user_id] );
 
         conn.release();
 
@@ -36,9 +37,8 @@ export const addBookContent = async (data) => {
         if ((data.files != []) && (resultContent[0].insertId != -1)) {
             for (let i = 0; i < data.files.length; i++) {    // 사진 저장
                 const img = data.files[i];
-                const thumb = (i == data.thumbnail? 1 : 0);
                 const result = await pool.query(createBookContentsImgSql, 
-                    [null, img.location, thumb, resultContent[0].insertId] ); 
+                    [null, img.location, resultContent[0].insertId] ); 
                 if (result != -1) {
                     resultContentImg++;
                 }
@@ -54,6 +54,28 @@ export const addBookContent = async (data) => {
     }
 }
 
+export const getBookList = async (category) => {
+    try {
+        console.log("getBookList category : " + category);
+        const conn = await pool.getConnection();
+        let book = -1;
+        if (category == 'all') {
+            book = await pool.query(readBookListAllSql);
+        } else {
+            book = await pool.query(readBookListSql, [category]);
+        }
+
+        if(book.length == 0){
+            return -1;
+        }
+
+        conn.release();
+        return book;
+        
+    } catch (err) {
+        throw new BaseError(err);
+    }
+}
 export const getBook = async (bookId) => {
     try {
         console.log("getBook bookId : " + bookId);
@@ -174,3 +196,4 @@ export const checkBookUser = async (bookId) => {
         throw new BaseError(err);
     }
 }
+

@@ -1,16 +1,18 @@
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
-import { bookDTO, bookContentsDTO } from "../dtos/book.dto.js"
-import { addBook, addBookContent, getBook, getContent, getContents,
+import { bookDTO, bookContentsDTO, bookListDTO } from "../dtos/book.dto.js"
+import { addBook, addBookContent, 
+         getBookList, getBook, getContent, getContents,
          upBook, delBook, checkBookUser } from "../models/book.dao.js";
 import { searchStorageBook } from "../models/storage.dao.js";
 import { searchLikeBook } from "../models/like.dao.js";
 
-export const createBook = async (body, userID) => {
+export const createBook = async (body, file, userID) => {
     const createData = await addBook({
         'title': body.title,
         'intro': body.intro,
         'category': body.category,
+        'thumbnail': file.location,
         'user_id': userID,
     });
     console.log("create Book Result :" + createData.bookId);
@@ -36,6 +38,17 @@ export const createBookContent = async (body, files, userID) => {
         throw new BaseError(status.EMAIL_ALREADY_EXIST);
     }else{
         return readBookContent({'bookContentId': createData.bookContentId});
+    }
+}
+
+export const readBookList = async (query) => {
+    console.log('query'+ query.category);
+    const bookData = await getBookList(query.category);
+
+    if(bookData == -1){
+        throw new BaseError(status.BAD_REQUEST);
+    }else{
+        return bookListDTO(bookData);
     }
 }
 

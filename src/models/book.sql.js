@@ -1,11 +1,13 @@
-export const createBookSql = "INSERT INTO book (book_id, title, intro, category, create_at, user_id) "
-                                + "VALUES (?, ?, ?, ?, ?, ?);";
+export const createBookSql = "INSERT INTO book (book_id, title, intro, category, thumnail, create_at, user_id) "
+                                + "VALUES (?, ?, ?, ?, ?, ?, ?);";
 
 export const createBookContentsSql = "INSERT INTO bookContents (book_contents_id, content_title, content_text, content_create_at, `index`, book_id) "
                                 + "VALUES (?, ?, ?, ?, ?, ?);";
-export const createBookContentsImgSql = "INSERT INTO bookImage (book_image_id, image, thumbnail, index_id) "
-                                + "VALUES (?, ?, ?, ?);";
-                                
+export const createBookContentsImgSql = "INSERT INTO bookImage (book_image_id, image, index_id) "
+                                + "VALUES (?, ?, ?);";
+
+export const readBookListAllSql = "SELECT * FROM book;";
+export const readBookListSql = "SELECT * FROM book WHERE category = ?;";
 export const readBookSql = "SELECT * FROM book AS b INNER JOIN user AS u ON u.id = b.user_id WHERE b.book_id = ?;";
 export const readBookContentsSql = "SELECT * FROM bookContents AS bc "
                                 + "INNER JOIN bookImage AS bi ON bc.book_contents_id = bi.index_id "
