@@ -34,20 +34,18 @@ export const deleteStorageType = async ({storageTypeId, userId}) => {
     }
 }
 
-export const getStorageType = async (userID) => {
+export const getStorageType = async (user_id) => {
     try {
         const conn = await pool.getConnection();
-        const data = await pool.query(getStorageTypeSql, [userID]);
-
-        //console.log('followList', followList)
-        if(data.length == 0){
+        const myStorageTypes = await pool.query(getStorageTypeSql, [user_id]);
+        if(myStorageTypes.length == 0){
             return -1;
         }
-
         conn.release();
-        return data[0];
+        return myStorageTypes[0];
         
     } catch (err) {
-        throw new BaseError(err);
+        throw err;
     }
+
 }

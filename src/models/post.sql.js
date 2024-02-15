@@ -34,6 +34,9 @@ with post_with_like as (select u.name, p.post_id, count(pl.post_like_id) as like
     limit ? offset ?;
 `
 
+//export const getSearchPostsSql = ({orderType, postSearchWord}) => "SELECT * from post where ${orderType} like ${postSearchWord}";
+export const getSearchPostsSql = "SELECT * FROM post WHERE title LIKE '%검색어%';"
+
 export const getFollowPostsByUserIDSql = `select  *
 from    post as p
 join follow as f on p.user_id = f.follow_id and f.user_id = ?;`

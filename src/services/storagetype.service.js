@@ -29,7 +29,16 @@ export const deleteStorageTypeByUserId = async (storageTypeId, userId) =>{
     }
 }
 
-export const getStorageTypeByUserId = async (userID) => {
-    const result = await getStorageType(userID);
-    return result;
+
+export const StorageTypeByUserId = async (userId) => {
+
+    try {
+        const result = await getStorageType(userId);
+        return result;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+
+    
 }

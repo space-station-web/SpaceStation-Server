@@ -6,11 +6,12 @@ export const storageTypeRouter = express.Router();
 
 // storageTypeRouter.use(tokenChecker)
 
+// 보관함 타입 조회
+storageTypeRouter.get('/user/:userId', getStorageType);
+
 // 보관함 타입 생성
 storageTypeRouter.post('/', addStorageType);
 
 // 보관함 타입 삭제
 storageTypeRouter.delete('/:storageTypeId', deleteStorageType);
-
-// 보관함 타입 조회
-storageTypeRouter.get('/', getStorageType)
+ 

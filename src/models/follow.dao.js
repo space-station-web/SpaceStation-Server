@@ -12,7 +12,7 @@ export const getFollowListByUserId = async ({userId, limit, offset}) => {
         if(followList.length == 0){
             return -1;
         }
-
+        
         conn.release();
         return followList[0];
         

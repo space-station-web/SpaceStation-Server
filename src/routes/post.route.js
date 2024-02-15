@@ -2,7 +2,7 @@
 
 import express from "express";
 import asyncHandler from 'express-async-handler';
-import { getPosts, addPost, deletePost, editPost, getPost, getPostsByUserId, getFollowPosts, getTopic } from '../controllers/post.controller.js';
+import { getPosts, searchPost, addPost, deletePost, editPost, getPost, getPostsByUserId, getFollowPosts, getTopic } from '../controllers/post.controller.js';
 import { tokenChecker } from "../../config/jwt-util.js";
 
 export const postRouter = express.Router();
@@ -21,7 +21,10 @@ postRouter.delete('/:post_id', tokenChecker, asyncHandler(deletePost));
 
 // 내 모든 이웃의 글 조회
 postRouter.get('/follow-posts', tokenChecker, asyncHandler(getFollowPosts));
-// postRouter.get('/follow-posts', asyncHandler(getFollowPosts)); // 미들웨어 사용안한것
+// postRouter.get('/follow-posts', asyncHandler(getFollowPosts)); // 미들웨어 사용 안하면
+
+// 글 검색
+postRouter.get('/search' , asyncHandler(searchPost));
 
 // 글 조회
 postRouter.get('/:post_id', asyncHandler(getPost));
