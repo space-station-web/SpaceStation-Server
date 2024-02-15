@@ -6,6 +6,7 @@ export const bookDTO = (book, storage, like, contents) => {
         "title": book[0][0].title,
         "intro": book[0][0].intro,
         "category": book[0][0].category,
+        "thumbnail": book[0][0].thumbnail,
         "storage": storage,
         "like": like.bookLike,
         "likeCount": like.bookLikeCount,
@@ -59,4 +60,19 @@ export const bookContentsDTO = (contents) => {
     
     console.log("imgList" + imgList);
     return contentList;
+}
+
+export const bookListDTO = (books) => {
+    const bookList = [];
+    for (let i = 0; i < books[0].length; i++) {
+        bookList.push({
+            "book_id": books[0][i].book_id, 
+            "user_id": books[0][i].user_id,
+            "title": books[0][i].title,
+            "intro": books[0][i].intro,
+            "category": books[0][i].category,
+            "thumnail": books[0][i].thumnail
+        });
+    }
+    return bookList;
 }
