@@ -1,7 +1,8 @@
 import { pool } from "../../config/db.config.js";
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
-import { createBookSql, createBookContentsSql, readBookSql, readBookContentsSql, 
+import { createBookSql, createBookContentsSql, createBookContentsImgSql,
+         readBookSql, readBookContentsSql, readBookContentSql,
          updateBookSql, updateBookContentsSql, deleteBookSql, deleteBookContentsSql, 
          checkBookUserSql } from "./book.sql.js";
 import { delStorageByBookIdSql } from "./storage.sql.js";
@@ -14,20 +15,38 @@ export const addBook = async (data) => {
         const resultBook = await pool.query(createBookSql, 
             [null, data.title, data.intro, data.category, new Date(), data.user_id] );
 
-        let resultBookContents = 0
-        console.log("resultBook[0].insertId :" + resultBook[0].insertId);
-        for (let i = 0; i < data.contents.length; i++) {
-            let element = data.contents[i];
-            let resultBookContent = await pool.query(createBookContentsSql, 
-                [null, element.title, element.context, new Date(), element.index, resultBook[0].insertId] );
-            if (resultBookContent[0].insertId != 0 != 0) {
-                resultBookContents++;
-            }
-        }
-
         conn.release();
 
-        return { "bookId": resultBook[0].insertId, "resultContents": resultBookContents };
+        return { "bookId": resultBook[0].insertId };
+        
+    }catch (err) {
+        throw new BaseError(err);
+    }
+}
+
+export const addBookContent = async (data) => {
+    try{
+        const conn = await pool.getConnection();
+
+        const resultContent = await pool.query(createBookContentsSql, 
+                [null, data.title, data.text, new Date(), data.index, data.book_id] );
+        
+        let resultContentImg = 0;
+        if ((data.files != []) && (resultContent[0].insertId != -1)) {
+            for (let i = 0; i < data.files.length; i++) {    // 사진 저장
+                const img = data.files[i];
+                const thumb = (i == data.thumbnail? 1 : 0);
+                const result = await pool.query(createBookContentsImgSql, 
+                    [null, img.location, thumb, resultContent[0].insertId] ); 
+                if (result != -1) {
+                    resultContentImg++;
+                }
+            }
+        }
+        
+        conn.release();
+
+        return { "bookContentId": resultContent[0].insertId, "resultImgs": resultContentImg };
         
     }catch (err) {
         throw new BaseError(err);
@@ -51,19 +70,35 @@ export const getBook = async (bookId) => {
         throw new BaseError(err);
     }
 }
-
-export const getContents = async (bookId) => {
+export const getContents = async (bookContentId) => {
     try {
-        console.log("getContents bookId : " + bookId);
+        console.log("getContents bookId : " + bookContentId);
         const conn = await pool.getConnection();
-        const bookContents = await pool.query(readBookContentsSql, [bookId]);
+        const bookContent = await pool.query(readBookContentSql, [bookContentId]);
 
-        if(bookContents.length == 0){
+        if(bookContent.length == 0){
             return -1;
         }
 
         conn.release();
-        return bookContents;
+        return bookContent;
+        
+    } catch (err) {
+        throw new BaseError(err);
+    }
+}
+export const getContent = async (bookContentId) => {
+    try {
+        console.log("getContents bookId : " + bookContentId);
+        const conn = await pool.getConnection();
+        const bookContent = await pool.query(readBookContentSql, [bookContentId]);
+
+        if(bookContent.length == 0){
+            return -1;
+        }
+
+        conn.release();
+        return bookContent;
         
     } catch (err) {
         throw new BaseError(err);

@@ -1,6 +1,6 @@
 // const express = require('express')   // common JS
 import express from 'express'// ES6
-import session from 'express-session'
+//import session from 'express-session'
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { specs } from './config/swagger.config.js';
@@ -54,12 +54,12 @@ app.use((err, req, res, next) => {
     res.status(err.data.status || status.INTERNAL_SERVER_ERROR).send(response(err.data));
 });
 
-app.use(session({
-    secret: process.env.session_secret,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}))
+// app.use(session({
+//     secret: process.env.session_secret,
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: false }
+// }))
 
 app.get('/', function (req, res) {
     res.send('Hello World')
