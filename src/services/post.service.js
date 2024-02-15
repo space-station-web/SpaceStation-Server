@@ -18,6 +18,7 @@ export const getPosts = async ({orderColumn = 'created_at', orderDirection = 'de
     }
 }
 
+// 글 검색(게시판)
 export const searchPost = async({orderType, postSearchWord}) => {
     try {
         const result = await postDao.getSearchPost({orderType, postSearchWord})
