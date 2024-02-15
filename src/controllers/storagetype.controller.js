@@ -1,6 +1,6 @@
 import { status } from '../../config/response.status.js';
 import { response } from '../../config/response.js';
-import { addStorageTypeByUserId, deleteStorageTypeByUserId, getStorageTypeByUserId } from "../services/storagetype.service.js";
+import { addStorageTypeByUserId, deleteStorageTypeByUserId, StorageTypeByUserId } from "../services/storagetype.service.js";
 
 export const addStorageType = async (req,res)=>{
     // console.log('req.body.type:', req.body)
@@ -26,6 +26,10 @@ export const deleteStorageType = async (req,res)=>{
 }
 
 export const getStorageType = async(req, res) => {
-    const userID = 20;
-    // const {userID} = req;
-    res.send(response(status.SUCCESS, await getStorageTypeByUserId(userID)));}
+    const { userId } = req.params;
+    return res.send(response(status.SUCCESS, await StorageTypeByUserId(userId)));
+
+
+}
+
+
