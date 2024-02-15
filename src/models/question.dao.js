@@ -94,6 +94,6 @@ export const getUserAnswer = async ({limit, offset, userId}) => {
 
         return getqnaDTO(result[0]);
     } catch (error) {
-        
+        throw err;
     }
 }
