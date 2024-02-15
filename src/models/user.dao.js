@@ -147,7 +147,6 @@ export const checkCode = async (req, data) => {
         if (currentTime - codeTimestamp > expirationDuration) {
             return { status: -1, message: "인증 번호의 유효 기간이 초과되었습니다." };
         }
-        console.log(req.session);
         req.session.email = email;
         await req.session.save();
         console.log(req.session);
