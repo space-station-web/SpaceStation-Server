@@ -311,8 +311,10 @@ export const checkCode = async (req, data) => {
         if (currentTime - codeTimestamp > expirationDuration) {
             return { status: -1, message: "인증 번호의 유효 기간이 초과되었습니다." };
         }
+        console.log(req.session);
         req.session.email = email;
-        console.log(req.session.email);
+        console.log(req.session);
+
         expireCodeAndCooldown(email); // 인증 관련 map 삭제
         return { status: 1, message: "인증 성공하였습니다." };
     } catch (error) {
@@ -325,6 +327,7 @@ export const checkCode = async (req, data) => {
 
 export const updatePW = async (req, data) => {
     try {
+        console.log(req.session)
         const email = req.session.email
         if (!email) {
             return {status:-1, message: "세션에서 이메일을 찾을 수 없습니다."}
