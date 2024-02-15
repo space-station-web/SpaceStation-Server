@@ -11,12 +11,21 @@ import { response } from "../../config/response.js";
 export const getPosts = async ({orderColumn = 'created_at', orderDirection = 'desc', limit = 10, offset = 0}) => {
     try {
         const result = await postDao.getAllPosts({orderColumn, orderDirection, limit, offset})
-        
         return result;
     } catch (error) {
         console.error(error);
         throw error;
     }
+}
+
+export const searchPost = async({orderType, postSearchWord}) => {
+    try {
+        const result = await postDao.getSearchPost({orderType, postSearchWord})
+        return result;
+    } catch (error) {
+        throw error;
+    }
+
 }
 
 // 글 생성

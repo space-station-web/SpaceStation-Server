@@ -24,7 +24,7 @@ with post_with_like as (select u.name, p.post_id, count(pl.post_like_id) as like
     group by p.post_id
 )
 
-    select p.title, pl.*
+    select p.title, p.content, pl.*
          , img.image_url
     from    post as p
     left join post_with_like as pl on pl.post_id = p.post_id
@@ -33,6 +33,9 @@ with post_with_like as (select u.name, p.post_id, count(pl.post_like_id) as like
     order by ${orderColumn} ${orderDirection}
     limit ? offset ?;
 `
+
+//export const getSearchPostsSql = ({orderType, postSearchWord}) => "SELECT * from post where ${orderType} like ${postSearchWord}";
+export const getSearchPostsSql = "SELECT * FROM post WHERE title LIKE '%검색어%';"
 
 export const getFollowPostsByUserIDSql = `select  *
 from    post as p

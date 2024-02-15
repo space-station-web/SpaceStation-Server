@@ -9,8 +9,16 @@ import * as postDao from "../models/post.dao.js";
 // 전체 글 조회
 export const getPosts = async (req, res) => {
     const { orderColumn, orderDirection, limit, offset } = req.query;
-    const list = await postService.getPosts({orderColumn, orderDirection, limit, offset})
-    return res.send(response(status.SUCCESS, list))
+    const list = await postService.getPosts({orderColumn, orderDirection, limit, offset});
+    return res.send(response(status.SUCCESS, list));
+}
+
+// 글 검색
+export const searchPost = async (req, res) => {
+    const {orderType, postSearchWord} = req.query;
+    // 로그인 인증 미들웨어 사용 x
+    const list = await postService.searchPost({orderType, postSearchWord});
+    return res.send(response(status.SUCCESS, list));
 }
 
 // 글 작성
