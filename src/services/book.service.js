@@ -22,12 +22,12 @@ export const createBook = async (body, userID) => {
     }
 }
 
-export const createBookContent = async (params, body, files, userID) => {
+export const createBookContent = async (body, files, userID) => {
     const createData = await addBookContent({
         'title': body.title,
         'text': body.text,
         'index': body.index,
-        'book_id': params.bookId,
+        'book_id': body.bookId,
         'files':  files,
     });
     console.log("create Book Result :" + createData.bookContentId + ", " + createData.resultImgs);
@@ -90,10 +90,10 @@ export const updateBook = async (params, body, userID) => {
 }
 
 export const deleteBook = async (params, userID) => {
-    // const bookUser = await checkBookUser(params.bookId);
-    // if (bookUser[0][0].user_id != userID) {
-    //     return "user and the author are different.";
-    // }
+    const bookUser = await checkBookUser(params.bookId);
+    if (bookUser[0][0].user_id != userID) {
+        return "user and the author are different.";
+    }
 
     const deleteData = await delBook(params.bookId);
     console.log("delete Book Result :" + deleteData.deletedBook 

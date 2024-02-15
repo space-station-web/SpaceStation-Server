@@ -5,7 +5,7 @@ export const createBookContentsSql = "INSERT INTO bookContents (book_contents_id
                                 + "VALUES (?, ?, ?, ?, ?, ?);";
 export const createBookContentsImgSql = "INSERT INTO bookImage (book_image_id, image, thumbnail, index_id) "
                                 + "VALUES (?, ?, ?, ?);";
-// 사진, 닉네임
+                                
 export const readBookSql = "SELECT * FROM book AS b INNER JOIN user AS u ON u.id = b.user_id WHERE b.book_id = ?;";
 export const readBookContentsSql = "SELECT * FROM bookContents AS bc "
                                 + "INNER JOIN bookImage AS bi ON bc.book_contents_id = bi.index_id "

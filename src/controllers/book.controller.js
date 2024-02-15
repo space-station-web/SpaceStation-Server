@@ -16,7 +16,7 @@ export const bookContentCreate = async (req, res, next) => {
     const files = req.files ?? []; 
     console.log("req.userID: ", req.userID); 
 
-    res.send(response(status.SUCCESS, await createBookContent(req.params, req.body, files, req.userID)));
+    res.send(response(status.SUCCESS, await createBookContent(req.body, files, req.userID)));
 };
 
 export const bookRead = async (req, res, next) => {
