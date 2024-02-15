@@ -5,11 +5,11 @@ export const createBookContentsSql = "INSERT INTO bookContents (book_contents_id
                                 + "VALUES (?, ?, ?, ?, ?, ?);";
 export const createBookContentsImgSql = "INSERT INTO bookImage (book_image_id, image, thumbnail, index_id) "
                                 + "VALUES (?, ?, ?, ?);";
-
-export const readBookSql = "SELECT * FROM book WHERE book_id = ?;";
+// 사진, 닉네임
+export const readBookSql = "SELECT * FROM book AS b INNER JOIN user AS u ON u.id = b.user_id WHERE b.book_id = ?;";
 export const readBookContentsSql = "SELECT * FROM bookContents AS bc "
-                                + "INNER JOIN bookImage AS bi ON bc.book_id = bi.index_id "
-                                + "WHERE book_id = ? ORDER BY `index`;";
+                                + "INNER JOIN bookImage AS bi ON bc.book_contents_id = bi.index_id "
+                                + "WHERE bc.book_id = ? ORDER BY `index`;";
 export const readBookContentSql = "SELECT * FROM bookContents AS bc "
                                 + "INNER JOIN bookImage AS bi ON bc.book_contents_id = bi.index_id "
                                 + "WHERE bi.index_id = ? ORDER BY `index`;";
@@ -25,5 +25,7 @@ export const updateBookContentsSql = "UPDATE bookContents "
 export const deleteBookSql = "DELETE FROM book WHERE book_id = ?;";
 export const deleteBookContentsSql = "DELETE FROM bookContents WHERE book_id = ?;";
 export const deleteBookContentsImgSql = "DELETE FROM bookImage WHERE index_id = ?;";
+
+export const searchBookContentsIdByBookIdSql = "SELECT book_contents_id FROM bookContents WHERE book_id = ?;";
 
 export const checkBookUserSql = "SELECT user_id FROM book WHERE book_id = ?;";

@@ -1,18 +1,14 @@
 export const bookDTO = (book, storage, like, contents) => {
-    const contentList = [];
-    for (let i = 0; i < contents[0].length; i++) {
-        contentList.push(bookContentsDTO(contents[0][i]));
-    }
-
     return {
         "book_id": book[0][0].book_id, 
+        "user_id": book[0][0].user_id,
+        "nickname": book[0][0].nickname,
         "title": book[0][0].title,
         "intro": book[0][0].intro,
         "category": book[0][0].category,
-        "user_id": book[0][0].user_id,
         "storage": storage,
         "like": like,
-        "contents": contentList
+        "contents": bookContentsDTO(contents)
     };
 }
 
@@ -51,12 +47,15 @@ export const bookContentsDTO = (contents) => {
             set.add(contents[0][i].book_contents_id);
         }
     }
-    contentList.push({
-        "book_contents_id": content.book_contents_id, 
-        "content_title": content.content_title,
-        "content_text": content.content_text,
-        "image": imgList
-    });
+    if (content != null){
+        contentList.push({
+            "book_contents_id": content.book_contents_id, 
+            "content_title": content.content_title,
+            "content_text": content.content_text,
+            "image": imgList
+        }); 
+    }
+    
     console.log("imgList" + imgList);
     return contentList;
 }
