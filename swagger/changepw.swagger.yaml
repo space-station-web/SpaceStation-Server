@@ -1,5 +1,5 @@
 paths:
-  /changepw:
+  /changepw/{userid}:
     post:
       tags:
         - User

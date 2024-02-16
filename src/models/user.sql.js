@@ -6,6 +6,8 @@ export const confirmNicknameSql = "SELECT EXISTS(SELECT 1 FROM user WHERE nickna
 
 export const checkUserkSql = "SELECT EXISTS(SELECT 1 FROM user WHERE name = ? AND email = ? ) as isExistUser";
 
-export const updateUserPwSql = "UPDATE user SET pw = ?, update_date = ?, salt = ? WHERE email = ?";
+export const updateUserPwSql = "UPDATE user SET pw = ?, update_date = ?, salt = ? WHERE id = ?";
 
-export const getStoredPw = "SELECT pw, salt FROM user WHERE email = ?"
+export const getStoredPw = "SELECT pw, salt FROM user WHERE id = ?";
+
+export const getUserId = "SELECT id FROM user WHERE name = ? AND email = ?";

@@ -2,7 +2,7 @@ import { pool } from "../../config/db.config.js";
 import { response} from "../../config/response.js";
 import { transporter } from "../../config/email.config.js";
 import { status } from "../../config/response.status.js";
-import {confirmEmailSql, insertUserSql, checkUserkSql, updateUserPwSql, getStoredPw} from "./user.sql.js";
+import {confirmEmailSql, insertUserSql, checkUserkSql, updateUserPwSql, getStoredPw, getUserId} from "./user.sql.js";
 import crypto from 'crypto';
 import dotenv from "dotenv";
 
@@ -127,11 +127,14 @@ export const resendCode = async (data) => {
     }
 };
 
-export const checkCode = async (req, data) => {
+export const checkCode = async (data) => {
     try {
         // 이메일과 코드 확인
+        const name = data.name
         const email = data.email;
         const enteredCode = data.code;
+
+        const userId = await pool.query(getUserId, [name, email]);
 
         const sendedCode = emailVerificationMap.get(email);
 
@@ -147,12 +150,9 @@ export const checkCode = async (req, data) => {
         if (currentTime - codeTimestamp > expirationDuration) {
             return { status: -1, message: "인증 번호의 유효 기간이 초과되었습니다." };
         }
-        req.session.email = email;
-        await req.session.save();
-        console.log(req.session);
 
         expireCodeAndCooldown(email); // 인증 관련 map 삭제
-        return { status: 1, message: "인증 성공하였습니다." };
+        return { status: 1, message: "인증 성공하였습니다.", userId: userId };
     } catch (error) {
         // 예외 처리
         console.error(error);
@@ -161,20 +161,13 @@ export const checkCode = async (req, data) => {
 };
 
 
-export const updatePW = async (req, data) => {
+export const updatePW = async (userid, data) => {
     try {
-        console.log(req.session)
-        const email = req.session.email
-        if (!email) {
-            return {status:-1, message: "세션에서 이메일을 찾을 수 없습니다."}
-        }
-
-        console.log(email);
 
         const conn = await pool.getConnection();
 
         try {
-            const [storedpwinfo] = await pool.query(getStoredPw, [email]);
+            const [storedpwinfo] = await pool.query(getStoredPw, [userid]);
 
             if (!storedpwinfo) {
                 return {status: -1, message: "사용자 정보를 찾을 수 없습니다."};
@@ -197,11 +190,9 @@ export const updatePW = async (req, data) => {
                 .update(data.pw + salt)
                 .digest(digest);
 
-            const updatePW = await pool.query(updateUserPwSql, [hashedPw, new Date(), salt, email]);
+            const updatePW = await pool.query(updateUserPwSql, [hashedPw, new Date(), salt, userid]);
 
             console.log('비밀번호 변경이 완료되었습니다.');
-            req.session.destroy();
-            console.log(req.session)
             return {status: 1, message: "비밀번호 변경이 완료되었습니다."};
         } finally {
             conn.release();
