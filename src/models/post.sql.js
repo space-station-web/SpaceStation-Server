@@ -2,7 +2,7 @@
 
 export const insertPostSql = "INSERT INTO post (post_id, user_id, title, content, visibility, created_at, self_destructTime, topic_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-export const deletePostSql = "DELETE FROM post WHERE post_id = ? AND user_id = ?";
+export const deletePostSql = "DELETE FROM post WHERE post_id = ?";
 
 export const getPostSql = "SELECT post_id, user_id, title, content, visibility, created_at, self_destructTime FROM post WHERE post_id = ?";
 
@@ -96,3 +96,7 @@ export const deleteViewedTopicSql = "DELETE FROM viewedtopic WHERE user_id = ?";
 export const postImgSql = "INSERT INTO topicsimage (topicimage_id, image_url, post_id, user_id) VALUES (?, ?, ?, ?)";
 
 export const getPostImgSql = "SELECT image_url FROM topicsimage WHERE post_id = ?";
+
+export const getPostUserSql = "SELECT user_id FROM post WHERE post_id = ?;";
+
+export const deletePostImgSql = "DELETE FROM topicsimage WHERE post_id = ?"

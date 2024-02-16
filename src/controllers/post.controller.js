@@ -49,7 +49,7 @@ export const deletePost = async (req, res, next) => {
 
     const { post_id } = req.params;
 
-    return res.send(response(status.SUCCESS, await postDao.deletePost(post_id, req.userID)));
+    return res.send(response(status.SUCCESS, await postService.deletePost(post_id, req.userID)));
 }
 
 

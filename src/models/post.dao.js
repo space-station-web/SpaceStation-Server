@@ -3,10 +3,11 @@ import { pool } from "../../config/db.config.js";
 import { getAllPostsSql,  getSearchPostsSql, insertPostSql, deletePostSql,
          getPostSql, updatePostSql, getPostsByUserIdSql, getFollowPostsByUserIDSql, 
          getTopicSql, getUnviewdTopicSql,
-         deleteViewedTopicSql, insertViewedTopicSql, postImgSql, getPostImgSql } from "./post.sql.js";
+         deleteViewedTopicSql, insertViewedTopicSql, postImgSql, getPostImgSql, getPostUserSql, deletePostImgSql } from "./post.sql.js";
 
 import { status } from "../../config/response.status.js";
-import { postResponseDTO } from "../dtos/post.dto.js";
+import { postImgResponseDTO, postResponseDTO } from "../dtos/post.dto.js";
+import { BaseError } from "../../config/error.js";
 
 //  전체 글 조회
 export const getAllPosts = async(userID, {orderColumn, orderDirection, limit, offset}) => {
@@ -63,11 +64,12 @@ export const writeContent = async (data) => {
 
 
 // 글 삭제
-export const deletePost = async (post_id, user_id) => {
+export const deletePost = async (post_id) => {
     try{
         const conn = await pool.getConnection();
 
-        const result = await conn.query(deletePostSql, [post_id, user_id]);
+        const postResult = await conn.query(deletePostSql, [post_id]);
+        const postImg = await conn.query(deletePostImgSql, [post_id]);
 
         conn.release();
 
@@ -91,7 +93,14 @@ export const getPost = async (post_id) => {
         console.log("length: ", resultImg[0].length);
         console.log("dto: ", postResponseDTO(result[0][0], resultImg[0]));
 
-        return postResponseDTO(result[0][0], resultImg[0]);
+        if(resultImg[0].length == 0) {
+            console.log("dto: ", postResponseDTO(result[0][0]));
+            return postResponseDTO(result[0][0]);
+        }
+        else {
+            console.log("dto: ", postImgResponseDTO(result[0][0], resultImg[0]));
+            return postImgResponseDTO(result[0][0], resultImg[0]);
+        }
     } catch (err) {
         throw err;
     }
@@ -208,4 +217,22 @@ export const postImg = async(imagedata) => {
             }
         }
     conn.release();
+}
+
+// 유저 조회
+export const getPostUser = async (post_id) => {
+    try {
+        const conn = await pool.getConnection();
+        const result = await pool.query(getPostUserSql, [post_id]);
+
+        if(result.length == 0){
+            return -1;
+        }
+
+        conn.release();
+        return result;
+        
+    } catch (err) {
+        throw err;
+    }
 }

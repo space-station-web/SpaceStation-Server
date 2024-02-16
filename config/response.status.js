@@ -22,7 +22,7 @@ export const status = {
     POST_CONTENT_TOO_LONG: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "POST013", "message": "게시글 내용이 너무 깁니다. 65535자 이내로 작성해주세요."},
     POST_VISIBILITY_EMPTY: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "POST014", "message": "공개여부를 선택해 주세요."},
     POST_TIME_EMPTY: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "POST015", "message": "터뜨리기 시간을 설정해주세요."},
-
+    POST_UNAUTHORIZED: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "POST016", "message": "글 작성자가 아닙니다."},
 
     // book
     WRONG_EXTENSION: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "BOOK001", "message": "허용된 파일 확장자가 아닙니다." },
