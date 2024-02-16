@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/SpaceStation-Server.iml" filepath="$PROJECT_DIR$/.idea/SpaceStation-Server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SpaceStationServer.iml" filepath="$PROJECT_DIR$/.idea/SpaceStationServer.iml" />
     </modules>
   </component>
 </project>
