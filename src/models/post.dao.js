@@ -4,7 +4,7 @@ import { getAllPostsSql,  getSearchPostsSql, insertPostSql, deletePostSql,
          getPostSql, updatePostSql, getPostsByUserIdSql, getFollowPostsByUserIDSql, 
          getTopicSql, getUnviewdTopicSql,
          deleteViewedTopicSql, insertViewedTopicSql, postImgSql, 
-         getPostImgSql, getPostUserSql, deletePostImgSql, getImgCountSql, getPostLikeCountSql } from "./post.sql.js";
+         getPostImgSql, getPostUserSql, deletePostImgSql, getImgCountSql, getPostLikeCountSql, explodePostSql } from "./post.sql.js";
 
 import { status } from "../../config/response.status.js";
 import { postImgResponseDTO, postResponseDTO } from "../dtos/post.dto.js";
@@ -245,10 +245,25 @@ export const updateImg = async(imagedata, post_id) => {
     conn.release();
 }
 
+// 이미지 수
 export const getImgCount = async(post_id) => {
     const conn = await pool.getConnection();
     const result = await pool.query(getImgCountSql, [post_id]);
     console.log("result: ", result);
 
     return result;
+}
+
+// 터뜨리기
+export const explodePost = async (post_id, time) => {
+    let delay = time * 1000;
+
+    console.log("delay: ", delay);
+    setTimeout(async () => {
+        const conn = await pool.getConnection();
+        const result = await pool.query(explodePostSql, [post_id]);
+        conn.release();
+    }, delay);
+
+    return "자동 삭제되었습니다."
 }

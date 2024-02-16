@@ -38,7 +38,7 @@ export const addPost = async (req, res, next) => {
     if (!req.body.content) return res.send(new BaseError(status.POST_CONTENT_EMPTY));
     if (req.body.content.length > 65535) return res.send(new BaseError(status.POST_CONTENT_TOO_LONG));
     if (!req.body.visibility) return res.send(new BaseError(status.POST_VISIBILITY_EMPTY));
-    if (req.body.visibility == "터뜨리기" && req.body.self_destructTime == null) res.send(new BaseError(status.POST_TIME_EMPTY));
+    if (req.body.visibility == "터뜨리기" && !req.body.self_destructTime) return res.send(new BaseError(status.POST_TIME_EMPTY)); 
 
     return res.send(response(status.SUCCESS, await postService.addNewPost(req.body, req.userID, files)));
 };
@@ -67,7 +67,12 @@ export const editPost = async (req, res, next) => {
     if (!req.body.content) return res.send(new BaseError(status.POST_CONTENT_EMPTY));
     if (req.body.content.length > 65535) return res.send(new BaseError(status.POST_CONTENT_TOO_LONG));
     if (!req.body.visibility) return res.send(new BaseError(status.POST_VISIBILITY_EMPTY));
-    if (req.body.visibility == "터뜨리기" && !req.body.self_destructTime) return res.send(new BaseError(status.POST_TIME_EMPTY));
+    if (req.body.visibility == "터뜨리기" && !req.body.self_destructTime) {
+        return res.send(new BaseError(status.POST_TIME_EMPTY));
+    } else {
+        res.send(response(status.SUCCESS, await postService.explodePost(post_id, req.body, req.userID, files)));
+    }
+
 
     return res.send(response(status.SUCCESS, await postService.updatePost(post_id, req.body, req.userID, files)));
 }
