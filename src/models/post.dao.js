@@ -29,7 +29,7 @@ export const getSearchPost = async(userID,{orderType, postSearchWord}) => {
         const conn = await pool.getConnection();
         const result = await pool.query(getSearchPostsSql({orderType, postSearchWord}), [        
         userID]);
-        console.log(result);
+        //console.log(result);
         conn.release();
         return result[0];
     } catch (err) {

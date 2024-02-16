@@ -8,11 +8,17 @@ export const getPostSql = "SELECT post_id, user_id, title, content, visibility, 
 
 export const updatePostSql = "UPDATE post SET title = ?, content = ?, visibility = ?, self_destructTime = ? WHERE post_id = ? AND user_id = ?"
 
+// 사용자 글 조회
 export const getPostsByUserIdSql = 
-`SELECT * FROM post WHERE user_id = ? order by created_at desc limit ? offset ?`;
+//`SELECT * FROM post WHERE user_id = ? order by created_at desc limit ? offset ?`;
+`SELECT post.*, topicsimage.image_url
+FROM post
+LEFT JOIN topicsimage ON post.post_id = topicsimage.post_id
+WHERE post.user_id = ?
+ORDER BY post.created_at DESC
+limit ? offset ?`;
 
-
-// 전체글조회
+// 전체 글 조회
 export const getAllPostsSql = ({orderColumn, orderDirection}) => `
 with post_with_like as (
     select u.name, p.post_id, count(pl.post_like_id) as like_count
@@ -41,14 +47,18 @@ export const getSearchPostsSql = ({orderType, postSearchWord}) => {
     let sql;
     if (orderType === "title") {
       sql = `
-      SELECT * FROM post WHERE ${orderType} LIKE '%${postSearchWord}%';
+      SELECT post.*, topicsimage.image_url
+        FROM post
+        LEFT JOIN topicsimage ON post.post_id = topicsimage.post_id
+        WHERE ${orderType} LIKE '%${postSearchWord}%';
       `;
     } else if (orderType === "nickname"){
       sql = `
-      SELECT post.*
-      FROM post
-      INNER JOIN user ON user.id = post.user_id
-      WHERE ${orderType} LIKE '%${postSearchWord}%';
+      SELECT post.*, topicsimage.image_url
+        FROM post
+        INNER JOIN user ON user.id = post.user_id
+        LEFT JOIN topicsimage ON post.post_id = topicsimage.post_id
+        WHERE ${orderType} LIKE '%${postSearchWord}%';
       `;
     } else{
         throw new Error(`Unsupported orderType: ${orderType}`);
@@ -57,9 +67,12 @@ export const getSearchPostsSql = ({orderType, postSearchWord}) => {
 }
 
 
-export const getFollowPostsByUserIDSql = `select  *
-from    post as p
-join follow as f on p.user_id = f.follow_id and f.user_id = ?;`
+//export const getFollowPostsByUserIDSql = `select  * from    post as p join follow as f on p.user_id = f.follow_id and f.user_id = ?;`
+export const getFollowPostsByUserIDSql = `
+SELECT p.*, ti.image_url
+FROM post AS p
+JOIN follow AS f ON p.user_id = f.follow_id AND f.user_id = ?
+LEFT JOIN topicsimage AS ti ON p.post_id = ti.post_id`;
 
 export const getTopicSql = "SELECT * FROM topic WHERE topic_id = ?";
 
