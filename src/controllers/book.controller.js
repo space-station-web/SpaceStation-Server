@@ -4,8 +4,8 @@ import { createBook, createBookContent, readBook, readBookList, updateBook, dele
 
 export const bookCreate = async (req, res, next) => {
     console.log("bookCreate!");
-    console.log("body:", req.body);
-    console.log("file", req.file);
+    console.log("body: ", req.body);
+    console.log("file: ", req.file);
     console.log("req.userID: ", req.userID); 
 
     res.send(response(status.SUCCESS, await createBook(req.body, req.file, req.userID)));
