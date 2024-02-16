@@ -5,17 +5,18 @@ paths:
         - User
       summary: 비밀번호 변경
       parameters:
-        - name: userID
+        - name: userId
           in: path
           required: true
           description: 사용자 ID
           schema:
-            type: bigint
-          example: 14
+            type: string
+          example: "14"
         - name: changepw
           in: body
           required: true
           schema:
+            type: object
             properties:
               pw:
                 type: varchar(100)
@@ -63,23 +64,4 @@ paths:
                     example: COMMON001
                   message:
                     type: string
-                    example: "잘못된 요청입니다"
-        '500':
-          description: 서버 에러
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: integer
-                    example: 500
-                  isSuccess:
-                    type: boolean
-                    example: false
-                  code:
-                    type: integer
-                    example: COMMON000
-                  message:
-                    type: string
-                    example: "서버 에러, 관리자에게 문의 바랍니다."
+
