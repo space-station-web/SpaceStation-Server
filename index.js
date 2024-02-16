@@ -74,7 +74,8 @@ app.use('/login', loginRouter);
 
 app.use('/email-check', emailcheckRouter);
 
-app.use('/changepw', changepwRouter);
+app.use('/changepw/:userId', changepwRouter);
+
 
 app.use('/login', loginRouter);
 

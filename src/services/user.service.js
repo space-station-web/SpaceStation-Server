@@ -50,9 +50,9 @@ export const recodeSend = async (body) => {
     }
 };
 
-export const codeCheck = async (req, body) => {
+export const codeCheck = async (body) => {
     try {
-        const verify = await checkCode(req,{
+        const verify = await checkCode({
             name: body.name,
             email: body.email,
             code: body.code,
@@ -63,7 +63,7 @@ export const codeCheck = async (req, body) => {
             return response(status.BAD_REQUEST);
         } else {
             console.log(verify.message); // 성공 메시지 추가
-            return response(status.SUCCESS);
+            return response(status.SUCCESS, {userId: verify.userId});
         }
     } catch (error) {
         // 예외 처리
@@ -157,13 +157,16 @@ export const checkemail = async (body) => {
 
 export const pwChange = async (req, body) => {
     try {
+
+        const { userId } = req.params.userId;
+
         // 비밀번호와 비밀번호 확인 일치 여부 확인
         if (body.pw !== body.pwcheck) {
             console.log('비밀번호 변경 실패 : 변경 비밀번호와, 변경 비밀번호 확인이 다릅니다.')
             return response(status.BAD_REQUEST);
         }
 
-        const changePW = await updatePW(req,{
+        const changePW = await updatePW(userId,{
             pw: String(body.pw),
             pwcheck: String(body.pwcheck),
         });
