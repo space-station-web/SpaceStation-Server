@@ -14,7 +14,7 @@ export const recode = async (req, res, next) => {
     console.log("인증번호 재전송을 요청하였습니다!");
     console.log("body:", req.body); // 값이 잘 들어오나 찍어보기 위한 테스트용
 
-    res.send(response(status.SUCCESS, await recodeSend(req.body)));
+    res.send(response(status.SUCCESS, await recodeSend(req, req.body)));
 }
 
 export const codecheck = async (req, res, next) => {
