@@ -56,6 +56,9 @@ export const deletePost = async (req, res, next) => {
 // 글 수정
 export const editPost = async (req, res, next) => {
     console.log("글 수정");
+    console.log("req.body: ", req.body);
+    console.log("files", req.files);
+    const files = req.files ?? []; 
 
     const { post_id } = req.params;
 
@@ -66,7 +69,7 @@ export const editPost = async (req, res, next) => {
     if (!req.body.visibility) return res.send(new BaseError(status.POST_VISIBILITY_EMPTY));
     if (req.body.visibility == "터뜨리기" && !req.body.self_destructTime) return res.send(new BaseError(status.POST_TIME_EMPTY));
 
-    return res.send(response(status.SUCCESS, await postService.updatePost(post_id, req.body, req.userID)));
+    return res.send(response(status.SUCCESS, await postService.updatePost(post_id, req.body, req.userID, files)));
 }
 
 // 글 조회

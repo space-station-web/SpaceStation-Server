@@ -32,7 +32,7 @@ postRouter.get('/:post_id', asyncHandler(getPost));
 // postRouter.get('/:post_id', tokenChecker, asyncHandler(getPost));
 
 // 글 수정
-postRouter.patch('/:post_id', tokenChecker, asyncHandler(editPost));
+postRouter.patch('/:post_id', imageUploader.array('image'), tokenChecker, asyncHandler(editPost));
 
 // 특정 사용자의 글 조회
 postRouter.get('/user/:user_id', tokenChecker, asyncHandler(getPostsByUserId));
