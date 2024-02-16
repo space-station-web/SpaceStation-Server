@@ -69,7 +69,7 @@ export const codeCheck = async (body) => {
 export const pwChange = async (req, body) => {
     try {
 
-        const { userId } = req.params;
+        const { userId } = req.params.userId;
 
         // 비밀번호와 비밀번호 확인 일치 여부 확인
         if (body.pw !== body.pwcheck) {

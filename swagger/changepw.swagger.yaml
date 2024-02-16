@@ -10,8 +10,10 @@ paths:
           required: true
           description: 사용자 ID
           schema:
-            type: string
-          example: "14"
+            properties:
+              usrId:
+                type: string
+                example: "14"
         - name: changepw
           in: body
           required: true
