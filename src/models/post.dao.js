@@ -88,10 +88,10 @@ export const getPost = async (post_id) => {
         const resultImg = await conn.query(getPostImgSql, [post_id]);
 
         conn.release();
+        console.log("length: ", resultImg[0].length);
+        console.log("dto: ", postResponseDTO(result[0][0], resultImg[0]));
 
-        console.log("dto: ", postResponseDTO(result[0][0], resultImg[0][0].image_url));
-
-        return postResponseDTO(result[0][0], resultImg[0][0].image_url);
+        return postResponseDTO(result[0][0], resultImg[0]);
     } catch (err) {
         throw err;
     }
@@ -194,12 +194,18 @@ export const getTopic = async (topic_id) => {
 // 이미지 업로드
 export const postImg = async(imagedata) => {
     const conn = await pool.getConnection(); 
-    const [image] = await conn.query(postImgSql, [
-        null,
-        imagedata.image_url, 
-        imagedata.post_id, 
-        imagedata.user_id
-    ]);
 
+    let resultContentImg = 0;
+    console.log("length: ", imagedata.image.length);
+        if ((imagedata.image != []) && (imagedata.post_id != -1)) {
+            for (let i = 0; i < imagedata.image.length; i++) {    // 사진 저장
+                const img = imagedata.image[i];
+                const result = await pool.query(postImgSql, 
+                    [null, img.location, imagedata.post_id, imagedata.user_id] ); 
+                if (result != -1) {
+                    resultContentImg++;
+                }
+            }
+        }
     conn.release();
 }
