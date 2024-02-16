@@ -54,12 +54,12 @@ app.use((err, req, res, next) => {
     res.status(err.data.status || status.INTERNAL_SERVER_ERROR).send(response(err.data));
 });
 
-app.use(session({
-    secret: process.env.session_secret,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}))
+// app.use(session({
+//     secret: process.env.session_secret,
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: false }
+// }))
 
 app.get('/', function (req, res) {
     res.send('Hello World')

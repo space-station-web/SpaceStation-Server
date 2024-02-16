@@ -7,7 +7,7 @@ import { imageUploader } from '../middleware/book.image.js';
 export const bookRouter = express.Router();
 
 // 책 생성
-bookRouter.post('/', tokenChecker, imageUploader.single('image'), bookCreate);
+bookRouter.post('/', tokenChecker, imageUploader.single('thumbnail'), bookCreate);
 
 // 책 목차 생성
 bookRouter.post('/:bookId/contents', tokenChecker, imageUploader.array('image', 10), bookContentCreate);

@@ -1,4 +1,4 @@
-export const createBookSql = "INSERT INTO book (book_id, title, intro, category, thumnail, create_at, user_id) "
+export const createBookSql = "INSERT INTO book (book_id, title, intro, category, thumbnail, create_at, user_id) "
                                 + "VALUES (?, ?, ?, ?, ?, ?, ?);";
 
 export const createBookContentsSql = "INSERT INTO bookContents (book_contents_id, content_title, content_text, content_create_at, `index`, book_id) "
