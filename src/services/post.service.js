@@ -98,3 +98,18 @@ export const getFollowPostsByUserID = async(userId) => {
     }
 }
 
+// 글 삭제
+export const deletePost = async (post_id, user_id) => {
+    const postUser = await postDao.getPostUser(post_id)
+    if (postUser[0][0].user_id != user_id) {
+        return new BaseError(status.POST_UNAUTHORIZED);
+    }
+
+    const deleteData = await postDao.deletePost(post_id);
+
+    if(deleteData == -1){
+        throw new BaseError(status.EMAIL_ALREADY_EXIST);
+    }else{
+        return deleteData;
+    }
+}
