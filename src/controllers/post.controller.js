@@ -1,5 +1,4 @@
 // post.controller.js
-
 import { response } from "../../config/response.js";
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
@@ -8,18 +7,24 @@ import * as postDao from "../models/post.dao.js";
 
 // 전체 글 조회
 export const getPosts = async (req, res) => {
+    //const { userID } = req;
+    const userID = 20;
     const { orderColumn, orderDirection, limit, offset } = req.query;
-    const list = await postService.getPosts({orderColumn, orderDirection, limit, offset});
+    const list = await postService.getPosts(userID,{orderColumn, orderDirection, limit, offset});
     return res.send(response(status.SUCCESS, list));
+    
 }
 
-// 글 검색
+// 글 검색 기능 
 export const searchPost = async (req, res) => {
-    const {orderType, postSearchWord} = req.query; 
+    //const { userID } = req;
+    const userID = 20;
+    const { orderType, postSearchWord } = req.query; 
     // 로그인 인증 미들웨어 사용 x
-    const searchList = await postService.searchPost({orderType, postSearchWord});
+    const searchList = await postService.searchPost(userID,{orderType, postSearchWord});
     return res.send(response(status.SUCCESS, searchList));
 }
+
 
 // 글 작성
 export const addPost = async (req, res, next) => {
@@ -83,8 +88,7 @@ export const getPostsByUserId = async (req, res) => {
 export const getFollowPosts = async (req, res) => {
     const { userID } = req;
     // const userID = 20; // 미들웨어 사용안할 시 지정
-    
-    return res.send(response(status.SUCCESS, await postService.getFollowPostsByUserID(userID)))
+    return res.send(response(status.SUCCESS, await postService.getFollowPostsByUserID(userID)));
 }
 
 // 글감 제공

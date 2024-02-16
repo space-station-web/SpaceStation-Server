@@ -8,34 +8,54 @@ export const getPostSql = "SELECT post_id, user_id, title, content, visibility, 
 
 export const updatePostSql = "UPDATE post SET title = ?, content = ?, visibility = ?, self_destructTime = ? WHERE post_id = ? AND user_id = ?"
 
-export const getPostsByUserIdSql = `SELECT * FROM post WHERE user_id = ? order by created_at desc limit ? offset ?`;
+export const getPostsByUserIdSql = 
+`SELECT * FROM post WHERE user_id = ? order by created_at desc limit ? offset ?`;
 
+
+// 전체글조회
 export const getAllPostsSql = ({orderColumn, orderDirection}) => `
-with post_with_like as (select u.name, p.post_id, count(pl.post_like_id) as like_count
+with post_with_like as (
+    select u.name, p.post_id, count(pl.post_like_id) as like_count
     from post as p
-            left join postLike as pl on p.post_id = pl.post_id
-            left join user as u on p.user_id = u.id
+        left join postLike as pl on p.post_id = pl.post_id
+        left join user as u on p.user_id = u.id
     group by p.post_id)
 
 , post_with_image as (
     select  p.post_id, min(img.topicimage_id) as image_id
     from    post_with_like as p
-    left join topicsimage as img on p.post_id = img.post_id
+        left join topicsimage as img on p.post_id = img.post_id
     group by p.post_id
 )
-
-    select p.title, p.content, pl.*
-         , img.image_url
+    select p.title, p.content, pl.*, img.image_url
     from    post as p
-    left join post_with_like as pl on pl.post_id = p.post_id
-    left join post_with_image as pwi on pwi.post_id = p.post_id
+        left join post_with_like as pl on pl.post_id = p.post_id
+        left join post_with_image as pwi on pwi.post_id = p.post_id
     left join topicsimage as img on pwi.image_id = img.topicimage_id
     order by ${orderColumn} ${orderDirection};
     
-`
+`;
 
-//export const getSearchPostsSql = ({orderType, postSearchWord}) => "SELECT * from post where ${orderType} like ${postSearchWord}";
-export const getSearchPostsSql = "SELECT * FROM post WHERE title LIKE '%검색어%';"
+// 글 검색
+export const getSearchPostsSql = ({orderType, postSearchWord}) => {
+    let sql;
+    if (orderType === "title") {
+      sql = `
+      SELECT * FROM post WHERE ${orderType} LIKE '%${postSearchWord}%';
+      `;
+    } else if (orderType === "nickname"){
+      sql = `
+      SELECT post.*
+      FROM post
+      INNER JOIN user ON user.id = post.user_id
+      WHERE ${orderType} LIKE '%${postSearchWord}%';
+      `;
+    } else{
+        throw new Error(`Unsupported orderType: ${orderType}`);
+    }
+    return sql;
+}
+
 
 export const getFollowPostsByUserIDSql = `select  *
 from    post as p

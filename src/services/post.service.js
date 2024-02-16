@@ -8,9 +8,9 @@ import * as postDao from '../models/post.dao.js';
 import { response } from "../../config/response.js";
 
 // 전체 글 조회
-export const getPosts = async ({orderColumn = 'created_at', orderDirection = 'desc', limit = 10, offset = 0}) => {
+export const getPosts = async (userID, {orderColumn = 'created_at', orderDirection = 'desc', limit = 10, offset = 0}) => {
     try {
-        const result = await postDao.getAllPosts({orderColumn, orderDirection, limit, offset})
+        const result = await postDao.getAllPosts(userID, {orderColumn, orderDirection, limit, offset})
         return result;
     } catch (error) {
         console.error(error);
@@ -19,14 +19,13 @@ export const getPosts = async ({orderColumn = 'created_at', orderDirection = 'de
 }
 
 // 글 검색(게시판)
-export const searchPost = async({orderType, postSearchWord}) => {
+export const searchPost = async(userID,{orderType, postSearchWord}) => {
     try {
-        const result = await postDao.getSearchPost({orderType, postSearchWord})
+        const result = await postDao.getSearchPost(userID,{orderType, postSearchWord})
         return result;
     } catch (error) {
         throw error;
     }
-
 }
 
 // 글 생성
