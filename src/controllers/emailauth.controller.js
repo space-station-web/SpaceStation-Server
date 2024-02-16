@@ -26,7 +26,8 @@ export const codecheck = async (req, res, next) => {
 
 export const pwchange = async (req, res, next) => {
     console.log("비밀번호 변경을 요청하였습니다!");
+    console.log("params:", req.params);
     console.log("body:", req.body); // 값이 잘 들어오나 찍어보기 위한 테스트용
 
-    res.send(response(status.SUCCESS, await pwChange(req.body)));
+    res.send(response(status.SUCCESS, await pwChange(req.params.userID, req.body)));
 }

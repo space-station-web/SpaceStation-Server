@@ -161,13 +161,15 @@ export const checkCode = async (data) => {
 };
 
 
-export const updatePW = async (userid, data) => {
+export const updatePW = async (userId, data) => {
     try {
+
+        userId = Number(userId);
 
         const conn = await pool.getConnection();
 
         try {
-            const [storedpwinfo] = await pool.query(getStoredPw, [userid]);
+            const [storedpwinfo] = await pool.query(getStoredPw, [userId]);
 
             if (!storedpwinfo) {
                 return {status: -1, message: "사용자 정보를 찾을 수 없습니다."};
@@ -190,7 +192,7 @@ export const updatePW = async (userid, data) => {
                 .update(data.pw + salt)
                 .digest(digest);
 
-            const updatePW = await pool.query(updateUserPwSql, [hashedPw, new Date(), salt, userid]);
+            const updatePW = await pool.query(updateUserPwSql, [hashedPw, new Date(), salt, userId]);
 
             console.log('비밀번호 변경이 완료되었습니다.');
             return {status: 1, message: "비밀번호 변경이 완료되었습니다."};

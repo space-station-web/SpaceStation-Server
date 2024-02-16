@@ -9,4 +9,4 @@ emailauthRouter.post('/verify', codecheck)
 
 export const changepwRouter = express.Router();
 
-changepwRouter.post('/{userid}', pwchange)
+changepwRouter.post('/', pwchange)
