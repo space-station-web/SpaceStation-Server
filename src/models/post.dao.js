@@ -1,23 +1,20 @@
 // post.dao.js
 import { pool } from "../../config/db.config.js";
-import { getAllPostsSql, getSearchPostsSql, insertPostSql, deletePostSql,
+import { getAllPostsSql,  getSearchPostsSql, insertPostSql, deletePostSql,
          getPostSql, updatePostSql, getPostsByUserIdSql, getFollowPostsByUserIDSql, 
          getTopicSql, getUnviewdTopicSql, updateUnviewedTopicSql, updateViewedTopicSql,
          deleteViewedTopicSql, insertViewedTopicSql } from "./post.sql.js";
 import { status } from "../../config/response.status.js";
 
 //  전체 글 조회
-export const getAllPosts = async({orderColumn, orderDirection, limit, offset}) => {
+export const getAllPosts = async(userID, {orderColumn, orderDirection, limit, offset}) => {
     try {
         
         const conn = await pool.getConnection();
-
         const result = await pool.query(getAllPostsSql({orderColumn, orderDirection}), [ 
             limit, offset
-        ]);
-
+        ],[userID]);
         conn.release();
-
         return result[0];
     } catch (err) {
         throw err;
@@ -25,17 +22,13 @@ export const getAllPosts = async({orderColumn, orderDirection, limit, offset}) =
 }
 
 // 글 검색 
-export const getSearchPost = async({orderType, postSearchWord}) => {
+export const getSearchPost = async(userID,{orderType, postSearchWord}) => {
     try {
-        
         const conn = await pool.getConnection();
-
-        const result = await pool.query(getSearchPostsSql({orderType, postSearchWord}), [ 
-            
-        ]);
-
+        const result = await pool.query(getSearchPostsSql({orderType, postSearchWord}), [        
+        userID]);
+        console.log(result);
         conn.release();
-
         return result[0];
     } catch (err) {
         throw err;

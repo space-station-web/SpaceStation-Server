@@ -8,7 +8,7 @@ import { tokenChecker } from "../../config/jwt-util.js";
 export const postRouter = express.Router();
 
 // 전체 글 조회
-postRouter.get('/', asyncHandler(getPosts))
+postRouter.get('/', asyncHandler(getPosts));
 
 // 글감 제공
 postRouter.get('/topics', tokenChecker, getTopic);
@@ -21,10 +21,9 @@ postRouter.delete('/:post_id', tokenChecker, asyncHandler(deletePost));
 
 // 내 모든 이웃의 글 조회
 postRouter.get('/follow-posts', tokenChecker, asyncHandler(getFollowPosts));
-// postRouter.get('/follow-posts', asyncHandler(getFollowPosts)); // 미들웨어 사용 안하면
 
 // 글 검색
-postRouter.get('/search' , asyncHandler(searchPost));
+postRouter.get('/search', asyncHandler(searchPost));
 
 // 글 조회
 postRouter.get('/:post_id', tokenChecker, asyncHandler(getPost));
@@ -32,5 +31,5 @@ postRouter.get('/:post_id', tokenChecker, asyncHandler(getPost));
 // 글 수정
 postRouter.patch('/:post_id', tokenChecker, asyncHandler(editPost));
 
-// 유저의 글 리스트 조회
-postRouter.get('/user/:user_id', asyncHandler(getPostsByUserId))
+// 특정 사용자의 글 조회
+postRouter.get('/user/:user_id', tokenChecker, asyncHandler(getPostsByUserId));
