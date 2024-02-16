@@ -12,7 +12,7 @@ export const createBook = async (body, file, userID) => {
         'title': body.title,
         'intro': body.intro,
         'category': body.category,
-        'thumbnail': file.location,
+        'thumbnail': (file != undefined? file.location : null),
         'user_id': userID,
     });
     console.log("create Book Result :" + createData.bookId);
