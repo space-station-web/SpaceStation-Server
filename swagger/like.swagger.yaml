@@ -1,0 +1,352 @@
+paths:
+  /likes/books/{bookId}:
+    post:
+      tags:
+        - Like
+      summary: 책 좋아요 생성
+      parameters:
+        - in: path
+          name: bookId
+          required: true
+          schema:
+            properties:
+              bookId:
+                type: string
+                description: 책 일련번호
+                example: 32
+        - in: header 
+          name: authorization
+          required: true
+          schema:
+            properties:
+              authorization:
+                type: string
+                description: accessToken
+                example: Bearer 
+        - in: header
+          name: refresh
+          required: true
+          schema:
+            properties:
+              refresh:
+                type: string
+                description: refreshToken
+      responses:
+        '200':
+          description: 책 보관 생성 성공!
+          schema:
+            type: object
+            properties:
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "success!"
+              result:
+                type: object
+                example: {
+                  "like": true
+                }
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
+
+    delete:
+      tags:
+        - Like
+      summary: 책 좋아요 삭제
+      parameters:
+        - in: path
+          name: bookId
+          required: true
+          schema:
+            properties:
+              bookId:
+                type: string
+                description: 책 일련번호
+                example: 32
+        - in: header 
+          name: authorization
+          required: true
+          schema:
+            properties:
+              authorization:
+                type: string
+                description: accessToken
+                example: Bearer 
+        - in: header
+          name: refresh
+          required: true
+          schema:
+            properties:
+              refresh:
+                type: string
+                description: refreshToken
+      responses:
+        '200':
+          description: 책 보관 삭제 성공!
+          schema:
+            type: object
+            properties:
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "success!"
+              result:
+                type: object
+                example: {
+                  "like": false
+                }
+
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
+
+  /likes/posts/{postId}:
+    post:
+      tags:
+        - Like
+      summary: 글 좋아요 생성
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          schema:
+            properties:
+              postId:
+                type: integer
+                description: 글 일련번호
+                example: 2
+        - in: header 
+          name: authorization
+          required: true
+          schema:
+            properties:
+              authorization:
+                type: string
+                description: accessToken
+                example: Bearer 
+        - in: header
+          name: refresh
+          required: true
+          schema:
+            properties:
+              refresh:
+                type: string
+                description: refreshToken
+      responses:
+        '200':
+          description: 글 좋아요 생성 성공!
+          schema:
+            type: object
+            properties:
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "success!"
+              result:
+                type: object
+                example: {
+                  "like": true
+                }
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
+
+    delete:
+      tags:
+        - Like
+      summary: 글 좋아요 삭제
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          schema:
+            properties:
+              postId:
+                type: integer
+                description: 글 일련번호
+                example: 2
+        - in: header 
+          name: authorization
+          required: true
+          schema:
+            properties:
+              authorization:
+                type: string
+                description: accessToken
+                example: Bearer 
+        - in: header
+          name: refresh
+          required: true
+          schema:
+            properties:
+              refresh:
+                type: string
+                description: refreshToken
+      responses:
+        '200':
+          description: 글 좋아요 삭제 성공!
+          schema:
+            type: object
+            properties:
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "success!"
+              result:
+                type: object
+                example: {
+                  "like": false
+                }
+
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.

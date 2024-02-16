@@ -1,0 +1,322 @@
+paths:
+  /posts:
+    post:
+      tags:
+        - Post
+      summary: 글 작성
+      consumes:
+        - multipart/form-data  # 문서 타입 지정
+      parameters:
+        - in: formData
+          name: title
+          type: string
+          description: 제목
+          example: 테스트 제목
+        - in: formData
+          name: content
+          type: string
+          description: 내용
+          example: 테스트 내용
+        - in: formData
+          name: topic_id
+          type: integer
+          description: 조회한 글감
+          example: 조회 글감
+        - in: formData
+          name: visibility
+          type: string
+          description: 공개여부
+          example: 전체공개
+        - in: formData
+          name: image
+          type: file
+          description: 파일 업로드
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh                                                                                                                                  
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
+      responses:
+        '2000':
+          description: 글 등록 성공
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 2000
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  title: 붕어빵의 계절,
+                  content: 겨울은 붕어빵의 계절이다,
+                  visibility: 전체공개
+                }
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isSuccess:
+                    type: boolean
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                  example:
+                    isSuccess: false
+                    code: 400
+                    message: 제목을 입력해 주세요.
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isSuccess:
+                    type: boolean
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                  example:
+                    isSuccess: false
+                    code: 401
+                    message: JWT 토큰 검증 실패
+
+  /posts/{post_id}:
+    delete:
+      tags:
+        - Post
+      summary: 글 삭제
+      parameters:
+        - name: post_id
+          in: path
+          required: true
+          description: 글 ID
+          schema:
+            type: integer
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
+      responses:
+        '2000':
+          description: 글 삭제 성공
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 2000
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  "글이 삭제되었습니다."
+                }
+
+    get:
+      tags:
+        - Post
+      summary: 글 조회
+      parameters:
+        - name: post_id
+          in: path
+          required: true
+          description: 글 ID
+          schema:
+            type: integer
+      responses:
+        '2000':
+          description: 글 조회 성공
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 2000
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  "title": "붕어빵의 계절",
+                  "content": "겨울은 붕어빵의 계절이다",
+                  "visibility": "전체공개"
+                }
+
+    patch:
+      tags:
+        - Post
+      summary: 글 수정
+      parameters:
+        - name: post_id
+          in: path
+          required: true
+          description: 글 ID
+          schema:
+            type: integer
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
+        - name: update
+          in: body
+          required: true
+          schema:
+            properties:
+                title:
+                  type: string
+                  description: 제목
+                  example: 붕어빵의 계절
+                content:
+                  type: string
+                  description: 내용
+                  example: 겨울은 붕어빵의 계절이다
+                visibility:
+                  type: string
+                  description: 공개여부 "전체공개"(1), "이웃공개"(2), "나만공개"(3), "터뜨리기"(4) 중 하나
+                  example: 전체공개
+                self_destructTime:
+                  type: integer
+                  description: 터뜨리기 시간 10, 15, 20, 30 "터뜨리기"일 때만
+                  example: 15
+      responses:
+        '2000':
+          description: 글 수정 성공
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 2000
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  post_id: 14,
+                  title: "붕어빵",
+                  content: "붕어빵은 겨울의 계절이다."
+                }
+        '400':
+          description: 터뜨리기 시간 미정
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: POST015
+              message:
+                type: string
+                example: 터뜨리기 시간을 설정해주세요.
+
+  /posts/topics:
+    get:
+      tags:
+        - Post
+      summary: 글감 조회
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
+      responses:
+        '2000':
+          description: 글감 조회 성공
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 2000
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  "topic_id": 10,
+                  "todaytopic": "눈물",
+                  "content": "감정을 표현하는 수단 중 하나인 눈물. 슬플 때, 기쁠 때, 화날 때 등등 다양한 감정을 표출하기도 하죠. 당신은 언제 눈물을 흘리나요?",
+                  "viewed": 1,
+                  "user_id": 1
+                }

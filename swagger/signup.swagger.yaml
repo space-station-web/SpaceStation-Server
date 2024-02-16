@@ -1,0 +1,110 @@
+paths:
+  /signup:
+    post:
+      tags:
+        - User
+      summary: 회원가입
+      parameters:
+        - name: signup
+          in: body
+          required: true
+          schema:
+            properties:
+              name:
+                type: string
+                maxLength: 10
+                description: 유저 이름
+                example: 김대붕
+              nickname:
+                type: string
+                maxLength: 50
+                description: 유저 닉네임
+                example: 붕붕이
+              email:
+                type: string
+                maxLength: 50
+                description: 유저 이메일
+                example: example15@example.com
+              pw:
+                type: string
+                maxLength: 100
+                description: 유져 비밀번호
+                example: 'poiuqwer'
+              pwcheck:
+                type: string
+                maxLength: 100
+                description: 유져 비밀번호 확인
+                example: 'poiuqwer'
+              phone:
+                type: string
+                maxLength: 15
+                description: 유저 휴대폰
+                example: '01008971324'
+              b_date:
+                type: date
+                description: 생년월일
+                example: 19980922
+              alarm:
+                type: boolean
+                description: 알람 약관 동의
+                example: True
+      responses:
+        '200':
+          description: 회원 가입 성공!
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 200
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  "name": "길벗",
+                  "nickname": "출판다",
+                }
+
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.

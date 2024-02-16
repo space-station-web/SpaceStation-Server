@@ -1,0 +1,370 @@
+paths:
+  /storages/books/{bookId}:
+    post:
+      tags:
+        - Storage
+      summary: 책 보관 생성
+      parameters:
+        - in: path
+          name: bookId
+          required: true
+          schema:
+            properties:
+              bookId:
+                type: integer
+                description: 책 일련번호
+                example: 31
+        - in: header 
+          name: authorization
+          required: true
+          schema:
+            properties:
+              authorization:
+                type: string
+                description: accessToken
+                example: Bearer 
+        - in: header
+          name: refresh
+          required: true
+          schema:
+            properties:
+              refresh:
+                type: string
+                description: refreshToken
+        - in: body
+          name: typeId
+          required: true
+          schema:
+            properties:
+              typeId:
+                type: integer
+                description: 보관함 일련번호
+                example: 1
+      responses:
+        '200':
+          description: 책 보관 생성 성공!
+          schema:
+            type: object
+            properties:
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "success!"
+              result:
+                type: object
+                example: {
+                  "inStorage": true
+                }
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
+
+    delete:
+      tags:
+        - Storage
+      summary: 책 보관 삭제
+      parameters:
+        - in: path
+          name: bookId
+          required: true
+          schema:
+            properties:
+              bookId:
+                type: integer
+                description: 책 일련번호
+                example: 31
+        - in: header 
+          name: authorization
+          required: true
+          schema:
+            properties:
+              authorization:
+                type: string
+                description: accessToken
+                example: Bearer 
+        - in: header
+          name: refresh
+          required: true
+          schema:
+            properties:
+              refresh:
+                type: string
+                description: refreshToken
+      responses:
+        '200':
+          description: 책 보관 삭제 성공!
+          schema:
+            type: object
+            properties:
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "success!"
+              result:
+                type: object
+                example: {
+                  "inStorage": false
+                }
+
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
+
+  /storages/posts/{postId}:
+    post:
+      tags:
+        - Storage
+      summary: 글 보관 생성
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          schema:
+            properties:
+              bookId:
+                type: integer
+                description: 글 일련번호
+                example: 31
+        - in: header 
+          name: authorization
+          required: true
+          schema:
+            properties:
+              authorization:
+                type: string
+                description: accessToken
+                example: Bearer 
+        - in: header
+          name: refresh
+          required: true
+          schema:
+            properties:
+              refresh:
+                type: string
+                description: refreshToken
+        - in: body
+          name: typeId
+          required: true
+          schema:
+            properties:
+              typeId:
+                type: integer
+                description: 보관함 일련번호
+                example: 1
+      responses:
+        '200':
+          description: 글 보관 생성 성공!
+          schema:
+            type: object
+            properties:
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "success!"
+              result:
+                type: object
+                example: {
+                  "inStorage": true
+                }
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.
+
+    delete:
+      tags:
+        - Storage
+      summary: 글 보관 삭제
+      parameters:
+        - in: path
+          name: postId
+          required: true
+          schema:
+            properties:
+              bookId:
+                type: integer
+                description: 책 일련번호
+                example: 31
+        - in: header 
+          name: authorization
+          required: true
+          schema:
+            properties:
+              authorization:
+                type: string
+                description: accessToken
+                example: Bearer 
+        - in: header
+          name: refresh
+          required: true
+          schema:
+            properties:
+              refresh:
+                type: string
+                description: refreshToken
+      responses:
+        '200':
+          description: 책 보관 삭제 성공!
+          schema:
+            type: object
+            properties:
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 200
+              message:
+                type: string
+                example: "success!"
+              result:
+                type: object
+                example: {
+                  "inStorage": false
+                }
+
+        '400':
+          description: 잘못된 요청
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 400
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON001
+              message:
+                type: string
+                example: 잘못된 요청입니다
+
+        '500':
+          description: 서버 에러
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 500
+              isSuccess:
+                type: boolean
+                example: false
+              code:
+                type: integer
+                example: COMMON000
+              message:
+                type: string
+                example: 서버 에러, 관리자에게 문의 바랍니다.

@@ -1,0 +1,271 @@
+paths:
+##  /comments/reference/{post_id}:
+##    get:
+##    tags:
+##      - Comment
+##    summary: 인용할 글 조회
+##    parameters:
+##      - name: post_id
+##        in: path
+##        required: true
+##        description: 인용할 글 ID
+##        schema:
+##          type: integer
+##    responses:
+##      '2000':
+##        description: 글 조회 성공
+##        schema:
+##          type: object
+##          properties:
+##            status:
+##              type: integer
+##              example: 2000
+##            isSuccess:
+##              type: boolean
+##              example: true
+##            code:
+##              type: integer
+##              example: 2000
+##            message:
+##              type: string
+##              example: "success!"
+##            data:
+##              type: object
+##              example: {
+##                "post_id": 11,
+##                "user_id": 123,
+##                "title": "제목",
+##                 "date": "2024.02.11"
+##              }
+
+  /comments/posts/{post_id}:
+    post:
+      tags:
+        - Comment
+      summary: 인용 글 작성
+      parameters:
+        - name: post_id
+          in: path
+          required: true
+          description: 인용할 글 ID
+          schema:
+            type: integer
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
+        - name: post
+          in: body
+          required: true
+          schema:
+              properties:
+                user_id:
+                  type: integer
+                  description: 유저 ID
+                  example: 13
+                content:
+                  type: string
+                  description: 내용
+                  example: 겨울은 붕어빵의 계절이다
+      responses:
+        '2000':
+          description: 글 등록 성공
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 2000
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  "comment_id": 11,
+                  "content": "겨울은 붕어빵의 계절이다",
+                  "user_id": 13,
+                  "post_id": 5,
+                  "create_at": "2024-02-12T19:57:51.000Z"
+                }
+
+  /comments/{comment_id}:
+    get:
+      tags:
+        - Comment
+      summary: 인용 글 상세 조회
+      parameters:
+        - name: comment_id
+          in: path
+          required: true
+          description: 인용 글 ID
+          schema:
+            type: integer
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
+      responses:
+        '2000':
+          description: 글 조회 성공
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 2000
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  "reference": {
+                    "post_id": 5,
+                    "user_id": 1,
+                    "title": "사랑에 물들다, 준비 수정",
+                    "date": "2024.02.06"
+                  },
+                  "comment": {
+                    "comment_id": 11,
+                    "content": "겨울은 붕어빵의 계절이다",
+                    "user_id": 13,
+                    "post_id": 5,
+                    "create_at": "2024-02-12T19:57:51.000Z"
+                  }
+                }
+
+    delete:
+      tags:
+        - Comment
+      summary: 인용 글 삭제
+      parameters:
+        - name: comment_id
+          in: path
+          required: true
+          description: 인용 글 ID
+          schema:
+            type: integer
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
+      responses:
+        '2000':
+          description: 글 삭제 성공
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 2000
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  "글이 삭제되었습니다."
+                }
+
+    patch:
+      tags:
+        - Comment
+      summary: 인용 글 수정
+      parameters:
+        - name: comment_id
+          in: path
+          required: true
+          description: 인용 글 ID
+          schema:
+            type: integer
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
+        - name: post
+          in: body
+          required: true
+          schema:
+              properties:
+                content:
+                  type: string
+                  description: 내용
+                  example: 겨울은 붕어빵의 계절이다
+      responses:
+        '2000':
+          description: 글 등록 성공
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 2000
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  "comment_id": 11,
+                  "content": "겨울은 붕어빵의 계절이다",
+                  "user_id": 13,
+                  "post_id": 5,
+                  "create_at": "2024-02-12T19:57:51.000Z"
+                }

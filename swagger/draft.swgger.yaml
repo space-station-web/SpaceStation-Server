@@ -1,0 +1,350 @@
+paths:
+  /drafts:
+    post:
+      tags:
+        - Draft
+      summary: 임시저장
+      parameters:
+        - name: post
+          in: body
+          required: true
+          schema:
+              properties:
+                title:
+                  type: string
+                  description: 제목
+                  example: 붕어빵의 계절
+                content:
+                  type: string
+                  description: 내용
+                  example: 겨울은 붕어빵의 계절이다
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
+      responses:
+        '2000':
+          description: 글 등록 성공
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 2000
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  draft_id: 12,
+                  user_id: 1,
+                  title: 붕어빵의 계절,
+                  content: 겨울은 붕어빵의 계절이다
+                }
+    
+    get:
+      tags:
+       - Draft
+      summary: 임시저장 글 전체 조회
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
+      responses:
+        '2000':
+          description: 임시저장 글 조회 성공
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 2000
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: [
+                  {
+                    "draft_id": 6,
+                    "user_id": 1,
+                    "title": "붕어빵의 계절",
+                    "create_at": "2024-02-11T16:15:53.000Z"
+                  },
+                  {
+                    "draft_id": 5,
+                    "user_id": 1,
+                    "title": "붕어빵의 수정",
+                    "create_at": "2024-02-11T15:53:02.000Z"
+                  },
+                  {
+                    "draft_id": 4,
+                    "user_id": 1,
+                    "title": "붕어빵의 수정",
+                    "create_at": "2024-02-11T15:52:06.000Z"
+                  }
+                ]
+  
+
+  /drafts/{draft_id}:
+    patch:
+      tags:
+        - Draft
+      summary: 임시저장 글 수정 후 임시저장
+      parameters:
+        - name: draft_id
+          in: path
+          required: true
+          description: 임시저장 글 ID
+          schema:
+            type: integer
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
+        - name: update
+          in: body
+          required: true
+          schema:
+              properties:
+                title:
+                  type: string
+                  description: 제목
+                  example: 붕어빵의 계절
+                content:
+                  type: string
+                  description: 내용
+                  example: 겨울은 붕어빵의 계절이다
+      responses:
+        '2000':
+          description: 글 등록 성공
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 2000
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  draft_id: 12,
+                  user_id: 1,
+                  title: 붕어빵의 계절,
+                  content: 겨울은 붕어빵의 계절이다
+                }
+                
+    delete:
+      tags:
+        - Draft
+      summary: 임시저장 글 삭제
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
+        - name: draft_id
+          in: path
+          required: true
+          description: 임시저장 글 ID
+          schema:
+            type: integer
+      responses:
+        '2000':
+          description: 글 삭제 성공
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 2000
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  "임시저장 글이 삭제되었습니다."
+                }
+    get:
+      tags:
+        - Draft
+      summary: 임시저장 글 상세 조회
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
+        - name: draft_id
+          in: path
+          required: true
+          description: 임시저장 글 ID
+          schema:
+            type: integer
+      responses:
+        '2000':
+          description: 글 조회 성공
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 2000
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  "draft_id": 5,
+                  "title": "붕어빵의 수정",
+                  "content": "겨울은 붕어빵의 계절이다 수정2",
+                  "create_at": "2024-02-11T15:53:02.000Z",
+                  "topic_id": 0,
+                  "user_id": 1
+                }
+                
+  /drafts/{draft_id}/posts:
+    post:
+      tags:
+        - Draft
+      summary: 임시저장 글 수정 후 저장
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: 사용자 JWT 토큰
+          example: Bearer your-jwt-token 
+        - name: Refresh
+          in: header
+          required: false
+          type: string
+          description: 사용자 Refresh 토큰
+          example: your-refresh-token 
+        - name: draft_id
+          in: path
+          required: true
+          description: 임시저장 글 ID
+          schema:
+            type: integer
+        - name: update-post
+          in: body
+          required: true
+          schema:
+              properties:
+                title:
+                  type: string
+                  description: 제목
+                  example: 붕어빵의 계절
+                content:
+                  type: string
+                  description: 내용
+                  example: 겨울은 붕어빵의 계절이다
+                visibility:
+                  type: string
+                  description: 공개여부 "전체공개"(1), "이웃공개"(2), "나만공개"(3), "터뜨리기"(4) 중 하나
+                  example: 전체공개
+                self_destructTime:
+                  type: integer
+                  description: 터뜨리기 시간 10, 15, 20, 30 "터뜨리기"일 때만
+                  example: 15
+      responses:
+        '2000':
+          description: 글 등록 성공
+          schema:
+            type: object
+            properties:
+              status:
+                type: integer
+                example: 2000
+              isSuccess:
+                type: boolean
+                example: true
+              code:
+                type: integer
+                example: 2000
+              message:
+                type: string
+                example: "success!"
+              data:
+                type: object
+                example: {
+                  title: 붕어빵의 계절,
+                  content: 겨울은 붕어빵의 계절이다,
+                  visibility: 전체공개
+                }
