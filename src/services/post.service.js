@@ -49,6 +49,12 @@ export const addNewPost = async (body, user_id, image) => {
         }
 
         const getPostData = await postDao.getPost(postData.post_id, user_id);
+        console.log("getPostData.self_destructTime: ", getPostData.self_destructTime);
+
+        if (getPostData.visibility == "터뜨리기") {
+            const explodePostData = postDao.explodePost(postData.post_id, getPostData.self_destructTime);
+            return explodePostData;
+        }
 
         return getPostData;
     } catch (error) {
@@ -81,6 +87,8 @@ export const updatePost = async (post_id, body, user_id, image) => {
         }
 
         const getPostData = await postDao.getPost(post_id);
+
+        // if (getPostData.visibility == "터뜨리기") await postDao.explodePost(post_id);
 
         return getPostData;
     } catch (error) {
