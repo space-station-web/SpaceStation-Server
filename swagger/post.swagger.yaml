@@ -192,7 +192,24 @@ paths:
       tags:
         - Post
       summary: 글 수정
+      consumes:
+        - multipart/form-data  # 문서 타입 지정
       parameters:
+        - in: formData
+          name: title
+          type: string
+          description: 제목
+          example: 테스트 제목
+        - in: formData
+          name: content
+          type: string
+          description: 내용
+          example: 테스트 내용
+        - in: formData
+          name: visibility
+          type: string
+          description: 공개여부
+          example: 전체공개
         - name: post_id
           in: path
           required: true
@@ -211,27 +228,7 @@ paths:
           type: string
           description: 사용자 Refresh 토큰
           example: your-refresh-token 
-        - name: update
-          in: body
-          required: true
-          schema:
-            properties:
-                title:
-                  type: string
-                  description: 제목
-                  example: 붕어빵의 계절
-                content:
-                  type: string
-                  description: 내용
-                  example: 겨울은 붕어빵의 계절이다
-                visibility:
-                  type: string
-                  description: 공개여부 "전체공개"(1), "이웃공개"(2), "나만공개"(3), "터뜨리기"(4) 중 하나
-                  example: 전체공개
-                self_destructTime:
-                  type: integer
-                  description: 터뜨리기 시간 10, 15, 20, 30 "터뜨리기"일 때만
-                  example: 15
+        
       responses:
         '2000':
           description: 글 수정 성공

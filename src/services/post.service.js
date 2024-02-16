@@ -58,14 +58,27 @@ export const addNewPost = async (body, user_id, image) => {
 }
 
 // 글 수정
-export const updatePost = async (post_id, body, user_id) => {
+export const updatePost = async (post_id, body, user_id, image) => {
     try {
+        const postUser = await postDao.getPostUser(post_id)
+        if (postUser[0][0].user_id != user_id) {
+            return new BaseError(status.POST_UNAUTHORIZED);
+        }
+
         const upData = await postDao.updatePost({
             "title": body.title, 
             "content": body.content,
             "visibility": body.visibility,
             "self_destructTime": body.self_destructTime
         }, post_id, user_id);
+
+        if(image != -1){
+            const postImgData = await postDao.updateImg({
+                "image": image,
+                "post_id": post_id,
+                "user_id": user_id
+            })
+        }
 
         const getPostData = await postDao.getPost(post_id);
 
