@@ -1,7 +1,8 @@
 import { pool } from "../../config/db.config.js";
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
-import { searchLikeBookSql, searchLikePostSql,
+import { searchLikeBookSql, searchLikeBookCountSql,
+         searchLikePostSql, searchLikePostCountSql,
          addLikeBookSql, delLikeBookSql, delLikeByBookIdSql, 
          addLikePostSql, delLikePostSql, delLikeByPostIdSql } from "./like.sql.js";
 
@@ -9,18 +10,46 @@ export const searchLikeBook = async (data) => {
     try{
         const conn = await pool.getConnection();
         const resultSearch = await pool.query(searchLikeBookSql, [data.book_id, data.user_id]);
+        const resultCntSearch = await pool.query(searchLikeBookCountSql, [data.book_id]);
         conn.release();
         if (resultSearch[0][0] != null) {
-            console.log("LikeBookId : " + resultSearch[0][0].book_like_id);
-            return true; 
+            return {
+                "bookLike": true,
+                "bookLikeCount": resultCntSearch[0][0].cnt
+            }; 
         } else {
-            return false; 
+            return {
+                "bookLike": false,
+                "bookLikeCount": resultCntSearch[0][0].cnt
+            }; 
         } 
     }catch (err) {
         throw new BaseError(err);
     }
 }         
-         
+
+export const searchLikePost = async (data) => {
+    try{
+        const conn = await pool.getConnection();
+        const resultSearch = await pool.query(searchLikePostSql, [data.post_id, data.user_id]);
+        const resultCntSearch = await pool.query(searchLikePostCountSql, [data.post_id]);
+        conn.release();
+        if (resultSearch[0][0] != null) {
+            return {
+                "postLike": true,
+                "postLikeCount": resultCntSearch[0][0].cnt
+            }; 
+        } else {
+            return {
+                "postLike": false,
+                "postLikeCount": resultCntSearch[0][0].cnt
+            }; 
+        } 
+    }catch (err) {
+        throw new BaseError(err);
+    }
+}   
+
 export const addLikeBook = async (data) => {
     try{
         const conn = await pool.getConnection();

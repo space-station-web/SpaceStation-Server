@@ -2,9 +2,11 @@
 import { pool } from "../../config/db.config.js";
 import { getAllPostsSql,  getSearchPostsSql, insertPostSql, deletePostSql,
          getPostSql, updatePostSql, getPostsByUserIdSql, getFollowPostsByUserIDSql, 
-         getTopicSql, getUnviewdTopicSql, updateUnviewedTopicSql, updateViewedTopicSql,
-         deleteViewedTopicSql, insertViewedTopicSql } from "./post.sql.js";
+         getTopicSql, getUnviewdTopicSql,
+         deleteViewedTopicSql, insertViewedTopicSql, postImgSql, getPostImgSql } from "./post.sql.js";
+
 import { status } from "../../config/response.status.js";
+import { postResponseDTO } from "../dtos/post.dto.js";
 
 //  전체 글 조회
 export const getAllPosts = async(userID, {orderColumn, orderDirection, limit, offset}) => {
@@ -77,16 +79,19 @@ export const deletePost = async (post_id, user_id) => {
 }
 
 // 글 조회
-export const getPost = async (post_id, user_id) => {
+export const getPost = async (post_id) => {
     try{
         const conn = await pool.getConnection();
 
-        const result = await conn.query(getPostSql, [post_id, user_id]);
+        const result = await conn.query(getPostSql, [post_id]);
 
+        const resultImg = await conn.query(getPostImgSql, [post_id]);
 
         conn.release();
 
-        return result[0];
+        console.log("dto: ", postResponseDTO(result[0][0], resultImg[0][0].image_url));
+
+        return postResponseDTO(result[0][0], resultImg[0][0].image_url);
     } catch (err) {
         throw err;
     }
@@ -184,4 +189,17 @@ export const getTopic = async (topic_id) => {
     } catch (err) {
         throw err;
     }
+}
+
+// 이미지 업로드
+export const postImg = async(imagedata) => {
+    const conn = await pool.getConnection(); 
+    const [image] = await conn.query(postImgSql, [
+        null,
+        imagedata.image_url, 
+        imagedata.post_id, 
+        imagedata.user_id
+    ]);
+
+    conn.release();
 }

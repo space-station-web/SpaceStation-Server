@@ -4,39 +4,40 @@ paths:
       tags:
         - Post
       summary: 글 작성
+      consumes:
+        - multipart/form-data  # 문서 타입 지정
       parameters:
-        - name: post
-          in: body
-          required: true
-          schema:
-              properties:
-                title:
-                  type: string
-                  description: 제목
-                  example: 붕어빵의 계절
-                content:
-                  type: string
-                  description: 내용
-                  example: 겨울은 붕어빵의 계절이다
-                visibility:
-                  type: string
-                  description: 공개여부 "전체공개"(1), "이웃공개"(2), "나만공개"(3), "터뜨리기"(4) 중 하나
-                  example: 전체공개
-                self_destructTime:
-                  type: integer
-                  description: 터뜨리기 시간 10, 15, 20, 30 "터뜨리기"일 때만
-                  example: 15
-              required:
-                - title
-                - content
-                - visibility
+        - in: formData
+          name: title
+          type: string
+          description: 제목
+          example: 테스트 제목
+        - in: formData
+          name: content
+          type: string
+          description: 내용
+          example: 테스트 내용
+        - in: formData
+          name: topic_id
+          type: integer
+          description: 조회한 글감
+          example: 조회 글감
+        - in: formData
+          name: visibility
+          type: string
+          description: 공개여부
+          example: 전체공개
+        - in: formData
+          name: image
+          type: file
+          description: 파일 업로드
         - name: Authorization
           in: header
           required: true
           type: string
           description: 사용자 JWT 토큰
           example: Bearer your-jwt-token 
-        - name: Refresh
+        - name: Refresh                                                                                                                                  
           in: header
           required: false
           type: string
@@ -161,18 +162,6 @@ paths:
           description: 글 ID
           schema:
             type: integer
-        - name: Authorization
-          in: header
-          required: true
-          type: string
-          description: 사용자 JWT 토큰
-          example: Bearer your-jwt-token 
-        - name: Refresh
-          in: header
-          required: false
-          type: string
-          description: 사용자 Refresh 토큰
-          example: your-refresh-token 
       responses:
         '2000':
           description: 글 조회 성공

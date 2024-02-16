@@ -1,24 +1,54 @@
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
-import { bookDTO } from "../dtos/book.dto.js"
-import { addBook, getBook, upBook, delBook, getContents, checkBookUser } from "../models/book.dao.js";
+import { bookDTO, bookContentsDTO, bookListDTO } from "../dtos/book.dto.js"
+import { addBook, addBookContent, 
+         getBookList, getBook, getContent, getContents,
+         upBook, delBook, checkBookUser } from "../models/book.dao.js";
 import { searchStorageBook } from "../models/storage.dao.js";
-import { searchLikeBook} from "../models/like.dao.js";
+import { searchLikeBook } from "../models/like.dao.js";
 
-export const createBook = async (body, userID) => {
+export const createBook = async (body, file, userID) => {
     const createData = await addBook({
         'title': body.title,
         'intro': body.intro,
         'category': body.category,
+        'thumbnail': file.location,
         'user_id': userID,
-        'contents':  body.bookContents,
     });
-    console.log("create Book Result :" + createData.bookId + ", " + createData.resultContents);
+    console.log("create Book Result :" + createData.bookId);
 
     if(createData.bookId == -1){
         throw new BaseError(status.EMAIL_ALREADY_EXIST);
     }else{
         return readBook({'bookId': createData.bookId}, userID);
+    }
+}
+
+export const createBookContent = async (body, files, userID) => {
+    const createData = await addBookContent({
+        'title': body.title,
+        'text': body.text,
+        'index': body.index,
+        'book_id': body.bookId,
+        'files':  files,
+    });
+    console.log("create Book Result :" + createData.bookContentId + ", " + createData.resultImgs);
+
+    if(createData.bookContentId == -1){
+        throw new BaseError(status.EMAIL_ALREADY_EXIST);
+    }else{
+        return readBookContent({'bookContentId': createData.bookContentId});
+    }
+}
+
+export const readBookList = async (query) => {
+    console.log('query'+ query.category);
+    const bookData = await getBookList(query.category);
+
+    if(bookData == -1){
+        throw new BaseError(status.BAD_REQUEST);
+    }else{
+        return bookListDTO(bookData);
     }
 }
 
@@ -34,6 +64,18 @@ export const readBook = async (params, userID) => {
         throw new BaseError(status.BAD_REQUEST);
     }else{
         return bookDTO(bookData, bookStorageData, bookLikeData, contentsData);
+    }
+}
+
+export const readBookContent = async (params) => {
+    console.log('bookContentId'+ params.bookContentId);
+    const contentsData = await getContent(params.bookContentId);
+    
+
+    if(contentsData == -1){
+        throw new BaseError(status.BAD_REQUEST);
+    }else{
+        return bookContentsDTO(contentsData);
     }
 }
 

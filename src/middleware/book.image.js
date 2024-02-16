@@ -29,7 +29,7 @@ export const imageUploader = multer({
         bucket: process.env.AWS_S3_BUCKET_NAME,   // Bucket 이름
         contentType: multerS3.AUTO_CONTENT_TYPE,  // Content-type, 자동으로 찾도록 설정
         key: (req, file, callback) => {           // 파일명
-            const uploadDirectory = req.query.directory ?? 'posts';  // 디렉토리 path 설정을 위해서
+            const uploadDirectory = 'books';  // 디렉토리 path 설정을 위해서
             const extension = path.extname(file.originalname);  // 파일 이름 얻어오기
             console.log("file.originalname : " + file.originalname)
             const uuid = createUUID();                          // UUID 생성
@@ -44,3 +44,20 @@ export const imageUploader = multer({
     // 이미지 용량 제한 (5MB)
     limits: { fileSize: 5 * 1024 * 1024},
 });
+
+// S3에서 이미지 삭제
+export const deleteImage = (fileKey) => {
+    s3.deleteObject(
+      {
+        Bucket: '${버킷이름}',
+        Key: fileKey,
+      },
+      (err, data) => {
+        if (err) {
+          throw err;
+        } else {
+          console.log('Image Deleted');
+        }
+      }
+    );
+  };

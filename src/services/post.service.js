@@ -29,7 +29,7 @@ export const searchPost = async(userID,{orderType, postSearchWord}) => {
 }
 
 // 글 생성
-export const addNewPost = async (body, user_id) => {
+export const addNewPost = async (body, user_id, image) => {
     try {
         const postData = await postDao.writeContent({
             "user_id": user_id,
@@ -39,6 +39,12 @@ export const addNewPost = async (body, user_id) => {
             "self_destructTime": body.self_destructTime,
             "topic_id": body.topic_id
         });
+
+        const postImgData = await postDao.postImg({
+            "image_url": image,
+            "post_id": postData.post_id,
+            "user_id": user_id
+        })
 
         const getPostData = await postDao.getPost(postData.post_id, user_id);
 
@@ -59,7 +65,7 @@ export const updatePost = async (post_id, body, user_id) => {
             "self_destructTime": body.self_destructTime
         }, post_id, user_id);
 
-        const getPostData = await postDao.getPost(post_id, user_id);
+        const getPostData = await postDao.getPost(post_id);
 
         return getPostData;
     } catch (error) {
@@ -89,3 +95,4 @@ export const getFollowPostsByUserID = async(userId) => {
         throw error;
     }
 }
+
