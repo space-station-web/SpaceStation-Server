@@ -88,7 +88,7 @@ export const updatePost = async (post_id, body, user_id, image) => {
 
         const getPostData = await postDao.getPost(post_id);
 
-        if (getPostData.visibility == "터뜨리기") await postDao.explodePost(post_id);
+        // if (getPostData.visibility == "터뜨리기") await postDao.explodePost(post_id);
 
         return getPostData;
     } catch (error) {
@@ -133,9 +133,4 @@ export const deletePost = async (post_id, user_id) => {
     }else{
         return deleteData;
     }
-}
-
-// 터뜨리기
-export const explodePost = async (psot_id) => {
-
 }
