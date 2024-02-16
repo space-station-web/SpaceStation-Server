@@ -1,13 +1,16 @@
 // post.dto.js
 
 export const postImgResponseDTO = (body, image, like) => {
-    let image_url = []
-    if(image != -1) {
+    let image_url;
+    if(image.length != 0) {
+        image_url = []
         for (let i = 0; i < image.length; i++){
             image_url.push(image[i].image_url);
         }
     }
-    else image_url = null
+    else {
+        image_url = null;
+    }
     
     return {
         "post_id": body.post_id,

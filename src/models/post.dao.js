@@ -96,14 +96,9 @@ export const getPost = async (post_id) => {
         console.log("length: ", resultImg[0].length);
         // console.log("dto: ", postResponseDTO(result[0][0], resultLike[0][0]));
 
-        if(resultImg[0].length == 0) {
-            console.log("dto: ", postResponseDTO(result[0][0], resultLike[0][0]));
-            return postResponseDTO(result[0][0], resultLike[0][0]);
-        }
-        else {
-            console.log("dto: ", postImgResponseDTO(result[0][0], resultImg[0], resultLike[0][0]));
-            return postImgResponseDTO(result[0][0], resultImg[0], resultLike[0][0]);
-        }
+
+        console.log("dto: ", postImgResponseDTO(result[0][0], resultImg[0], resultLike[0][0]));
+        return postImgResponseDTO(result[0][0], resultImg[0], resultLike[0][0]);
     } catch (err) {
         throw err;
     }
