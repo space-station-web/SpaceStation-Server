@@ -9,6 +9,7 @@ import { createBookSql, createBookContentsSql, createBookContentsImgSql,
          searchBookContentsIdByBookIdSql, checkBookUserSql } from "./book.sql.js";
 import { delStorageByBookIdSql } from "./storage.sql.js";
 import { delLikeByBookIdSql } from "./like.sql.js";
+import { delBookReplyByBookIdSql } from "./reply.sql.js";
 
 export const addBook = async (data) => {
     try{
@@ -166,12 +167,14 @@ export const delBook = async (bookId) => {
         const resultBookContent = await pool.query(deleteBookContentsSql, [bookId]);
         const resultBookStorage = await pool.query(delStorageByBookIdSql, [bookId]);
         const resultBookLike = await pool.query(delLikeByBookIdSql, [bookId]);
+        const resultBookReply = await pool.query(delBookReplyByBookIdSql, [bookId]);
         const resultBook = await pool.query(deleteBookSql, [bookId]);
         conn.release();
         
         return {"deletedBook": resultBook[0].affectedRows, 
                 "deletedBookContent": resultBookContent[0].affectedRows,
                 "deletedBookContentImages": resultBookContentImgs,
+                "deletedBookReply": resultBookReply[0].affectedRows,
                 "deletedBookStorage": resultBookStorage[0].affectedRows,
                 "deletedBookLike": resultBookLike[0].affectedRows };        
     } catch (err) {
