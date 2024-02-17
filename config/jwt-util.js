@@ -26,7 +26,7 @@ const jwtUtil = {
 
         return jwt.sign(payload, secretkey, {
             algorithm: 'HS256',
-            // expiresIn: '3h',
+            expiresIn: '3h',
         });
     },
     verify: (token) => {
@@ -45,11 +45,11 @@ const jwtUtil = {
         }
     },
     refresh: (data) => {
-        // const expiresIn = data ? '14d' : '1d';
+        const expiresIn = data ? '14d' : '1d';
         //
         return jwt.sign({}, secretkey, {
             algorithm: 'HS256',
-            // expiresIn: expiresIn,
+            expiresIn: expiresIn,
         });
     },
 
