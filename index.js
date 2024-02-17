@@ -31,7 +31,7 @@ import { draftRouter } from './src/routes/draft.route.js';
 import { likeRouter } from './src/routes/like.route.js';
 import { commentRouter } from './src/routes/comment.route.js';
 import { storageTypeRouter } from './src/routes/storagetype.route.js';
-
+import { replyRouter } from './src/routes/reply.route.js';
 
 dotenv.config();
 
@@ -125,3 +125,6 @@ app.use('/comments', commentRouter);
 
 // 보관함 타입 API
 app.use('/storagetype', storageTypeRouter)
+
+// 댓글 API
+app.use('/replies', replyRouter)
