@@ -31,15 +31,16 @@ export const addPost = async (req, res, next) => {
     console.log("글 작성");
     console.log("body:", req.body);
     console.log("유저: ", req.userID); 
-    console.log("files", req.file.location);
+    console.log("files", req.files);
+    const files = req.files ?? []; 
 
     if (!req.body.title) return res.send(new BaseError(status.POST_TITLE_EMPTY));
     if (!req.body.content) return res.send(new BaseError(status.POST_CONTENT_EMPTY));
     if (req.body.content.length > 65535) return res.send(new BaseError(status.POST_CONTENT_TOO_LONG));
     if (!req.body.visibility) return res.send(new BaseError(status.POST_VISIBILITY_EMPTY));
-    if (req.body.visibility == "터뜨리기" && req.body.self_destructTime == null) res.send(new BaseError(status.POST_TIME_EMPTY));
+    if (req.body.visibility == "터뜨리기" && !req.body.self_destructTime) return res.send(new BaseError(status.POST_TIME_EMPTY)); 
 
-    return res.send(response(status.SUCCESS, await postService.addNewPost(req.body, req.userID, req.file.location)));
+    return res.send(response(status.SUCCESS, await postService.addNewPost(req.body, req.userID, files)));
 };
 
 // 글 삭제
@@ -48,13 +49,16 @@ export const deletePost = async (req, res, next) => {
 
     const { post_id } = req.params;
 
-    return res.send(response(status.SUCCESS, await postDao.deletePost(post_id, req.userID)));
+    return res.send(response(status.SUCCESS, await postService.deletePost(post_id, req.userID)));
 }
 
 
 // 글 수정
 export const editPost = async (req, res, next) => {
     console.log("글 수정");
+    console.log("req.body: ", req.body);
+    console.log("files", req.files);
+    const files = req.files ?? []; 
 
     const { post_id } = req.params;
 
@@ -65,7 +69,8 @@ export const editPost = async (req, res, next) => {
     if (!req.body.visibility) return res.send(new BaseError(status.POST_VISIBILITY_EMPTY));
     if (req.body.visibility == "터뜨리기" && !req.body.self_destructTime) return res.send(new BaseError(status.POST_TIME_EMPTY));
 
-    return res.send(response(status.SUCCESS, await postService.updatePost(post_id, req.body, req.userID)));
+
+    return res.send(response(status.SUCCESS, await postService.updatePost(post_id, req.body, req.userID, files)));
 }
 
 // 글 조회

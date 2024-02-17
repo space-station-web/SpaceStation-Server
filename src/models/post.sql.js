@@ -2,9 +2,14 @@
 
 export const insertPostSql = "INSERT INTO post (post_id, user_id, title, content, visibility, created_at, self_destructTime, topic_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-export const deletePostSql = "DELETE FROM post WHERE post_id = ? AND user_id = ?";
+export const deletePostSql = "DELETE FROM post WHERE post_id = ?";
 
 export const getPostSql = "SELECT post_id, user_id, title, content, visibility, created_at, self_destructTime FROM post WHERE post_id = ?";
+
+// export const getPostSql = "SELECT p.post_id, p.title, p.content, p.created_at, p.self_destructTime, p.visibility, p.topic_id, p.referencetopic_id, p.user_id, t.image_url "
+//                        + "FROM post AS p "
+//                        + "INNER JOIN topicsimage AS t ON p.post_id = t.post_id "
+//                        + "WHERE t.post_id = ? GROUP BY p.post_id;";
 
 export const updatePostSql = "UPDATE post SET title = ?, content = ?, visibility = ?, self_destructTime = ? WHERE post_id = ? AND user_id = ?"
 
@@ -87,3 +92,13 @@ export const deleteViewedTopicSql = "DELETE FROM viewedtopic WHERE user_id = ?";
 export const postImgSql = "INSERT INTO topicsimage (topicimage_id, image_url, post_id, user_id) VALUES (?, ?, ?, ?)";
 
 export const getPostImgSql = "SELECT image_url FROM topicsimage WHERE post_id = ?";
+
+export const getPostUserSql = "SELECT user_id FROM post WHERE post_id = ?;";
+
+export const deletePostImgSql = "DELETE FROM topicsimage WHERE post_id = ?";
+
+export const getImgCountSql = "SELECT COUNT(*) AS photo_count FROM topicsimage WHERE post_id = ?;"
+
+export const getPostLikeCountSql = "SELECT COUNT(*) AS like_count FROM postLike WHERE post_id = ?;"
+
+export const explodePostSql = "DELETE FROM post WHERE post_id = ?";

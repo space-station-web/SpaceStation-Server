@@ -40,13 +40,21 @@ export const addNewPost = async (body, user_id, image) => {
             "topic_id": body.topic_id
         });
 
-        const postImgData = await postDao.postImg({
-            "image_url": image,
-            "post_id": postData.post_id,
-            "user_id": user_id
-        })
+        if(image != -1){
+            const postImgData = await postDao.postImg({
+                "image": image,
+                "post_id": postData.post_id,
+                "user_id": user_id
+            })
+        }
 
         const getPostData = await postDao.getPost(postData.post_id, user_id);
+        console.log("getPostData.self_destructTime: ", getPostData.self_destructTime);
+
+        if (getPostData.visibility == "터뜨리기") {
+            const explodePostData = postDao.explodePost(postData.post_id, getPostData.self_destructTime);
+            return explodePostData;
+        }
 
         return getPostData;
     } catch (error) {
@@ -56,8 +64,13 @@ export const addNewPost = async (body, user_id, image) => {
 }
 
 // 글 수정
-export const updatePost = async (post_id, body, user_id) => {
+export const updatePost = async (post_id, body, user_id, image) => {
     try {
+        const postUser = await postDao.getPostUser(post_id)
+        if (postUser[0][0].user_id != user_id) {
+            return new BaseError(status.POST_UNAUTHORIZED);
+        }
+
         const upData = await postDao.updatePost({
             "title": body.title, 
             "content": body.content,
@@ -65,7 +78,17 @@ export const updatePost = async (post_id, body, user_id) => {
             "self_destructTime": body.self_destructTime
         }, post_id, user_id);
 
+        if(image != -1){
+            const postImgData = await postDao.updateImg({
+                "image": image,
+                "post_id": post_id,
+                "user_id": user_id
+            })
+        }
+
         const getPostData = await postDao.getPost(post_id);
+
+        // if (getPostData.visibility == "터뜨리기") await postDao.explodePost(post_id);
 
         return getPostData;
     } catch (error) {
@@ -96,3 +119,18 @@ export const getFollowPostsByUserID = async(userId) => {
     }
 }
 
+// 글 삭제
+export const deletePost = async (post_id, user_id) => {
+    const postUser = await postDao.getPostUser(post_id)
+    if (postUser[0][0].user_id != user_id) {
+        return new BaseError(status.POST_UNAUTHORIZED);
+    }
+
+    const deleteData = await postDao.deletePost(post_id);
+
+    if(deleteData == -1){
+        throw new BaseError(status.EMAIL_ALREADY_EXIST);
+    }else{
+        return deleteData;
+    }
+}
