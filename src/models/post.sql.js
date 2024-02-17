@@ -52,7 +52,8 @@ export const getSearchPostsSql = ({orderType, postSearchWord}) => {
       FROM post
       LEFT JOIN topicsimage ON post.post_id = topicsimage.post_id
       LEFT JOIN postStorage AS ps ON post.post_id = ps.post_id
-      WHERE ${orderType} LIKE '%${postSearchWord}%'
+      WHERE post.visibility = '전체공개'
+      and ${orderType} LIKE '%${postSearchWord}%'
       GROUP BY post.post_id`;
     } else if (orderType === "nickname"){
       sql = `SELECT post.*, ti.image_url,
@@ -62,18 +63,20 @@ export const getSearchPostsSql = ({orderType, postSearchWord}) => {
       SELECT post_id, MIN(topicimage_id) AS min_topicimage_id FROM topicsimage GROUP BY post_id) AS min_ti ON post.post_id = min_ti.post_id
       LEFT JOIN topicsimage AS ti ON min_ti.min_topicimage_id = ti.topicimage_id
       LEFT JOIN postStorage AS ps ON post.post_id = ps.post_id
-      WHERE ${orderType} LIKE '%${postSearchWord}%'`;
+      WHERE post.visibility = '전체공개'
+      and ${orderType} LIKE '%${postSearchWord}%'`;
     } else{
         throw new Error(`Unsupported orderType: ${orderType}`);}
     return sql;
 }
 
+// 이웃 글 조회
 export const getFollowPostsByUserIDSql = `SELECT p.*, MIN(ti.topicimage_id) as min_topicimage_id, ti.image_url,
 CASE WHEN ps.post_id IS NOT NULL THEN 'true' ELSE 'false' END AS isStorage FROM post AS p
 JOIN follow AS f ON p.user_id = f.follow_id AND f.user_id = ?
 LEFT JOIN topicsimage AS ti ON p.post_id = ti.post_id
 LEFT JOIN postStorage AS ps ON p.post_id = ps.post_id
-GROUP BY p.post_id`;
+WHERE p.visibility = '전체공개' GROUP BY p.post_id`;
 
 export const getTopicSql = "SELECT * FROM topic WHERE topic_id = ?";
 
