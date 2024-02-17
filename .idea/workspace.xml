@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="37bf9191-60e6-42cf-8fca-f629fbaec3c7" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/emailauth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/emailauth.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/user.sql.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/user.sql.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/emailauth.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/emailauth.route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/user.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/user.service.js" afterDir="false" />
-    </list>
+    <list default="true" id="37bf9191-60e6-42cf-8fca-f629fbaec3c7" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,7 +34,7 @@
     "RunOnceActivity.OpenDatabaseViewOnStart": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "develop 병합 중",
+    "git-widget-placeholder": "develop",
     "javascript.nodejs.core.library.configured.version": "21.4.0",
     "javascript.nodejs.core.library.typings.version": "20.11.17",
     "last_opened_file_path": "/Users/klvlo/Desktop/JISEUNG/Study/SpaceStation-Server",
