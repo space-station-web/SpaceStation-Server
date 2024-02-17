@@ -8,6 +8,8 @@ import * as draftDao from '../models/draft.dao.js';
 export const addDraft = async (req, res, next) => {
     console.log("임시저장");
     console.log("body:", req.body);
+    // console.log("files", req.files);
+    // const files = req.files ?? []; 
 
     return res.send(response(status.SUCCESS, await draftService.addDraft(req.body, req.userID)));
 };
@@ -16,6 +18,8 @@ export const addDraft = async (req, res, next) => {
 export const patchDraft = async (req, res, next) => {
     console.log("임시저장-수정-임시저장");
     console.log("body:", req.body, "params: ", req.params);
+    // console.log("files", req.files);
+    // const files = req.files ?? []; 
 
     const { draft_id } = req.params;
 
@@ -26,6 +30,8 @@ export const patchDraft = async (req, res, next) => {
 export const postDraft = async (req, res, next) => {
     console.log("임시저장-수정-저장");
     console.log("body:", req.body);
+    console.log("files", req.files);
+    const files = req.files ?? []; 
 
     const { draft_id } = req.params;
 
@@ -54,5 +60,5 @@ export const getDraft = async (req, res, next) => {
 
     const { draft_id } = req.params;
 
-    return res.send(response(status.SUCCESS, await draftDao.getDraft(draft_id, req.userID)));
+    return res.send(response(status.SUCCESS, await draftService.getDraft(draft_id, req.userID)));
 };
