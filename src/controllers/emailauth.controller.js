@@ -29,5 +29,5 @@ export const pwchange = async (req, res, next) => {
     console.log("params:", req.params);
     console.log("body:", req.body); // 값이 잘 들어오나 찍어보기 위한 테스트용
 
-    res.send(response(status.SUCCESS, await pwChange(req.params.userId, req.body)));
+    res.send(response(status.SUCCESS, await pwChange(req, req.body)));
 }

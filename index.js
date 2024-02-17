@@ -68,13 +68,14 @@ app.get('/', function (req, res) {
 
 app.use('/email-auth', emailauthRouter);
 
+
 app.use('/signup', signupRouter);
 
 app.use('/login', loginRouter);
 
 app.use('/email-check', emailcheckRouter);
 
-app.use('/changepw/:userId', changepwRouter);
+app.use('/changepw', changepwRouter);
 
 
 app.use('/login', loginRouter);
