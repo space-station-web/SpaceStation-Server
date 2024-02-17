@@ -8,6 +8,10 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const createdHash = process.env.createdHash;
+const digest = process.env.digest;
+
+
 const emailVerificationMap = new Map(); // 이메일과 인증코드를 저장할 Map
 const emailCooldownMap = new Map(); // 이메일에 대한 쿨다운 정보를 저장할 Map
 

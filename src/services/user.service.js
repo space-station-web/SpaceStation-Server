@@ -69,7 +69,9 @@ export const codeCheck = async (body) => {
 export const pwChange = async (req, body) => {
     try {
 
-        const { userId } = req.params;
+        const userId = req.params.userId;
+        console.log(userId)
+
 
         if (!userId) {
             // userId가 정상적으로 설정되지 않은 경우에 대한 처리
