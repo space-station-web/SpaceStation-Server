@@ -27,21 +27,28 @@ export const bookContentsDTO = (contents) => {
             if (i == 0) {
                 content = {
                     "book_contents_id": contents[0][i].book_contents_id, 
+                    "content_index": contents[0][i].content_index,
+                    "content_create_at": contents[0][i].content_create_at,
                     "content_title": contents[0][i].content_title,
-                    "content_text": contents[0][i].content_text
-                }
+                    "content_text": contents[0][i].content_text,
+                };
+                console.log("contents[0][i].content_index: " + contents[0][i].content_index);
                 imgList.push(contents[0][i].image);
                 set.add(contents[0][i].book_contents_id);
                 continue;
             }
             contentList.push({
-                "book_contents_id": content.book_contents_id, 
+                "book_contents_id": content.book_contents_id,
+                "content_index": content.content_index,
+                "content_create_at": content.content_create_at,
                 "content_title": content.content_title,
                 "content_text": content.content_text,
                 "image": imgList
             });
             content = {
                 "book_contents_id": contents[0][i].book_contents_id, 
+                "content_index": contents[0][i].content_index,
+                "content_create_at": contents[0][i].content_create_at,
                 "content_title": contents[0][i].content_title,
                 "content_text": contents[0][i].content_text,
             }
@@ -51,14 +58,16 @@ export const bookContentsDTO = (contents) => {
     }
     if (content != null){
         contentList.push({
-            "book_contents_id": content.book_contents_id, 
+            "book_contents_id": content.book_contents_id,
+            "content_index": content.content_index,
+            "content_create_at": content.content_create_at, 
             "content_title": content.content_title,
             "content_text": content.content_text,
             "image": imgList
         }); 
     }
     
-    console.log("imgList" + imgList);
+    console.log("imgList: " + imgList);
     return contentList;
 }
 

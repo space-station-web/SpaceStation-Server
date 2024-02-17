@@ -32,7 +32,7 @@ export const createBookContent = async (body, files, userID) => {
         'book_id': body.bookId,
         'files':  files,
     });
-    console.log("create Book Result :" + createData.bookContentId + ", " + createData.resultImgs);
+    console.log("create BookContent Result :" + createData.bookContentId + ", " + createData.resultImgs);
 
     if(createData.bookContentId == -1){
         throw new BaseError(status.EMAIL_ALREADY_EXIST);
@@ -68,7 +68,7 @@ export const readBook = async (params, userID) => {
 }
 
 export const readBookContent = async (params) => {
-    console.log('bookContentId'+ params.bookContentId);
+    console.log('bookContentId: '+ params.bookContentId);
     const contentsData = await getContent(params.bookContentId);
     
 

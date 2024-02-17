@@ -31,11 +31,11 @@ export const imageUploader = multer({
         key: (req, file, callback) => {           // 파일명
             const uploadDirectory = 'books';  // 디렉토리 path 설정을 위해서
             const extension = path.extname(file.originalname);  // 파일 이름 얻어오기
-            console.log("file.originalname : " + file.originalname)
+            console.log("file.originalname : " + file.originalname);
             const uuid = createUUID();                          // UUID 생성
             // extension 확인을 위한 코드 (확장자 검사용)
             if(!allowedExtensions.includes(extension)){
-                return callback(new BaseError(status.WRONG_EXTENSION));
+                return callback(new BaseError(status.WRONG_EXTENSION))
             }
             callback(null, `${uploadDirectory}/${uuid}_${file.originalname}`)
         },
