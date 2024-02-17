@@ -33,7 +33,7 @@ app.get('/', function (req, res) {
 
 app.use('/email-auth', emailauthRouter);
 
-app.use('/changepw/:userId', changepwRouter);
+app.use('/changepw', changepwRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`Example app listening on port ${process.env.PORT}`)

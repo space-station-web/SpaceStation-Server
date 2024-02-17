@@ -69,7 +69,13 @@ export const codeCheck = async (body) => {
 export const pwChange = async (req, body) => {
     try {
 
-        const { userId } = req.params.userId;
+        const { userId } = req.params;
+
+        if (!userId) {
+            // userId가 정상적으로 설정되지 않은 경우에 대한 처리
+            console.error("userId가 설정되지 않았습니다.");
+            return response(status.BAD_REQUEST);
+        }
 
         // 비밀번호와 비밀번호 확인 일치 여부 확인
         if (body.pw !== body.pwcheck) {
