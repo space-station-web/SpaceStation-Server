@@ -128,11 +128,10 @@ export const updatePost = async (data, post_id, user_id) => {
 export const getPostsByUserId = async ({ limit, offset, userId}) => {
     try {
         const conn = await pool.getConnection();
-        const myPosts = await pool.query(getPostsByUserIdSql, [userId, limit, offset]);
+        const myPosts = await pool.query( getPostsByUserIdSql, [userId, limit, offset]);
         if(myPosts.length == 0){
             return -1;
         }
-
         conn.release();
         return myPosts[0];
         

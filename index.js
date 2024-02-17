@@ -65,7 +65,6 @@ app.get('/', function (req, res) {
     res.send('Hello World')
 })
 
-
 app.use('/email-auth', emailauthRouter);
 
 
@@ -79,8 +78,6 @@ app.use('/changepw', changepwRouter);
 
 
 app.use('/login', loginRouter);
-
-
 
 
 app.listen(process.env.PORT, () => {

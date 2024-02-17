@@ -25,23 +25,10 @@ export const delStorageByPostIdSql = "DELETE FROM postStorage WHERE post_id = ?;
 // 보관함 일련번호로 그 보관함에 대한 글 보관정보 전체삭제
 export const delStoragePostByTypeIdSql = "DELETE FROM postStorage WHERE storage_type_id = ?;";
 
-/*
-export const getPostStorageListByUserIdSql = `
-select  *
-from    postStorage as ps
-join post as p on ps.post_id = p.post_id
-where   ps.user_id = ?
-and     ps.storage_type_id = ?
-order by p.created_at asc
-limit ? offset ?;
-`
-*/
-export const getPostStorageListByUserIdSql = `
-SELECT *, ti.image_url
-FROM postStorage AS ps
+
+export const getPostStorageListByUserIdSql = `SELECT ps.*, p.*, MIN(ti.topicimage_id) as min_topicimage_id, ti.image_url,
+CASE WHEN p.post_id IS NOT NULL THEN 'true' ELSE 'false' END AS isStorage FROM postStorage AS ps
 JOIN post AS p ON ps.post_id = p.post_id
 LEFT JOIN topicsimage AS ti ON p.post_id = ti.post_id
-WHERE ps.user_id = ?
-AND ps.storage_type_id = ?
-ORDER BY p.created_at ASC
-`
+WHERE ps.storage_type_id = ?
+GROUP BY p.post_id ORDER BY p.created_at ASC;`

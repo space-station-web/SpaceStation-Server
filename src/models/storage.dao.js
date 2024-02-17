@@ -110,11 +110,11 @@ export const delStorageByPostId = async (postId) => {
 }
 
 // 유저 보관함 글 조회
-export const getPostStorageListByUserId = async ({limit, offset, userId, storageType}) => {
-    console.table([userId, limit, offset])
+export const getPostStorageListByUserId = async ({limit, offset, storageType}) => {
+    console.table([limit, offset])
     try{
         const conn = await pool.getConnection();
-        const result = await pool.query(getPostStorageListByUserIdSql, [userId, storageType, limit, offset]);
+        const result = await pool.query(getPostStorageListByUserIdSql, [storageType, limit, offset]);
         conn.release();
 
         if(result.length == 0){
@@ -126,3 +126,20 @@ export const getPostStorageListByUserId = async ({limit, offset, userId, storage
         throw new BaseError(err);
     }
 }
+
+// 글 보관 여부
+export const searchStoragePost = async (data) => {
+    try{
+        const conn = await pool.getConnection();
+        const resultSearch = await pool.query(searchStoragePostSql, [data.post_id, data.user_id]);
+        conn.release();
+        if (resultSearch[0][0] != null) {
+            console.log("postId : " + resultSearch[0][0].post_storage_id);
+            return true; 
+        } else {
+            return false; 
+        } 
+    }catch (err) {
+        throw new BaseError(err);
+    }
+}  

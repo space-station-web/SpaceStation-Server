@@ -31,22 +31,24 @@ export const storagePostPost = async (req, res, next) => {
 export const storagePostDelete = async (req, res, next) => {
     console.log("Storage Post Delete!");
     console.log("params:", req.params);
-    console.log("req.userID: ", req.userID);    //토큰으로 받은 유저 아이디
+    console.log("req.userID: ", req.userID);    // 토큰으로 받은 유저 아이디
 
     res.send(response(status.SUCCESS, await deleteStoragePost(req.params, req.userID)));
 };
 
 export const getMyPostStorage = async (req, res) => {
-    const userID = 20;
+    //const userID = 20;
     //const { userID } = req;
     const { limit = 12, offset = 0, storageType } = req.query;
-    if(!userID) {
-        return res.status(401).send();
-    }
+    //if(!userID) {
+        //return res.status(401).send();
+    //}
 
-    console.log('storageType:', storageType)
+    // console.log('storageType:', storageType)
     if(!storageType) {
         return res.status(400).send(Object.assign({}, status.BAD_REQUEST, {message: '보관함 타입이 없습니다.'}));
     }
-    res.send(response(status.SUCCESS, await getPostStorageByUserId({limit:Number(limit), offset:Number(offset), userId:Number(userID), storageType:Number(storageType) })))
+    //res.send(response(status.SUCCESS, await getPostStorageByUserId({limit:Number(limit), offset:Number(offset), userId:Number(userID), storageType:Number(storageType) })))
+    res.send(response(status.SUCCESS, await getPostStorageByUserId({limit:Number(limit), offset:Number(offset), storageType:Number(storageType) })))
+
 }
