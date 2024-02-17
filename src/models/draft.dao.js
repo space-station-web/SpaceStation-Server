@@ -1,5 +1,5 @@
 import { pool } from "../../config/db.config.js";
-import { addDraftSql, deleteDraftSql, getAllDraftSql, getDraftSql, getUserIdSql, postDraftSql, updateDraftSql } from "./draft.sql.js";
+import { addDraftSql, deleteDraftSql, getAllDraftSql, getDraftSql, getDraftUserSql, postDraftSql, updateDraftSql } from "./draft.sql.js";
 
 // 임시저장
 export const addDraft = async (data) => {
@@ -99,18 +99,24 @@ export const getDraft = async (draft_id, user_id) => {
     
     conn.release();
 
-    console.log(result[0]);
+    console.log("result[0][0]: ", result[0][0]);
 
-    return result[0];
+    return result[0][0];
 };
 
-// 임시저장 유저 조회
-export const getUserId = async (draft_id) => {
-    const conn = await pool.getConnection();
-    
-    const user_id = await conn.query(getUserIdSql, [draft_id]);
+// 유저 조회
+export const getDraftUser = async (draft_id) => {
+    try {
+        const conn = await pool.getConnection();
+        const result = await pool.query(getDraftUserSql, [draft_id]);
 
-    conn.release();
+        if(result.length == 0){
+            return -1;
+        }
 
-    return user_id;
-};
+        conn.release();
+        return result;
+    } catch (err) {
+        throw err;
+    }
+}

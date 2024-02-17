@@ -6,7 +6,7 @@ export const updateDraftSql = "UPDATE draft SET title = ?, content = ?, create_a
 
 export const postDraftSql = "INSERT INTO post (post_id, user_id, title, content, visibility, created_at, self_destructTime) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-export const getUserIdSql = "SELECt user_id FROM draft WHERE draft_id = ?";
+export const getDraftUserSql = "SELECt user_id FROM draft WHERE draft_id = ?";
 
 export const deleteDraftSql = "DELETE FROM draft WHERE draft_id = ? AND user_id = ?";
 
