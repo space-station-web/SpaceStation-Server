@@ -9,6 +9,8 @@ import { getAllPostsSql,  getSearchPostsSql, insertPostSql, deletePostSql,
 import { status } from "../../config/response.status.js";
 import { postImgResponseDTO, postResponseDTO } from "../dtos/post.dto.js";
 import { BaseError } from "../../config/error.js";
+import { delPostReplyByPostIdSql } from "./reply.sql.js";
+import { searchLikePost } from "./like.dao.js";
 
 //  전체 글 조회
 export const getAllPosts = async(userID, {orderColumn, orderDirection, limit, offset}) => {
@@ -71,6 +73,7 @@ export const deletePost = async (post_id) => {
 
         const postResult = await conn.query(deletePostSql, [post_id]);
         const postImg = await conn.query(deletePostImgSql, [post_id]);
+        const postReply = await conn.query(delPostReplyByPostIdSql, [post_id]);
 
         conn.release();
 
@@ -89,16 +92,11 @@ export const getPost = async (post_id) => {
         const result = await conn.query(getPostSql, [post_id]); // 내용
         const resultImg = await conn.query(getPostImgSql, [post_id]); // 사진
 
-        const resultLike = await conn.query(getPostLikeCountSql, [post_id]); // 좋아요
-        console.log("resultLike: ", resultLike[0][0]);
-
         conn.release();
         console.log("length: ", resultImg[0].length);
-        // console.log("dto: ", postResponseDTO(result[0][0], resultLike[0][0]));
 
 
-        console.log("dto: ", postImgResponseDTO(result[0][0], resultImg[0], resultLike[0][0]));
-        return postImgResponseDTO(result[0][0], resultImg[0], resultLike[0][0]);
+        return {"body": result[0][0], "Img": resultImg[0]};
     } catch (err) {
         throw err;
     }
