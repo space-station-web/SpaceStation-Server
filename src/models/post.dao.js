@@ -4,7 +4,6 @@ import { getAllPostsSql,  getSearchPostsSql, insertPostSql, deletePostSql,
          getPostSql, updatePostSql, getPostsByUserIdSql, getFollowPostsByUserIDSql, 
          getTopicSql, getUnviewdTopicSql,
          deleteViewedTopicSql, insertViewedTopicSql, postImgSql, getPostImgSql } from "./post.sql.js";
-
 import { status } from "../../config/response.status.js";
 import { postResponseDTO } from "../dtos/post.dto.js";
 
@@ -121,11 +120,10 @@ export const updatePost = async (data, post_id, user_id) => {
 export const getPostsByUserId = async ({ limit, offset, userId}) => {
     try {
         const conn = await pool.getConnection();
-        const myPosts = await pool.query(getPostsByUserIdSql, [userId, limit, offset]);
+        const myPosts = await pool.query( getPostsByUserIdSql, [userId, limit, offset]);
         if(myPosts.length == 0){
             return -1;
         }
-
         conn.release();
         return myPosts[0];
         

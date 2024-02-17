@@ -2,7 +2,6 @@ import express from 'express';
 import { storageBookPost, storageBookDelete,
          storagePostPost, storagePostDelete, getMyPostStorage} from '../controllers/storage.controller.js';
 import { tokenChecker } from '../../config/jwt-util.js';
-
 export const storageRouter = express.Router();
 
 // 책 보관 생성
@@ -11,7 +10,6 @@ storageRouter.post('/books/:bookId', tokenChecker, storageBookPost);
 // 책 보관 삭제
 storageRouter.delete('/books/:bookId', tokenChecker, storageBookDelete);
 
-
 // 글 보관 생성
 storageRouter.post('/posts/:postId', tokenChecker, storagePostPost);
 
@@ -19,5 +17,4 @@ storageRouter.post('/posts/:postId', tokenChecker, storagePostPost);
 storageRouter.delete('/posts/:postId', tokenChecker, storagePostDelete);
 
 // 내 보관함 글 조회
-//storageRouter.get('/my-post-storage', tokenChecker, getMyPostStorage);
-storageRouter.get('/my-post-storage', getMyPostStorage);
+storageRouter.get('/my-post-storage', tokenChecker, getMyPostStorage);

@@ -63,7 +63,7 @@ export const deleteStoragePost = async (params, userID) => {
     }
 }  
 
-export const getPostStorageByUserId = async ({limit = 12, offset = 0, userId, storageType}) => {
-    const result = await getPostStorageListByUserId({limit, offset, userId, storageType});
+export const getPostStorageByUserId = async ({limit = 12, offset = 0, storageType}) => {
+    const result = await getPostStorageListByUserId({limit, offset, storageType});
     return result;
 }

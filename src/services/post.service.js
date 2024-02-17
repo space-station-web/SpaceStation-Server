@@ -1,10 +1,10 @@
 // post.service.js
-
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 import { pool } from "../../config/db.config.js";
 import { postResponseDTO } from "../dtos/post.dto.js";
 import * as postDao from '../models/post.dao.js';
+import * as storageDao from '../models/storage.dao.js';
 import { response } from "../../config/response.js";
 
 // 전체 글 조회
