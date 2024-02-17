@@ -79,7 +79,7 @@ export const getPost = async (req, res, next) => {
 
     const { post_id } = req.params;
 
-    return res.send(response(status.SUCCESS, await postDao.getPost(post_id)));
+    return res.send(response(status.SUCCESS, await postService.getPost(post_id, req.userID)));
 }
 
 // 유저의 글 리스트 조회

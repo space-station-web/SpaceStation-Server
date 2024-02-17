@@ -16,7 +16,7 @@ postRouter.get('/', asyncHandler(getPosts));
 postRouter.get('/topics', tokenChecker, getTopic);
 
 // 글 생성
-postRouter.post('/', imageUploader.array('image'), tokenChecker, asyncHandler(addPost));
+postRouter.post('/', imageUploader.array('image', 10), tokenChecker, asyncHandler(addPost));
 
 // 글 삭제
 postRouter.delete('/:post_id', tokenChecker, asyncHandler(deletePost));
@@ -28,11 +28,10 @@ postRouter.get('/follow-posts', tokenChecker, asyncHandler(getFollowPosts));
 postRouter.get('/search', asyncHandler(searchPost));
 
 // 글 조회
-postRouter.get('/:post_id', asyncHandler(getPost));
-// postRouter.get('/:post_id', tokenChecker, asyncHandler(getPost));
+postRouter.get('/:post_id', tokenChecker, asyncHandler(getPost));
 
 // 글 수정
-postRouter.patch('/:post_id', imageUploader.array('image'), tokenChecker, asyncHandler(editPost));
+postRouter.patch('/:post_id', imageUploader.array('image', 10), tokenChecker, asyncHandler(editPost));
 
 // 특정 사용자의 글 조회
 postRouter.get('/user/:user_id', tokenChecker, asyncHandler(getPostsByUserId));

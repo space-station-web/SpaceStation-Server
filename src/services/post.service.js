@@ -2,10 +2,11 @@
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 import { pool } from "../../config/db.config.js";
-import { postResponseDTO } from "../dtos/post.dto.js";
+import { postImgResponseDTO, postResponseDTO } from "../dtos/post.dto.js";
 import * as postDao from '../models/post.dao.js';
 import * as storageDao from '../models/storage.dao.js';
 import { response } from "../../config/response.js";
+import { searchLikePost } from "../models/like.dao.js";
 
 // 전체 글 조회
 export const getPosts = async (userID, {orderColumn = 'created_at', orderDirection = 'desc', limit = 10, offset = 0}) => {
@@ -48,7 +49,7 @@ export const addNewPost = async (body, user_id, image) => {
             })
         }
 
-        const getPostData = await postDao.getPost(postData.post_id, user_id);
+        const getPostData = await getPost(postData.post_id, user_id);
         console.log("getPostData.self_destructTime: ", getPostData.self_destructTime);
 
         if (getPostData.visibility == "터뜨리기") {
@@ -65,35 +66,26 @@ export const addNewPost = async (body, user_id, image) => {
 
 // 글 수정
 export const updatePost = async (post_id, body, user_id, image) => {
-    try {
-        const postUser = await postDao.getPostUser(post_id)
-        if (postUser[0][0].user_id != user_id) {
-            return new BaseError(status.POST_UNAUTHORIZED);
-        }
+    const postUser = await postDao.getPostUser(post_id)
+    if (postUser[0][0].user_id != user_id) {
+        return new BaseError(status.POST_UNAUTHORIZED);
+    }
 
-        const upData = await postDao.updatePost({
-            "title": body.title, 
-            "content": body.content,
-            "visibility": body.visibility,
-            "self_destructTime": body.self_destructTime
-        }, post_id, user_id);
+    const upData = await postDao.updatePost({
+        "title": body.title, 
+        "content": body.content,
+        "visibility": body.visibility,
+        "self_destructTime": body.self_destructTime
+    }, post_id, user_id);
 
-        if(image != -1){
-            const postImgData = await postDao.updateImg({
-                "image": image,
-                "post_id": post_id,
-                "user_id": user_id
-            })
-        }
+    if(image != -1){
+        const postImgData = await postDao.updateImg(image, post_id, user_id)
+    }
 
-        const getPostData = await postDao.getPost(post_id);
-
-        // if (getPostData.visibility == "터뜨리기") await postDao.explodePost(post_id);
-
-        return getPostData;
-    } catch (error) {
-        console.error(error);
-        throw error;
+    if(post_id == -1){
+        throw new BaseError(status.EMAIL_ALREADY_EXIST);
+    }else{
+        return getPost(post_id, user_id);
     }
 }
 
@@ -132,5 +124,20 @@ export const deletePost = async (post_id, user_id) => {
         throw new BaseError(status.EMAIL_ALREADY_EXIST);
     }else{
         return deleteData;
+    }
+}
+
+// 글 조회
+export const getPost = async (post_id, user_id) => {
+    const result = await postDao.getPost(post_id);
+    const resultLike = await searchLikePost({"post_id": post_id, "user_id": user_id});
+    console.log("resultLike: ", resultLike);
+
+    console.log("dto: ", postImgResponseDTO(result.body, result.Img, resultLike))
+
+    if(result == -1){
+        throw new BaseError(status.BAD_REQUEST);
+    } else {
+        return postImgResponseDTO(result.body, result.Img, resultLike);
     }
 }

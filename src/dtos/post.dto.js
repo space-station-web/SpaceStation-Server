@@ -18,7 +18,8 @@ export const postImgResponseDTO = (body, image, like) => {
         "title": body.title, 
         "content": body.content,
         "image_url": image_url,
-        "like": like.like_count,
+        "postLike": like.postLike,
+        "postLikeCount": like.postLikeCount,
         "create_at": body.created_at,
         "visibility": body.visibility,
         "self_destructTime": body.self_destructTime

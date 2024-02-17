@@ -4,11 +4,13 @@ import { getAllPostsSql,  getSearchPostsSql, insertPostSql, deletePostSql,
          getPostSql, updatePostSql, getPostsByUserIdSql, getFollowPostsByUserIDSql, 
          getTopicSql, getUnviewdTopicSql,
          deleteViewedTopicSql, insertViewedTopicSql, postImgSql, 
-         getPostImgSql, getPostUserSql, deletePostImgSql, getImgCountSql, getPostLikeCountSql, explodePostSql } from "./post.sql.js";
+         getPostImgSql, getPostUserSql, deletePostImgSql, getImgCountSql, getPostLikeCountSql, explodePostSql, getImgSql, addImgSql, removeImgSql } from "./post.sql.js";
 
 import { status } from "../../config/response.status.js";
 import { postImgResponseDTO, postResponseDTO } from "../dtos/post.dto.js";
 import { BaseError } from "../../config/error.js";
+import { delPostReplyByPostIdSql } from "./reply.sql.js";
+import { searchLikePost } from "./like.dao.js";
 
 //  전체 글 조회
 export const getAllPosts = async(userID, {orderColumn, orderDirection, limit, offset}) => {
@@ -71,6 +73,7 @@ export const deletePost = async (post_id) => {
 
         const postResult = await conn.query(deletePostSql, [post_id]);
         const postImg = await conn.query(deletePostImgSql, [post_id]);
+        const postReply = await conn.query(delPostReplyByPostIdSql, [post_id]);
 
         conn.release();
 
@@ -89,16 +92,11 @@ export const getPost = async (post_id) => {
         const result = await conn.query(getPostSql, [post_id]); // 내용
         const resultImg = await conn.query(getPostImgSql, [post_id]); // 사진
 
-        const resultLike = await conn.query(getPostLikeCountSql, [post_id]); // 좋아요
-        console.log("resultLike: ", resultLike[0][0]);
-
         conn.release();
         console.log("length: ", resultImg[0].length);
-        // console.log("dto: ", postResponseDTO(result[0][0], resultLike[0][0]));
 
 
-        console.log("dto: ", postImgResponseDTO(result[0][0], resultImg[0], resultLike[0][0]));
-        return postImgResponseDTO(result[0][0], resultImg[0], resultLike[0][0]);
+        return {"body": result[0][0], "Img": resultImg[0]};
     } catch (err) {
         throw err;
     }
@@ -235,14 +233,60 @@ export const getPostUser = async (post_id) => {
 }
 
 // 이미지 수정
-export const updateImg = async(imagedata, post_id) => {
+/*export const updateImg = async(imagedata, post_id, user_id) => {
     const conn = await pool.getConnection(); 
 
-    const upImgData = imagedata.image.length;
-    const existImgCount = await pool.query(getImgCountSql, [post_id]);
+    const newImageUrls = Array.isArray(imagedata) ? imagedata.map(img => img.location) : [imagedata.location];
+    const result = await pool.query(getImgSql, [post_id]);
+    // console.log("result: ", result[0]);
+    const existingImages = result[0]; // 첫 번째 요소를 선택
+
+    const existingImageUrls = existingImages.map(image => image.image_url);
+
+    console.log('newImageUrls:', newImageUrls);
+    console.log('existingImages:', existingImages);
+
+    const imagesToAdd = newImageUrls.filter(url => !existingImageUrls.includes(url));
+    const imagesToRemove = existingImageUrls.filter(url => !newImageUrls.includes(url));
+
+    console.log('imagesToAdd:', imagesToAdd);
+    console.log('imagesToRemove:', imagesToRemove);
+
+    // 이미지 추가
+    for (let url of imagesToAdd) {
+        await pool.query(addImgSql, [url, post_id, user_id]);
+    }
+
+    // 이미지 삭제
+    for (let url of imagesToRemove) {
+        await pool.query(removeImgSql, [url, post_id]);
+    }
+
+    conn.release();
+}*/
+export const updateImg = async(imagedata, post_id, user_id) => {
+    const conn = await pool.getConnection(); 
+
+    const newImageUrls = Array.isArray(imagedata) ? imagedata.map(img => img.location) : [imagedata.location];
+    
+    // 기존 이미지 삭제
+    const result = await pool.query(getImgSql, [post_id]);
+    const existingImages = result[0]; // 첫 번째 요소를 선택
+    console.log('newImageUrls:', newImageUrls);
+    console.log('existingImages:', existingImages);
+
+    for (let image of existingImages) {
+        await pool.query(removeImgSql, [image.image_url, post_id]);
+    }
+
+    // 새 이미지 추가
+    for (let url of newImageUrls) {
+        await pool.query(addImgSql, [url, post_id, user_id]);
+    }
 
     conn.release();
 }
+
 
 // 이미지 수
 export const getImgCount = async(post_id) => {
