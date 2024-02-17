@@ -105,3 +105,10 @@ export const getImgCountSql = "SELECT COUNT(*) AS photo_count FROM topicsimage W
 export const getPostLikeCountSql = "SELECT COUNT(*) AS like_count FROM postLike WHERE post_id = ?;"
 
 export const explodePostSql = "DELETE FROM post WHERE post_id = ?";
+
+export const getImgSql = "SELECT image_url FROM topicsimage WHERE post_id = ?";
+
+export const addImgSql = "INSERT INTO topicsimage (image_url, post_id, user_id) VALUES (?, ?, ?)";
+
+export const removeImgSql = "DELETE FROM topicsimage WHERE image_url = ? AND post_id = ?";
+

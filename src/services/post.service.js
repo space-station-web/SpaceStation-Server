@@ -49,7 +49,7 @@ export const addNewPost = async (body, user_id, image) => {
             })
         }
 
-        const getPostData = await postDao.getPost(postData.post_id, user_id);
+        const getPostData = await getPost(postData.post_id, user_id);
         console.log("getPostData.self_destructTime: ", getPostData.self_destructTime);
 
         if (getPostData.visibility == "터뜨리기") {
@@ -79,11 +79,7 @@ export const updatePost = async (post_id, body, user_id, image) => {
     }, post_id, user_id);
 
     if(image != -1){
-        const postImgData = await postDao.updateImg({
-            "image": image,
-            "post_id": post_id,
-            "user_id": user_id
-        })
+        const postImgData = await postDao.updateImg(image, post_id, user_id)
     }
 
     if(post_id == -1){
