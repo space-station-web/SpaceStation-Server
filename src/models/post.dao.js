@@ -11,6 +11,7 @@ import { postImgResponseDTO, postResponseDTO } from "../dtos/post.dto.js";
 import { BaseError } from "../../config/error.js";
 import { delPostReplyByPostIdSql } from "./reply.sql.js";
 import { searchLikePost } from "./like.dao.js";
+import { delStorageByPostIdSql } from "./storage.sql.js";
 
 //  전체 글 조회
 export const getAllPosts = async(userID, {orderColumn, orderDirection, limit, offset}) => {
@@ -70,6 +71,7 @@ export const deletePost = async (post_id) => {
         const postResult = await conn.query(deletePostSql, [post_id]);
         const postImg = await conn.query(deletePostImgSql, [post_id]);
         const postReply = await conn.query(delPostReplyByPostIdSql, [post_id]);
+        const resultStorage = await pool.query(delStorageByPostIdSql, [postId]);
 
         conn.release();
 
@@ -172,6 +174,8 @@ export const getRandomTopic = async (user_id) => {
     const randomTopicId = unviewedTopics[0][randomIndex].topic_id;
   
     await conn.query(insertViewedTopicSql, [user_id, randomTopicId]);
+
+    conn.release();
   
     return getTopic(randomTopicId);
 }
@@ -284,13 +288,13 @@ export const updateImg = async(imagedata, post_id, user_id) => {
 
 
 // 이미지 수
-export const getImgCount = async(post_id) => {
+/*export const getImgCount = async(post_id) => {
     const conn = await pool.getConnection();
     const result = await pool.query(getImgCountSql, [post_id]);
     console.log("result: ", result);
 
     return result;
-}
+}*/
 
 // 터뜨리기
 export const explodePost = async (post_id, time) => {
