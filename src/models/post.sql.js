@@ -37,8 +37,9 @@ with post_with_like as (
       left join post_with_image as pwi on pwi.post_id = p.post_id
   left join topicsimage as img on pwi.image_id = img.topicimage_id
   order by ${orderColumn} ${orderDirection}
-  LIMIT ? OFFSET ?;
+  
 `;
+// 전체 글 조회 sql에서 LIMIT ? OFFSET ?; 제외함 
 
 // 글 검색
 export const getSearchPostsSql = ({orderType, postSearchWord}) => {
