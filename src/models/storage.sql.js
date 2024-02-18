@@ -17,7 +17,7 @@ export const delStorageBookByTypeIdSql = "DELETE FROM bookStorage WHERE storage_
 
 export const searchStoragePostTypeSql = "SELECT storage_type_id FROM postStorage WHERE post_id = ? AND user_id = ?;";
 
-export const searchStoragePostSql = "SELECT * FROM postStorage WHERE post_id = ? AND user_id = ? AND storage_type_id = ?;";
+export const searchStoragePostSql = "SELECT * FROM postStorage WHERE post_id = ? AND user_id = ?;";
 
 
 export const addStoragePostSql = "INSERT INTO postStorage (post_storage_id, post_id, user_id, storage_type_id) VALUES (?, ?, ?, ?);";
