@@ -103,3 +103,4 @@ export const addImgSql = "INSERT INTO topicsimage (image_url, post_id, user_id) 
 
 export const removeImgSql = "DELETE FROM topicsimage WHERE image_url = ? AND post_id = ?";
 
+export const searchNicknameSql = "SELECT nickname FROM user WHERE id = ?;"
