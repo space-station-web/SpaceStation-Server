@@ -22,7 +22,6 @@ export const updateBookSql = "UPDATE book "
 export const updateBookContentsSql = "UPDATE bookContents "
                                 + "SET content_title = ?, content_text = ?, content_index = ? "
                                 + "WHERE book_contents_id = ?;";
-// 사진 수정
 
 export const deleteBookSql = "DELETE FROM book WHERE book_id = ?;";
 export const deleteBookContentsSql = "DELETE FROM bookContents WHERE book_id = ?;";

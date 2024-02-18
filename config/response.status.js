@@ -13,9 +13,13 @@ export const status = {
     UNAUTHORIZED: {status: StatusCodes.UNAUTHORIZED, "isSuccess": false, "code": "COMMON002", "message": "권한이 잘못되었습니다." },
     METHOD_NOT_ALLOWED: {status: StatusCodes.METHOD_NOT_ALLOWED, "isSuccess": false, "code": "COMMON003", "message": "지원하지 않는 Http Method 입니다." },
     FORBIDDEN: {status: StatusCodes.FORBIDDEN, "isSuccess": false, "code": "COMMON004", "message": "금지된 요청입니다." }, 
+ 
+    NOT_CREATED: {status: StatusCodes.INTERNAL_SERVER_ERROR, "isSuccess": false, "code": "COMMON010", "message": "데이터베이스 생성 실패했습니다."},
+    NOT_SEARCHED: {status: StatusCodes.INTERNAL_SERVER_ERROR, "isSuccess": false, "code": "COMMON011", "message": "데이터베이스 조회 실패했습니다."},
+    NOT_UPDATED: {status: StatusCodes.INTERNAL_SERVER_ERROR, "isSuccess": false, "code": "COMMON012", "message": "데이터베이스 수정 실패했습니다."},
+    NOT_DELETED: {status: StatusCodes.INTERNAL_SERVER_ERROR, "isSuccess": false, "code": "COMMON013", "message": "데이터베이스 삭제 실패했습니다."},
 
     // post
-
     POST_NOT_FOUND: {status: StatusCodes.NOT_FOUND, "isSuccess": false, "code": "POST002", "message": "해당 글을 찾을 수 없습니다."},
     POST_TITLE_EMPTY: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "POST011", "message": "제목을 입력해 주세요."},
     POST_CONTENT_EMPTY: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "POST012", "message": "내용을 입력해 주세요."},
@@ -29,11 +33,8 @@ export const status = {
     WRONG_QUERY: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "QUERY001", "message": "잘못된 QUERY String 입니다." },
     WRONG_PATH: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "PATH001", "message": "잘못된 PATH String 입니다." },
 
-    // BOOK00N SQL 생성 에러
-    BOOK_UNCREATED: {status: StatusCodes.INTERNAL_SERVER_ERROR, "isSuccess": false, "code": "BOOK001", "message": "책이 생성되지 못했습니다.."},
-    BOOK_CONTENT_UNCREATED: {status: StatusCodes.INTERNAL_SERVER_ERROR, "isSuccess": false, "code": "BOOK002", "message": "책의 목차가 생성되지 못했습니다.."},
-    BOOK_LIST_NOT_FOUND: {status: StatusCodes.INTERNAL_SERVER_ERROR, "isSuccess": false, "code": "BOOK003", "message": "조회 중, 에러 발생하였습니다. 관리자에게 문의 주세요."},
-    BOOK_NOT_FOUND: {status: StatusCodes.NOT_FOUND, "isSuccess": false, "code": "BOOK010", "message": "해당 책을 찾지 못했습니다."},
+    BOOK_NOT_FOUND: {status: StatusCodes.NOT_FOUND, "isSuccess": false, "code": "BOOK001", "message": "해당 책을 찾지 못했습니다."},
+    BOOK_CONTENT_NOT_FOUND: {status: StatusCodes.NOT_FOUND, "isSuccess": false, "code": "BOOK002", "message": "해당 목차를 찾지 못했습니다."},
     BOOK_UNAUTHORIZED: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "BOOK020", "message": "해당 책의 작성자만 이용할 수 있는 서비스 입니다."},
 
 }

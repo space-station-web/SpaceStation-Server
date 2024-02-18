@@ -49,7 +49,7 @@ export const imageUploader = multer({
 export const deleteImage = (fileKey) => {
     s3.deleteObject(
       {
-        Bucket: '${버킷이름}',
+        Bucket: process.env.AWS_S3_BUCKET_NAME,
         Key: fileKey,
       },
       (err, data) => {

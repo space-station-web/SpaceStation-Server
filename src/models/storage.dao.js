@@ -43,7 +43,7 @@ export const delStorageBook = async (data) => {
     try {
         const conn = await pool.getConnection();
         console.log("dao delStorageBook : " + data.book_id +", "+data.user_id);
-        const resultStorage = await pool.query(delStorageBookSql, [data.book_id, data.user_id]);
+        const resultStorage = await pool.query(delStorageBookSql, [data.book_id, data.user_id, data.storage_type_id]);
         conn.release();
 
         return resultStorage[0].affectedRows; 
@@ -86,7 +86,7 @@ export const addStoragePost = async (data) => {
 export const delStoragePost = async (data) => {
     try {
         const conn = await pool.getConnection();
-        const resultStorage = await pool.query(delStoragePostSql, [data.post_id, data.user_id]);
+        const resultStorage = await pool.query(delStoragePostSql, [data.post_id, data.user_id, data.storage_type_id]);
         conn.release();
 
         return resultStorage[0].affectedRows; 
