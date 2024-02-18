@@ -10,8 +10,9 @@ import { status } from "../../config/response.status.js";
 import { postImgResponseDTO, postResponseDTO } from "../dtos/post.dto.js";
 import { BaseError } from "../../config/error.js";
 import { delPostReplyByPostIdSql } from "./reply.sql.js";
-import { searchLikePost } from "./like.dao.js";
+import { delLikeByPostId, searchLikePost } from "./like.dao.js";
 import { delStorageByPostIdSql } from "./storage.sql.js";
+import { delLikeByPostIdSql } from "./like.sql.js";
 
 //  전체 글 조회
 export const getAllPosts = async(userID, {orderColumn, orderDirection, limit, offset}) => {
@@ -83,10 +84,11 @@ export const deletePost = async (post_id) => {
     try{
         const conn = await pool.getConnection();
 
-        const postResult = await conn.query(deletePostSql, [post_id]);
+        const postLike = await conn.query(delLikeByPostIdSql, [post_id]);
         const postImg = await conn.query(deletePostImgSql, [post_id]);
         const postReply = await conn.query(delPostReplyByPostIdSql, [post_id]);
         const resultStorage = await pool.query(delStorageByPostIdSql, [post_id]);
+        const postResult = await conn.query(deletePostSql, [post_id]);
 
         conn.release();
 
