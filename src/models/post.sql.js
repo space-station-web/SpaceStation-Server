@@ -66,7 +66,7 @@ export const getSearchPostsSql = ({orderType, postSearchWord}) => {
 // 이웃 글 조회
 export const getFollowPostsByUserIDSql = `SELECT p.*, ti.image_url FROM post AS p 
 JOIN follow AS f ON p.user_id = f.follow_id AND f.user_id = ?
-LEFT JOIN topicsimage AS ti ON p.post_id = ti.post_id`;
+LEFT JOIN topicsimage AS ti ON p.post_id = ti.post_id `;
 
 export const getTopicSql = "SELECT * FROM topic WHERE topic_id = ?";
 

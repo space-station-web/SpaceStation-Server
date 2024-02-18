@@ -24,6 +24,21 @@ export const getAllPosts = async(userID, {orderColumn, orderDirection, limit, of
     }
 }
 
+// 유저의 모든 이웃의 글 조회
+export const getFollowPostsByUserID = async (userId) => {
+    try {
+        const conn = await pool.getConnection();
+        const myPosts = await pool.query(getFollowPostsByUserIDSql,[userId]);
+        if(myPosts.length == 0){
+            return -1;
+        }
+        conn.release();
+        return myPosts[0];
+    } catch (err) {
+        throw err;
+    }
+}
+
 // 글 검색 
 export const getSearchPost = async(userID,{orderType, postSearchWord}) => {
     try {
@@ -134,20 +149,7 @@ export const getPostsByUserId = async ({ limit, offset, userId}) => {
     }
 }
 
-// 유저의 모든 이웃의 글 조회
-export const getFollowPostsByUserID = async (userId) => {
-    try {
-        const conn = await pool.getConnection();
-        const myPosts = await pool.query(getFollowPostsByUserIDSql, [userId]);
-        if(myPosts.length == 0){
-            return -1;
-        }
-        conn.release();
-        return myPosts[0];
-    } catch (error) {
-        throw err;
-    }
-}
+
 
 // 글을 쓸 때 글감을 선택적으로 제공받을 수 있고 글감을 제공받아서 글을 작성했다면 다음에 글을 작성할 때는 새로운 글감을 제공하도록 
 // 랜덤으로 제공하되 viewed 모두 1 이면 0으로 전체 초기화

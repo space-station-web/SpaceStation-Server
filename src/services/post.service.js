@@ -19,6 +19,17 @@ export const getPosts = async (userID, {orderColumn = 'created_at', orderDirecti
     }
 }
 
+// 유저의 모든 이웃의 글 조회
+export const getFollowPostsByUserID = async(userId,) => {
+    try {
+        const posts = await postDao.getFollowPostsByUserID(userId);
+        return posts;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
 // 글 검색(게시판)
 export const searchPost = async(userID,{orderType, postSearchWord}) => {
     try {
@@ -99,16 +110,7 @@ export const getPostsByUserId = async({ limit = 12, offset = 0, userId}) => {
     }
 }
 
-// 유저의 모든 이웃의 글 조회
-export const getFollowPostsByUserID = async(userId) => {
-    try {
-        const posts = await postDao.getFollowPostsByUserID(userId);
-        return posts;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
+
 
 // 글 삭제
 export const deletePost = async (post_id, user_id) => {
