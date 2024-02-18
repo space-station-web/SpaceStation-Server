@@ -25,3 +25,5 @@ export const getStoredPw = "SELECT pw, salt FROM user WHERE id = ?"
 
 export const getUserId = "SELECT id FROM user WHERE name = ? AND email = ?";
 
+export const getUserInfo = "SELECT nickname, image FROM user WHERE id = ?"
+
