@@ -7,11 +7,10 @@ import { searchStorageBookSql, searchStoragePostSql,
          addStoragePostSql, delStoragePostSql, delStorageByPostIdSql,
          getPostStorageListByUserIdSql } from "./storage.sql.js";
 
-// typeId -> 여러개
 export const searchStorageBook = async (data) => {
     try{
         const conn = await pool.getConnection();
-        const resultSearch = await pool.query(searchStorageBookSql, [data.book_id, data.user_id, ]);
+        const resultSearch = await pool.query(searchStorageBookSql, [data.book_id, data.user_id, data.storage_type_id]);
         conn.release();
         if (resultSearch[0][0] != null) {
             console.log("storageBookId : " + resultSearch[0][0].book_storage_id);
@@ -44,7 +43,7 @@ export const addStorageBook = async (data) => {
 export const delStorageBook = async (data) => {
     try {
         const conn = await pool.getConnection();
-        console.log("dao delStorageBook : " + data.book_id +", "+data.user_id);
+        console.log("dao delStorageBook : " + data.book_id +", "+ data.user_id);
         const resultStorage = await pool.query(delStorageBookSql, [data.book_id, data.user_id, data.storage_type_id]);
         conn.release();
 

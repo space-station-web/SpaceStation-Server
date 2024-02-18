@@ -13,7 +13,6 @@ export const bookReplyPost = async (req, res, next) => {
 
 export const bookReplyGet = async (req, res, next) => {
     console.log("book reply Get!");
-    console.log("req.userID: ", req.userID);
     console.log("req.query: ", req.query);
 
     res.send(response(status.SUCCESS, await readBookReply(req.query)));
@@ -37,7 +36,6 @@ export const postReplyPost = async (req, res, next) => {
 
 export const postReplyGet = async (req, res, next) => {
     console.log("post reply Get!");
-    console.log("req.userID: ", req.userID);
     console.log("req.query: ", req.query); 
 
     res.send(response(status.SUCCESS, await readPostReply(req.query)));

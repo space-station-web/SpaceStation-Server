@@ -19,16 +19,16 @@ export const createStorageBook = async (params, body, userID) => {
     }
 }
 
-export const deleteStorageBook = async (params, body, userID) => {
+export const deleteStorageBook = async (params, query, userID) => {
     const deleteData = await delStorageBook({
         'book_id': params.bookId,
-        'storage_type_id': body.typeId,
+        'storage_type_id': query.typeId,
         'user_id': userID
     });
     console.log("deleteStorageBook Result : " + deleteData);
 
     if(deleteData == 0){
-        return { "storage": true };
+        throw new BaseError(status.NOT_DELETED);
     }else{
         return { "storage": false };
     }
@@ -66,10 +66,10 @@ export const createStoragePost = async (params, body, userID) => {
     }
 }
 
-export const deleteStoragePost = async (params, body, userID) => {
+export const deleteStoragePost = async (params, query, userID) => {
     const deleteData = await delStoragePost({
         'post_id': params.postId,
-        'storage_type_id': body.typeId,
+        'storage_type_id': query.typeId,
         'user_id': userID
     });
     console.log("deleteStoragePost Result : " + deleteData);
