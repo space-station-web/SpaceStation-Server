@@ -7,8 +7,7 @@ import * as postDao from "../models/post.dao.js";
 
 // 전체 글 조회
 export const getPosts = async (req, res) => {
-    //const { userID } = req;
-    const userID = 20;
+    const { userID } = req;
     const { orderColumn, orderDirection, limit, offset } = req.query;
     const list = await postService.getPosts(userID,{orderColumn, orderDirection, limit, offset});
     return res.send(response(status.SUCCESS, list));
@@ -92,7 +91,7 @@ export const getPostsByUserId = async (req, res) => {
 // 내 모든 이웃의 글 조회
 export const getFollowPosts = async (req, res) => {
     const { userID } = req;
-    // const userID = 20; // 미들웨어 사용안할 시 지정
+    //const { limit, offset } = req.query;
     return res.send(response(status.SUCCESS, await postService.getFollowPostsByUserID(userID)));
 }
 

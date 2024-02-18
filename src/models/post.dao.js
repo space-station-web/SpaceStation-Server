@@ -15,11 +15,8 @@ import { searchLikePost } from "./like.dao.js";
 //  전체 글 조회
 export const getAllPosts = async(userID, {orderColumn, orderDirection, limit, offset}) => {
     try {
-        
         const conn = await pool.getConnection();
-        const result = await pool.query(getAllPostsSql({orderColumn, orderDirection}), [ 
-            limit, offset
-        ],[userID]);
+        const result = await pool.query(getAllPostsSql({orderColumn, orderDirection}), [limit, offset],[userID]);
         conn.release();
         return result[0];
     } catch (err) {
@@ -133,7 +130,7 @@ export const getPostsByUserId = async ({ limit, offset, userId}) => {
         return myPosts[0];
         
     } catch (err) {
-        throw err;
+        throw error;
     }
 }
 
@@ -145,7 +142,6 @@ export const getFollowPostsByUserID = async (userId) => {
         if(myPosts.length == 0){
             return -1;
         }
-
         conn.release();
         return myPosts[0];
     } catch (error) {
