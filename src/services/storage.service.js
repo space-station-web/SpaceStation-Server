@@ -1,7 +1,8 @@
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 import { addStorageBook, delStorageBook,
-         addStoragePost, delStoragePost, getPostStorageListByUserId } from "../models/storage.dao.js";
+         addStoragePost, searchStoragePostType, delStoragePost, 
+         getPostStorageListByUserId } from "../models/storage.dao.js";
 
 export const createStorageBook = async (params, body, userID) => {
     const createData = await addStorageBook({
@@ -33,8 +34,25 @@ export const deleteStorageBook = async (params, body, userID) => {
     }
 }       
 
+export const getStoragePostType = async (query, userID) => {
+    const getData = await searchStoragePostType({
+        'post_id': query.postId,
+        'user_id': userID
+    });
+    const typeList = []
+    getData[0].forEach( e => {
+        typeList.push(e.storage_type_id);
+    });
+
+    if(getData == -1){
+        throw new BaseError(status.NOT_SEARCHED);
+    }else{
+        return { "typeList" : typeList };
+    }
+}
+
 export const createStoragePost = async (params, body, userID) => {
-    const createData = await addStoragePost({
+    const createData = await searchStoragePostType({
         'post_id': params.postId,
         'storage_type_id': body.typeId,
         'user_id': userID

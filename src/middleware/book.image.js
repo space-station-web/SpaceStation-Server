@@ -41,8 +41,8 @@ export const imageUploader = multer({
         },
         acl: 'public-read-write'  // 파일 액세스 권한
     }),
-    // 이미지 용량 제한 (5MB)
-    limits: { fileSize: 5 * 1024 * 1024},
+    // 이미지 용량 제한 (50MB)
+    limits: { fileSize: 50 * 1024 * 1024},
 });
 
 // S3에서 이미지 삭제

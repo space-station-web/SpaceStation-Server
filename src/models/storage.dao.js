@@ -2,14 +2,17 @@ import { pool } from "../../config/db.config.js";
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
 import { searchStorageBookSql, searchStoragePostSql,
+         searchStoragePostTypeSql,
          addStorageBookSql, delStorageBookSql, delStorageByBookIdSql, 
          addStoragePostSql, delStoragePostSql, delStorageByPostIdSql,
          getPostStorageListByUserIdSql } from "./storage.sql.js";
 
+// postId, userId -> 보관함 정보 (id)
+// typeId -> 여러개
 export const searchStorageBook = async (data) => {
     try{
         const conn = await pool.getConnection();
-        const resultSearch = await pool.query(searchStorageBookSql, [data.book_id, data.user_id]);
+        const resultSearch = await pool.query(searchStorageBookSql, [data.book_id, data.user_id, ]);
         conn.release();
         if (resultSearch[0][0] != null) {
             console.log("storageBookId : " + resultSearch[0][0].book_storage_id);
@@ -66,6 +69,17 @@ export const delStorageByBookId = async (bookId) => {
     }
 }
 
+export const searchStoragePostType = async (data) => {
+    try{
+        const conn = await pool.getConnection();
+        const resultSearch = await pool.query(searchStoragePostTypeSql, [data.post_id, data.user_id]);
+        conn.release();
+
+        return resultSearch;
+    }catch (err) {
+        throw new BaseError(err);
+    }
+}
 export const addStoragePost = async (data) => {
     try{
         const conn = await pool.getConnection();
