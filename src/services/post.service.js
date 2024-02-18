@@ -133,7 +133,7 @@ export const getPost = async (post_id, user_id) => {
     const result = await postDao.getPost(post_id);
     const resultStorage = await storageDao.searchStoragePost({'post_id': post_id, 'user_id': user_id});
     const resultLike = await searchLikePost({"post_id": post_id, "user_id": user_id});
-    const resultNickname = await postDao.searchNickname(user_id);
+    const resultNickname = await postDao.searchNickname(result.body.user_id);
     console.log("resultLike: ", resultLike);
 
     console.log("dto: ", postImgResponseDTO(result.body, result.Img, resultLike, resultStorage, resultNickname))
