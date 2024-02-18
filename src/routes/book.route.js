@@ -13,7 +13,7 @@ bookRouter.post('/', tokenChecker, imageUploader.single('thumbnail'), bookCreate
 bookRouter.post('/contents', tokenChecker, imageUploader.array('image', 10), bookContentCreate);
 
 // 책 리스트 조회
-bookRouter.get('/list', tokenChecker, bookListRead);
+bookRouter.get('/list', bookListRead);
 
 // 책 상세조회
 bookRouter.get('/:bookId', tokenChecker, bookRead);

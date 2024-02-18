@@ -43,7 +43,6 @@ export const bookDelete = async (req, res, next) => {
 
 export const bookListRead = async (req, res, next) => {
     console.log("bookListRead!");
-    console.log("req.userID: ", req.userID); 
 
     res.send(response(status.SUCCESS, await readBookList(req.query)));
 };
