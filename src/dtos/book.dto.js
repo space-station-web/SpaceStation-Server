@@ -5,6 +5,7 @@ export const bookDTO = (book, storage, like, contents) => {
         "nickname": book[0][0].nickname,
         "title": book[0][0].title,
         "intro": book[0][0].intro,
+        "create_at": book[0][0].create_at,
         "category": book[0][0].category,
         "thumbnail": book[0][0].thumbnail,
         "storage": storage,
