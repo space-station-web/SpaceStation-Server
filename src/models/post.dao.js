@@ -53,8 +53,7 @@ export const writeContent = async (data) => {
             data.content,    
             data.visibility, 
             new Date(),
-            data.self_destructTime,
-            data.topic_id
+            data.self_destructTime
         ]);
 
         conn.release();

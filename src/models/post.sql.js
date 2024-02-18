@@ -1,6 +1,6 @@
 // post.sql.js
 
-export const insertPostSql = "INSERT INTO post (post_id, user_id, title, content, visibility, created_at, self_destructTime, topic_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+export const insertPostSql = "INSERT INTO post (post_id, user_id, title, content, visibility, created_at, self_destructTime) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 export const deletePostSql = "DELETE FROM post WHERE post_id = ?";
 

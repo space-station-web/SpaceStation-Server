@@ -37,8 +37,7 @@ export const addNewPost = async (body, user_id, image) => {
             "title": body.title, 
             "content": body.content,
             "visibility": body.visibility,
-            "self_destructTime": body.self_destructTime,
-            "topic_id": body.topic_id
+            "self_destructTime": body.self_destructTime
         });
 
         if(image != -1){
