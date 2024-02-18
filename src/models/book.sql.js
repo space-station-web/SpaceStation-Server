@@ -10,10 +10,10 @@ export const readBookListAllSql = "SELECT * FROM book ORDER BY create_at DESC;";
 export const readBookListSql = "SELECT * FROM book WHERE category = ? ORDER BY create_at DESC;";
 export const readBookSql = "SELECT * FROM book AS b INNER JOIN user AS u ON u.id = b.user_id WHERE b.book_id = ?;";
 export const readBookContentsSql = "SELECT * FROM bookContents AS bc "
-                                + "INNER JOIN bookImage AS bi ON bc.book_contents_id = bi.index_id "
+                                + "LEFT JOIN bookImage AS bi ON bc.book_contents_id = bi.index_id "
                                 + "WHERE bc.book_id = ? ORDER BY content_index;";
 export const readBookContentSql = "SELECT * FROM bookContents AS bc "
-                                + "INNER JOIN bookImage AS bi ON bc.book_contents_id = bi.index_id "
+                                + "LEFT JOIN bookImage AS bi ON bc.book_contents_id = bi.index_id "
                                 + "WHERE bc.book_contents_id = ?;";
 
 export const updateBookSql = "UPDATE book "
