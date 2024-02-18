@@ -15,7 +15,7 @@ storageRouter.delete('/books/:bookId', tokenChecker, storageBookDelete);
 storageRouter.post('/posts/:postId', tokenChecker, storagePostPost);
 
 // 글 보관 정보 조회
-storageRouter.get('/posts/types', storagePostTypeGet);
+storageRouter.get('/posts/types', tokenChecker, storagePostTypeGet);
 
 // 글 보관 삭제
 storageRouter.delete('/posts/:postId', tokenChecker, storagePostDelete);
