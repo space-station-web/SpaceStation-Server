@@ -80,7 +80,7 @@ export const bookListDTO = (books) => {
             "title": books[0][i].title,
             "intro": books[0][i].intro,
             "category": books[0][i].category,
-            "thumnail": books[0][i].thumnail
+            "thumnail": books[0][i].thumbnail
         });
     }
     return bookList;
