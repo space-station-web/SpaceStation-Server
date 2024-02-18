@@ -37,4 +37,8 @@ export const status = {
     BOOK_CONTENT_NOT_FOUND: {status: StatusCodes.NOT_FOUND, "isSuccess": false, "code": "BOOK002", "message": "해당 목차를 찾지 못했습니다."},
     BOOK_UNAUTHORIZED: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "BOOK020", "message": "해당 책의 작성자만 이용할 수 있는 서비스 입니다."},
 
+    // question
+    QUESTION_ANSWER_ALREADY: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "QUESTION001", "message": "오늘의 질문에 이미 답변을 하셨습니다. 수정을 원하시면 수정하기를 선택해주세요."},
+    QUESTION_NOT_FOUND: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "QUESTION001", "message": "오늘의 질문을 찾지 못했습니다. 관리자에게 문의해주세요."},
+    QUESTION_UNAUTHORIZED: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "BOOK020", "message": "해당 답변의 작성자만 이용할 수 있는 서비스 입니다."},
 }

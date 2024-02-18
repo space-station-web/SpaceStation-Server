@@ -15,3 +15,11 @@ export const getQuestionIdSql = "SELECT question_id FROM questions WHERE date = 
 export const getUserAnswerSql = `select  q.question_id, q.content as question_content, a.content as answer_content, q.DATE
 from    answer as a left join questions as q on a.question_id = q.question_id where   user_id = ?
 order by q.DATE asc limit ? offset ?;`
+
+export const checktodayAnswerSql = "SELECT answer_id FROM answer WHERE question_id = ? AND user_id = ?;"
+
+export const getAnswerUserSql = "SELECT user_id FROM answer WHERE answer_id = ?;";
+
+export const deleteAnswerSql = "DELETE FROM answer WHERE answer_id = ?;"
+
+export const updateAnswerSql = "UPDATE answer SET content = ?, create_at = ?WHERE answer_id = ?;"
