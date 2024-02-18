@@ -6,8 +6,8 @@ export const createBookContentsSql = "INSERT INTO bookContents (book_contents_id
 export const createBookContentsImgSql = "INSERT INTO bookImage (book_image_id, image, index_id) "
                                 + "VALUES (?, ?, ?);";
 
-export const readBookListAllSql = "SELECT * FROM book;";
-export const readBookListSql = "SELECT * FROM book WHERE category = ?;";
+export const readBookListAllSql = "SELECT * FROM book ORDER BY create_at DESC;";
+export const readBookListSql = "SELECT * FROM book WHERE category = ? ORDER BY create_at DESC;";
 export const readBookSql = "SELECT * FROM book AS b INNER JOIN user AS u ON u.id = b.user_id WHERE b.book_id = ?;";
 export const readBookContentsSql = "SELECT * FROM bookContents AS bc "
                                 + "INNER JOIN bookImage AS bi ON bc.book_contents_id = bi.index_id "
