@@ -26,7 +26,7 @@ const jwtUtil = {
 
         return jwt.sign(payload, secretkey, {
             algorithm: 'HS256',
-            expiresIn: '3h',
+            expiresIn: '24h',
         });
     },
     verify: (token) => {
