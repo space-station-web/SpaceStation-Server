@@ -1,5 +1,6 @@
 import { pool } from "../../config/db.config.js";
-import { addDraftSql, deleteDraftSql, getAllDraftSql, getDraftSql, getDraftUserSql, postDraftSql, updateDraftSql } from "./draft.sql.js";
+import { draftImgResponseDTO } from "../dtos/draft.dto.js";
+import { addDraftSql, deleteDraftImgSql, deleteDraftSql, draftImgSql, getAllDraftSql, getDraftImgSql, getDraftSql, getDraftUserSql, postDraftSql, updateDraftSql } from "./draft.sql.js";
 
 // 임시저장
 export const addDraft = async (data) => {
@@ -65,11 +66,12 @@ export const postDraft = async (data, user_id) => {
 };
 
 // 임시저장 글 삭제
-export const deleteDraft = async (draft_id, user_id) => {
+export const deleteDraft = async (draft_id) => {
     try{
         const conn = await pool.getConnection();
 
-        const result = await conn.query(deleteDraftSql, [draft_id, user_id]);
+        const result = await conn.query(deleteDraftSql, [draft_id]);
+        const postImg = await conn.query(deleteDraftImgSql, [draft_id]);
 
         conn.release();
 
@@ -92,16 +94,16 @@ export const getAllDraft = async (user_id) => {
 };
 
 // 임시저장 상세 조회
-export const getDraft = async (draft_id, user_id) => {
+export const getDraft = async (draft_id) => {
     const conn = await pool.getConnection();
 
-    const result = await conn.query(getDraftSql, [draft_id, user_id]);
+    const result = await conn.query(getDraftSql, [draft_id]);
+    const resultImg = await conn.query(getDraftImgSql, [draft_id]); // 사진
     
     conn.release();
 
-    console.log("result[0][0]: ", result[0][0]);
-
-    return result[0][0];
+    console.log("dto: ", draftImgResponseDTO(result[0][0], resultImg[0]));
+    return draftImgResponseDTO(result[0][0], resultImg[0]);
 };
 
 // 유저 조회
@@ -119,4 +121,23 @@ export const getDraftUser = async (draft_id) => {
     } catch (err) {
         throw err;
     }
+}
+
+// 이미지 업로드
+export const draftImg = async(imagedata) => {
+    const conn = await pool.getConnection(); 
+
+    let resultContentImg = 0;
+    console.log("length: ", imagedata.image.length);
+        if ((imagedata.image != []) && (imagedata.draft_id != -1)) {
+            for (let i = 0; i < imagedata.image.length; i++) {    // 사진 저장
+                const img = imagedata.image[i];
+                const result = await pool.query(draftImgSql, 
+                    [null, img.location, imagedata.draft_id]); 
+                if (result != -1) {
+                    resultContentImg++;
+                }
+            }
+        }
+    conn.release();
 }
