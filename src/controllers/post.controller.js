@@ -14,6 +14,14 @@ export const getPosts = async (req, res) => {
     
 }
 
+// 내 모든 이웃의 글 조회
+export const getFollowPosts = async (req, res) => {
+    const { userID } = req;
+    
+    const followPostList = await postService.getFollowPostsByUserID(userID);
+    return res.send(response(status.SUCCESS, followPostList));
+}
+
 // 글 검색 기능 
 export const searchPost = async (req, res) => {
     //const { userID } = req;
@@ -86,13 +94,6 @@ export const getPostsByUserId = async (req, res) => {
     const { user_id } = req.params;
     const { limit, offset } = req.query;
     return res.send(response(status.SUCCESS, await postService.getPostsByUserId({limit: Number(limit), offset: Number(offset), userId: Number(user_id)})));
-}
-
-// 내 모든 이웃의 글 조회
-export const getFollowPosts = async (req, res) => {
-    const { userID } = req;
-    //const { limit, offset } = req.query;
-    return res.send(response(status.SUCCESS, await postService.getFollowPostsByUserID(userID)));
 }
 
 // 글감 제공
