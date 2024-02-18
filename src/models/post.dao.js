@@ -4,7 +4,7 @@ import { getAllPostsSql,  getSearchPostsSql, insertPostSql, deletePostSql,
          getPostSql, updatePostSql, getPostsByUserIdSql, getFollowPostsByUserIDSql, 
          getTopicSql, getUnviewdTopicSql,
          deleteViewedTopicSql, insertViewedTopicSql, postImgSql, 
-         getPostImgSql, getPostUserSql, deletePostImgSql, getImgCountSql, getPostLikeCountSql, explodePostSql, getImgSql, addImgSql, removeImgSql } from "./post.sql.js";
+         getPostImgSql, getPostUserSql, deletePostImgSql, getImgCountSql, getPostLikeCountSql, explodePostSql, getImgSql, addImgSql, removeImgSql, searchNicknameSql } from "./post.sql.js";
 
 import { status } from "../../config/response.status.js";
 import { postImgResponseDTO, postResponseDTO } from "../dtos/post.dto.js";
@@ -310,4 +310,13 @@ export const explodePost = async (post_id, time) => {
     }, delay);
 
     return "자동 삭제되었습니다."
+}
+
+// 닉네임
+export const searchNickname = async (user_id) => {
+    const conn = await pool.getConnection();
+    const result = await pool.query(searchNicknameSql, [user_id]);
+    console.log(result[0][0]);
+    conn.release();
+    return result[0][0].nickname;
 }
