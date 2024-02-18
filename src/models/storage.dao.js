@@ -7,7 +7,6 @@ import { searchStorageBookSql, searchStoragePostSql,
          addStoragePostSql, delStoragePostSql, delStorageByPostIdSql,
          getPostStorageListByUserIdSql } from "./storage.sql.js";
 
-// postId, userId -> 보관함 정보 (id)
 // typeId -> 여러개
 export const searchStorageBook = async (data) => {
     try{
