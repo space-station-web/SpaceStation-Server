@@ -10,7 +10,7 @@ export const addAnswer = async (body, user_id) => {
     if(existingAnswerData.length > 0) {
         throw new BaseError(status.QUESTION_ANSWER_ALREADY);
     }
-    const postData = await postAnswer({
+    const postData = await questionDao.postAnswer({
         "content": body.content
     }, user_id);
 
