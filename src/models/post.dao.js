@@ -71,7 +71,7 @@ export const deletePost = async (post_id) => {
         const postResult = await conn.query(deletePostSql, [post_id]);
         const postImg = await conn.query(deletePostImgSql, [post_id]);
         const postReply = await conn.query(delPostReplyByPostIdSql, [post_id]);
-        const resultStorage = await pool.query(delStorageByPostIdSql, [postId]);
+        const resultStorage = await pool.query(delStorageByPostIdSql, [post_id]);
 
         conn.release();
 
