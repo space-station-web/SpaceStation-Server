@@ -1,7 +1,8 @@
 import { status } from '../../config/response.status.js';
 import { response } from '../../config/response.js';
 import { createStorageBook, deleteStorageBook,
-         createStoragePost, deleteStoragePost, getPostStorageByUserId,
+         createStoragePost, getStoragePostType, deleteStoragePost, 
+         getPostStorageByUserId,
          } from "../services/storage.service.js";
 
 export const storageBookPost = async (req, res, next) => {
@@ -26,6 +27,14 @@ export const storagePostPost = async (req, res, next) => {
     console.log("req.userID: ", req.userID);    //토큰으로 받은 유저 아이디
 
     res.send(response(status.SUCCESS, await createStoragePost(req.params, req.body, req.userID)));
+};
+
+export const storagePostTypeGet = async (req, res, next) => {
+    console.log("Storage Post Create!");
+    console.log("params:", req.query);
+    //console.log("req.userID: ", req.userID);    //토큰으로 받은 유저 아이디
+
+    res.send(response(status.SUCCESS, await getStoragePostType(req.query, 20)));
 };
 
 export const storagePostDelete = async (req, res, next) => {

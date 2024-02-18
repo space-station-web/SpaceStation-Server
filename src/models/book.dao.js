@@ -5,10 +5,11 @@ import { createBookSql, createBookContentsSql, createBookContentsImgSql,
          readBookSql, readBookContentsSql, readBookContentSql, 
          updateBookSql, updateBookContentsSql, 
          deleteBookSql, deleteBookContentsSql, deleteBookContentsImgSql, 
-         searchBookContentsIdByBookIdSql, checkBookUserSql } from "./book.sql.js";
+         searchBookImgByBookIdSql, checkBookUserSql } from "./book.sql.js";
 import { delStorageByBookIdSql } from "./storage.sql.js";
 import { delLikeByBookIdSql } from "./like.sql.js";
 import { delBookReplyByBookIdSql } from "./reply.sql.js";
+import { deleteImage } from "../middleware/book.image.js";
 
 export const addBook = async (data) => {
     try{
@@ -38,7 +39,7 @@ export const addBookContent = async (data) => {
             for (let i = 0; i < data.files.length; i++) {    // 사진 저장
                 const img = data.files[i];
                 const result = await pool.query(createBookContentsImgSql, 
-                    [null, img.location, resultContent[0].insertId] ); 
+                    [null, img.location, img.key, resultContent[0].insertId] ); 
                 if (result != -1) {
                     resultContentImg++;
                 }
@@ -156,12 +157,16 @@ export const upBook = async (data) => {
 export const delBook = async (bookId) => {
     try {
         const conn = await pool.getConnection();
-        const BookContentId = await pool.query(searchBookContentsIdByBookIdSql, [bookId]);
+        const BookImg = await pool.query(searchBookImgByBookIdSql, [bookId]);
+
         let resultBookContentImgs = 0;
-        for (let i = 0; i < BookContentId[0].length; i++) {
-            console.log("BookContentId : " + BookContentId[0][i].book_contents_id);
-            const resultBookContent = await pool.query(deleteBookContentsImgSql, [BookContentId[0][i].book_contents_id]);
-            resultBookContentImgs += resultBookContent[0].affectedRows;            
+        for (let i = 0; i < BookImg[0].length; i++) {
+            console.log("BookImg : " + BookImg[0][i].book_image_id);
+            const resultBookImg = await pool.query(deleteBookContentsImgSql, [BookImg[0][i].book_image_id]);
+            if (resultBookImg == -1) {
+                deleteImage(BookImg[0][i].file_key)
+            }
+            resultBookContentImgs += resultBookImg[0].affectedRows;            
         }
         const resultBookContent = await pool.query(deleteBookContentsSql, [bookId]);
         const resultBookStorage = await pool.query(delStorageByBookIdSql, [bookId]);
@@ -169,6 +174,7 @@ export const delBook = async (bookId) => {
         const resultBookReply = await pool.query(delBookReplyByBookIdSql, [bookId]);
         const resultBook = await pool.query(deleteBookSql, [bookId]);
         conn.release();
+        // 책 썸네일 삭제 (S3)
         
         return {"deletedBook": resultBook[0].affectedRows, 
                 "deletedBookContent": resultBookContent[0].affectedRows,
