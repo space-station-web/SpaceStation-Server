@@ -1,5 +1,5 @@
 import { pool } from "../../config/db.config.js";
-import { addCommentSql, deleteCommentSql, getCommentSql, getReferenceSql, patchCommentSql } from "./comment.sql.js";
+import { addCommentSql, deleteCommentSql, getCommentSql, getCommentUserSql, getReferenceSql, patchCommentSql } from "./comment.sql.js";
 import { referenceDto, refererenceDateDto } from "../dtos/comment.dto.js";
 
 
@@ -8,11 +8,11 @@ export const getReference = async (post_id) => {
     const conn = await pool.getConnection();
 
     const result = await conn.query(getReferenceSql, [post_id]);
-    
-    const referenceDate = refererenceDateDto(result[0][0].created_at);
-    conn.release();
 
-    return referenceDto(result[0][0], referenceDate.date);
+    conn.release();
+    console.log("result[0][0]: ", result[0][0]);
+    if (!result[0][0]) return "삭제된 글입니다.";
+    else return referenceDto(result[0][0]);
 };
 
 // 인용하기
@@ -37,16 +37,16 @@ export const addComment = async (post_id, body, user_id) => {
 };
 
 // 글 조회
-export const getComment = async (commemt_id, user_id) => {
+export const getComment = async (commemt_id) => {
     try{
         const conn = await pool.getConnection();
-        console.log("comment_id: ", commemt_id, "user_id: ", user_id);
+        console.log("comment_id: ", commemt_id);
 
-        const result = await conn.query(getCommentSql, [commemt_id, user_id]);
+        const result = await conn.query(getCommentSql, [commemt_id]);
+
+        console.log("result: ", result[0][0]);
 
         conn.release();
-
-        console.log("result: ", result);
 
         return {"reference": await getReference(result[0][0].post_id), "comment": result[0][0]};
     } catch (err) {
@@ -55,11 +55,11 @@ export const getComment = async (commemt_id, user_id) => {
 };
 
 // 글 삭제
-export const deleteComment = async (commemt_id, user_id) => {
+export const deleteComment = async (commemt_id) => {
     try{
         const conn = await pool.getConnection();
 
-        const result = await conn.query(deleteCommentSql, [commemt_id, user_id]);
+        const result = await conn.query(deleteCommentSql, [commemt_id]);
 
         conn.release();
 
@@ -86,3 +86,21 @@ export const patchComment = async (commemt_id, data, user_id) => {
         throw err;
     }
 };
+
+// 유저 조회
+export const getCommentUser = async (comment_id) => {
+    try {
+        const conn = await pool.getConnection();
+        const result = await pool.query(getCommentUserSql, [comment_id]);
+
+        if(result.length == 0){
+            return -1;
+        }
+
+        conn.release();
+        return result;
+        
+    } catch (err) {
+        throw err;
+    }
+}

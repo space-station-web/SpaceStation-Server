@@ -4,13 +4,10 @@ import { response } from '../../config/response.js';
 
 export const add = async (req, res) => {
     const { followId } = req.body;
-    const userId = 20;
-    //const userId = req.userID
-    
+    const userId = req.userID
     if(!userId) {
         return res.status(401).send()
     }
-
     const data = await followService.add({userId, followId})
     res.send(response(status.SUCCESS, data));
 };
@@ -18,8 +15,7 @@ export const add = async (req, res) => {
 
 export const remove = async (req, res) => {
     const { id, followId } = req.body;
-    const userId = 20;
-    // const userId = req.userID
+    const userId = req.userID
     
     if(!userId) {
         return res.status(401).send()
@@ -33,8 +29,8 @@ export const remove = async (req, res) => {
 export const followListByUserId =  async (req, res) => {
     const { limit, offset } = req.query;
     const { user_id:targetUserId } = req.params;
-    const userId = 20;
-    //const userId = req.userID
+    
+    const userId = req.userID
 
     if(!userId) {
         return res.status(401).send()

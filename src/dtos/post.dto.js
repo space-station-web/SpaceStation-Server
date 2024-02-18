@@ -1,6 +1,6 @@
 // post.dto.js
 
-export const postImgResponseDTO = (body, image, like) => {
+export const postImgResponseDTO = (body, image, like, storage) => {
     let image_url;
     if(image.length != 0) {
         image_url = []
@@ -20,20 +20,23 @@ export const postImgResponseDTO = (body, image, like) => {
         "image_url": image_url,
         "postLike": like.postLike,
         "postLikeCount": like.postLikeCount,
+        "storage": storage,
         "create_at": body.created_at,
         "visibility": body.visibility,
         "self_destructTime": body.self_destructTime
     };
 }
 
-export const postResponseDTO = (body, like) => {
+export const postResponseDTO = (body, like, storage) => {
 
     return {
         "post_id": body.post_id,
         "user_id": body.user_id,
         "title": body.title, 
         "content": body.content,
-        "like": like.like_count,
+        "postLike": like.postLike,
+        "postLikeCount": like.postLikeCount,
+        "storage": storage,
         "create_at": body.created_at,
         "visibility": body.visibility,
         "self_destructTime": body.self_destructTime
