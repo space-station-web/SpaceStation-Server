@@ -7,11 +7,9 @@ export const addStorageType = async (req,res)=>{
     if(!req.body?.type) {
         return res.status(status.BAD_REQUEST).send(status.BAD_REQUEST);
     }
-
-    const userID = 20;
     // 미들웨어 사용시 const userID = 20; 지우고 아래줄 userID를 req.userID로 변경
 
-    res.send(response(status.SUCCESS, await addStorageTypeByUserId(req.body.type, userID)));
+    res.send(response(status.SUCCESS, await addStorageTypeByUserId(req.body.type, req.userID)));
 }
 
 export const deleteStorageType = async (req,res)=>{
@@ -19,10 +17,10 @@ export const deleteStorageType = async (req,res)=>{
     if(!storageTypeId) {
         return res.status(status.BAD_REQUEST).send(status.BAD_REQUEST);
     }
-    const userID = 20;
+    
 
     // 미들웨어 사용시 const userID = 20; 지우고 아래줄 userID를 req.userID로 변경
-    res.send(response(status.SUCCESS, await deleteStorageTypeByUserId(Number(storageTypeId), userID)));
+    res.send(response(status.SUCCESS, await deleteStorageTypeByUserId(Number(storageTypeId), req.userID)));
 }
 
 export const getStorageType = async(req, res) => {

@@ -10,7 +10,7 @@ import { postImg } from "../models/post.dao.js";
 export const postRouter = express.Router();
 
 // 전체 글 조회
-postRouter.get('/', asyncHandler(getPosts));
+postRouter.get('/', tokenChecker, asyncHandler(getPosts));
 
 // 글감 제공
 postRouter.get('/topics', tokenChecker, getTopic);
@@ -25,7 +25,7 @@ postRouter.delete('/:post_id', tokenChecker, asyncHandler(deletePost));
 postRouter.get('/follow-posts', tokenChecker, asyncHandler(getFollowPosts));
 
 // 글 검색
-postRouter.get('/search', asyncHandler(searchPost));
+postRouter.get('/search', tokenChecker, asyncHandler(searchPost));
 
 // 글 조회
 postRouter.get('/:post_id', asyncHandler(getPost));
@@ -38,4 +38,4 @@ postRouter.patch('/:post_id', imageUploader.array('image'), tokenChecker, asyncH
 postRouter.get('/user/:user_id', tokenChecker, asyncHandler(getPostsByUserId));
 
 // 유저의 글 리스트 조회
-postRouter.get('/user/:user_id', asyncHandler(getPostsByUserId))
+postRouter.get('/user/:user_id',tokenChecker, asyncHandler(getPostsByUserId));

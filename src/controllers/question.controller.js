@@ -31,8 +31,8 @@ export const todayAnswer = async (req, res, next) => {
 
 // 내 답변 조회
 export const getMyAnswer = async (req, res) => {
-    const userID = 20;
-    // const { userID } = req;
+    
+    const { userID } = req;
     const { limit, offset } = req.query;
     if(!userID) {
         return res.status(401).send();
