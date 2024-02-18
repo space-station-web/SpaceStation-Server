@@ -14,17 +14,8 @@ export const getPostSql = "SELECT post_id, user_id, title, content, visibility, 
 export const updatePostSql = "UPDATE post SET title = ?, content = ?, visibility = ?, self_destructTime = ? WHERE post_id = ? AND user_id = ?"
 
 // 특정 사용자 글 조회
-export const getPostsByUserIdSql = `SELECT post.*, topicsimage.image_url
-FROM post
-LEFT JOIN (
-    SELECT post_id, MIN(topicimage_id) AS min_topicimage_id, image_url
-    FROM topicsimage
-    GROUP BY post_id, image_url
-) AS topicsimage ON post.post_id = topicsimage.post_id
-WHERE post.user_id = ?
-ORDER BY post.created_at DESC
-LIMIT ? OFFSET ?;
-`;
+export const getPostsByUserIdSql = `SELECT post.*, topicsimage.image_url FROM post
+LEFT JOIN (SELECT post_id, MIN(image_url) AS image_url FROM topicsimage GROUP BY post_id) AS topicsimage ON post.post_id = topicsimage.post_id WHERE post.user_id = ? ORDER BY post.created_at DESC limit ? offset ?`;
 
 // 전체 글 조회
 export const getAllPostsSql = ({orderColumn, orderDirection}) => `
@@ -53,15 +44,10 @@ with post_with_like as (
 export const getSearchPostsSql = ({orderType, postSearchWord}) => {
     let sql;
     if (orderType === "title") {
-      sql = `SELECT post.*, MIN(topicsimage.topicimage_id) as min_topicimage_id,
-      topicsimage.image_url,
-      CASE WHEN ps.post_id IS NOT NULL THEN 'true' ELSE 'false' END AS isStorage
-      FROM post
+      sql = `SELECT post.*, MIN(topicsimage.topicimage_id) as min_topicimage_id, topicsimage.image_url FROM post
       LEFT JOIN topicsimage ON post.post_id = topicsimage.post_id
       LEFT JOIN postStorage AS ps ON post.post_id = ps.post_id
-      WHERE post.visibility = '전체공개'
-      and ${orderType} LIKE '%${postSearchWord}%'
-      GROUP BY post.post_id`;
+      WHERE post.visibility = '전체공개' AND ${orderType} LIKE '%${postSearchWord}%' GROUP BY post.post_id`;
     } else if (orderType === "nickname"){
       sql = `SELECT post.*, ti.image_url,
       CASE WHEN ps.post_id IS NOT NULL THEN 'true' ELSE 'false' END AS isStorage FROM post
