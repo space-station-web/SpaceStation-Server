@@ -1,6 +1,14 @@
 import express from "express";
-import { userFind } from "../controllers/mypage.controller.js";
+import { userFind, changeNick, changeImg } from "../controllers/mypage.controller.js";
 
-export const userRouter = express.Router();
+export const mypageRouter = express.Router();
 
-userRouter.get('/:userId', userFind)
+mypageRouter.get('/:userId', userFind);
+
+export const nicknameRouter = express.Router();
+
+nicknameRouter.patch('/:userId', changeNick);
+
+export const imageRouter = express.Router();
+
+imageRouter.patch('/:userId', changeImg);

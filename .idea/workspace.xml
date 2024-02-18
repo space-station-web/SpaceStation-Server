@@ -5,14 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="37bf9191-60e6-42cf-8fca-f629fbaec3c7" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/src/controllers/mypage.controller.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/mypage.dao.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/mypage.route.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/mypage.service.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/swagger/mypage-getuser.swagger.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swagger/mypage-imgchange.swagger.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swagger/mypage-nickchange.swagger.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/mypage.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/mypage.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/mypage.dao.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/mypage.dao.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/user.sql.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/user.sql.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/mypage.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/mypage.route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/mypage.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/mypage.service.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

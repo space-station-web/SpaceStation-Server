@@ -35,3 +35,77 @@ export const userGet = async (userId) => {
         conn.release();
     }
 }
+
+export const nicknameChange = async (userId, data) => {
+    userId = Number(userId);
+    const newNick = data.nickname
+
+    const conn = await pool.getConnection();
+
+    try {
+        const [usernick] = await pool.query(changeUserNick, [newNick, new Date(), userId]);
+
+        if (updateResult.affectedRows === 0) {
+            // 쿼리가 영향을 미치지 않았다면 사용자 정보를 찾을 수 없는 것입니다.
+            return { status: -1, message: "사용자 정보를 찾을 수 없습니다." };
+        }
+
+        const [updatedUserInfo] = await pool.query(getUserInfo, [userId]);
+
+        if (!updatedUserInfo || updatedUserInfo.length === 0) {
+            return { status: -1, message: "업데이트된 사용자 정보를 찾을 수 없습니다." };
+        }
+
+        const updatedUser = updatedUserInfo[0];
+
+        return {
+            status: 1,
+            message: "닉네임을 성공적으로 변경하였습니다.",
+            data: {
+                nickname: updatedUser.nickname,
+            },
+        };
+    } catch (err) {
+        console.error(err);
+        return { status: -1, message: "서버 에러" };
+    } finally {
+        conn.release();
+    }
+}
+
+export const imageChange = async (userId, data) => {
+    userId = Number(userId);
+    const newImg = data.image
+
+    const conn = await pool.getConnection();
+
+    try {
+        const [userimg] = await pool.query(changeUserImg, [newImg, new Date(), userId]);
+
+        if (updateResult.affectedRows === 0) {
+            // 쿼리가 영향을 미치지 않았다면 사용자 정보를 찾을 수 없는 것입니다.
+            return { status: -1, message: "사용자 정보를 찾을 수 없습니다." };
+        }
+
+        const [updatedUserInfo] = await pool.query(getUserInfo, [userId]);
+
+        if (!updatedUserInfo || updatedUserInfo.length === 0) {
+            return { status: -1, message: "업데이트된 사용자 정보를 찾을 수 없습니다." };
+        }
+
+        const updatedUser = updatedUserInfo[0];
+
+        return {
+            status: 1,
+            message: "프로필 이미지를 성공적으로 변경하였습니다.",
+            data: {
+                image: updatedUser.image,
+            },
+        };
+    } catch (err) {
+        console.error(err);
+        return { status: -1, message: "서버 에러" };
+    } finally {
+        conn.release();
+    }
+}
