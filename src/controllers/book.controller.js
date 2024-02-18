@@ -24,7 +24,7 @@ export const bookRead = async (req, res, next) => {
     console.log("bookRead!");
     console.log("req.userID: ", req.userID); 
 
-    res.send(response(status.SUCCESS, await readBook(req.params, req.userID)));
+    res.send(response(status.SUCCESS, await readBook(req.query, req.userID)));
 };
 
 export const bookUpdate = async (req, res, next) => {
