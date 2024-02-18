@@ -10,12 +10,12 @@ export const refererenceDateDto = (timestamp) => {
     };
 };
 
-export const referenceDto = (data, date) => {
+export const referenceDto = (data) => {
     return {
         "post_id": data.post_id,
         "user_id": data.user_id,
         "title": data.title,
-        "date": date
+        "date": data.created_at
     };
 };
 
