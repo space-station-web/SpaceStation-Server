@@ -18,7 +18,7 @@ export const storageBookDelete = async (req, res, next) => {
     console.log("params:", req.params);
     console.log("req.userID: ", req.userID);    //토큰으로 받은 유저 아이디
 
-    res.send(response(status.SUCCESS, await deleteStorageBook(req.params, req.body, req.userID)));
+    res.send(response(status.SUCCESS, await deleteStorageBook(req.params, req.query, req.userID)));
 };
 
 export const storagePostPost = async (req, res, next) => {
@@ -42,7 +42,7 @@ export const storagePostDelete = async (req, res, next) => {
     console.log("params:", req.params);
     console.log("req.userID: ", req.userID);    // 토큰으로 받은 유저 아이디
 
-    res.send(response(status.SUCCESS, await deleteStoragePost(req.params, req.body, req.userID)));
+    res.send(response(status.SUCCESS, await deleteStoragePost(req.params, req.query, req.userID)));
 };
 
 export const getMyPostStorage = async (req, res) => {
