@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 
 export const status = {
     // success
-    SUCCESS: {status: StatusCodes.OK, "isSuccess": true, "code": 2000, "message": "success!"},    
+    SUCCESS: {status: StatusCodes.OK, "isSuccess": true, "code": 200, "message": "success!"},    
 
     // error
     // common err
@@ -25,5 +25,15 @@ export const status = {
     POST_UNAUTHORIZED: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "POST016", "message": "글 작성자가 아닙니다."},
 
     // book
-    WRONG_EXTENSION: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "BOOK001", "message": "허용된 파일 확장자가 아닙니다." },
+    WRONG_EXTENSION: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "FILE001", "message": "허용된 파일 확장자가 아닙니다." },
+    WRONG_QUERY: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "QUERY001", "message": "잘못된 QUERY String 입니다." },
+    WRONG_PATH: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "PATH001", "message": "잘못된 PATH String 입니다." },
+
+    // BOOK00N SQL 생성 에러
+    BOOK_UNCREATED: {status: StatusCodes.INTERNAL_SERVER_ERROR, "isSuccess": false, "code": "BOOK001", "message": "책이 생성되지 못했습니다.."},
+    BOOK_CONTENT_UNCREATED: {status: StatusCodes.INTERNAL_SERVER_ERROR, "isSuccess": false, "code": "BOOK002", "message": "책의 목차가 생성되지 못했습니다.."},
+    BOOK_LIST_NOT_FOUND: {status: StatusCodes.INTERNAL_SERVER_ERROR, "isSuccess": false, "code": "BOOK003", "message": "조회 중, 에러 발생하였습니다. 관리자에게 문의 주세요."},
+    BOOK_NOT_FOUND: {status: StatusCodes.NOT_FOUND, "isSuccess": false, "code": "BOOK010", "message": "해당 책을 찾지 못했습니다."},
+    BOOK_UNAUTHORIZED: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "BOOK020", "message": "해당 책의 작성자만 이용할 수 있는 서비스 입니다."},
+
 }

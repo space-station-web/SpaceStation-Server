@@ -18,7 +18,7 @@ export const createBook = async (body, file, userID) => {
     console.log("create Book Result :" + createData.bookId);
 
     if(createData.bookId == -1){
-        throw new BaseError(status.EMAIL_ALREADY_EXIST);
+        throw new BaseError(status.NOT_CREATED);
     }else{
         return readBook({'bookId': createData.bookId}, userID);
     }
@@ -35,24 +35,29 @@ export const createBookContent = async (body, files, userID) => {
     console.log("create BookContent Result :" + createData.bookContentId + ", " + createData.resultImgs);
 
     if(createData.bookContentId == -1){
-        throw new BaseError(status.EMAIL_ALREADY_EXIST);
+        throw new BaseError(status.NOT_CREATED);
     }else{
         return readBookContent({'bookContentId': createData.bookContentId});
     }
 }
 
 export const readBookList = async (query) => {
-    console.log('query'+ query.category);
+    if (query == {}){
+        throw new BaseError(status.WRONG_QUERY);
+    }
     const bookData = await getBookList(query.category);
 
     if(bookData == -1){
-        throw new BaseError(status.BAD_REQUEST);
+        throw new BaseError(status.NOT_SEARCHED);
     }else{
         return bookListDTO(bookData);
     }
 }
 
 export const readBook = async (query, userID) => {
+    if (query == {}){
+        throw new BaseError(status.WRONG_QUERY);
+    }
     console.log('book_id'+ query.bookId+" , "+ 'user_id'+ userID);
     const bookData = await getBook(query.bookId);
     const bookStorageData = await searchStorageBook({'book_id': query.bookId, 'user_id': userID});
@@ -61,7 +66,7 @@ export const readBook = async (query, userID) => {
     
 
     if(bookData == -1){
-        throw new BaseError(status.BAD_REQUEST);
+        throw new BaseError(status.NOT_SEARCHED);
     }else{
         return bookDTO(bookData, bookStorageData, bookLikeData, contentsData);
     }
@@ -73,16 +78,19 @@ export const readBookContent = async (params) => {
     
 
     if(contentsData == -1){
-        throw new BaseError(status.BAD_REQUEST);
+        throw new BaseError(status.NOT_SEARCHED);
     }else{
         return bookContentsDTO(contentsData);
     }
 }
 
 export const updateBook = async (params, body, userID) => {
+    if (params.bookId == undefined) {
+        throw new BaseError(status.WRONG_PATH);
+    }
     const bookUser = await checkBookUser(params.bookId);
     if (bookUser[0][0].user_id != userID) {
-        return "user and the author are different.";
+        throw new BaseError(status.BOOK_UNAUTHORIZED);
     }
 
     const updateData = await upBook({
@@ -96,16 +104,19 @@ export const updateBook = async (params, body, userID) => {
     console.log("update Book Result :" + updateData.resultBook +", "+updateData.resultContents);
 
     if(updateData == -1){
-        throw new BaseError(status.BAD_REQUEST);
+        throw new BaseError(status.NOT_UPDATED);
     }else{
         return readBook({'bookId': params.bookId}, userID);;
     }
 }
 
 export const deleteBook = async (params, userID) => {
+    if (params.bookId == undefined) {
+        throw new BaseError(status.WRONG_PATH);
+    }
     const bookUser = await checkBookUser(params.bookId);
     if (bookUser[0][0].user_id != userID) {
-        return "user and the author are different.";
+        throw new BaseError(status.BOOK_UNAUTHORIZED);
     }
 
     const deleteData = await delBook(params.bookId);
@@ -114,7 +125,7 @@ export const deleteBook = async (params, userID) => {
                 + ", Storage: " + deleteData.deletedBookStorage );
 
     if(deleteData == -1){
-        throw new BaseError(status.EMAIL_ALREADY_EXIST);
+        throw new BaseError(status.NOT_DELETED);
     }else{
         return deleteData;
     }

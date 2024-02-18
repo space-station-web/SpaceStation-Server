@@ -1,6 +1,7 @@
 import { status } from '../../config/response.status.js';
 import { response } from '../../config/response.js';
 import { createBook, createBookContent, readBook, readBookList, updateBook, deleteBook } from "../services/book.service.js";
+import { BaseError } from '../../config/error.js';
 
 export const bookCreate = async (req, res, next) => {
     console.log("bookCreate!");
@@ -23,6 +24,7 @@ export const bookContentCreate = async (req, res, next) => {
 export const bookRead = async (req, res, next) => {
     console.log("bookRead!");
     console.log("req.userID: ", req.userID); 
+    console.log("req.query: ", req.query); 
 
     res.send(response(status.SUCCESS, await readBook(req.query, req.userID)));
 };
