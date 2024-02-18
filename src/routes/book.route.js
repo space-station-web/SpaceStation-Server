@@ -16,7 +16,7 @@ bookRouter.post('/contents', tokenChecker, imageUploader.array('image', 10), boo
 bookRouter.get('/list', bookListRead);
 
 // 책 상세조회
-bookRouter.get('/:bookId', tokenChecker, bookRead);
+bookRouter.get('/', tokenChecker, bookRead);
 
 // 책 수정
 bookRouter.patch('/:bookId', tokenChecker, bookUpdate);

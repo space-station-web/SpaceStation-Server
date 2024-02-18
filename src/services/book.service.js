@@ -52,12 +52,12 @@ export const readBookList = async (query) => {
     }
 }
 
-export const readBook = async (params, userID) => {
-    console.log('book_id'+ params.bookId+" , "+ 'user_id'+ userID);
-    const bookData = await getBook(params.bookId);
-    const bookStorageData = await searchStorageBook({'book_id': params.bookId, 'user_id': userID});
-    const bookLikeData = await searchLikeBook({'book_id': params.bookId, 'user_id': userID});
-    const contentsData = await getContents(params.bookId);
+export const readBook = async (query, userID) => {
+    console.log('book_id'+ query.bookId+" , "+ 'user_id'+ userID);
+    const bookData = await getBook(query.bookId);
+    const bookStorageData = await searchStorageBook({'book_id': query.bookId, 'user_id': userID});
+    const bookLikeData = await searchLikeBook({'book_id': query.bookId, 'user_id': userID});
+    const contentsData = await getContents(query.bookId);
     
 
     if(bookData == -1){
