@@ -30,7 +30,7 @@ export const getComment = async (req, res, next) => {
 
     const { comment_id } = req.params;
 
-    return res.send(response(status.SUCCESS, await commentDao.getComment(comment_id, req.userID)));
+    return res.send(response(status.SUCCESS, await commentDao.getComment(comment_id)));
 };
 
 // 인용 글 삭제
@@ -39,7 +39,7 @@ export const deleteComment = async (req, res, next) => {
 
     const { comment_id } = req.params;
 
-    return res.send(response(status.SUCCESS, await commentDao.deleteComment(comment_id, req.userID)));
+    return res.send(response(status.SUCCESS, await commentService.deleteComment(comment_id, req.userID)));
 };
 
 // 인용 글 수정

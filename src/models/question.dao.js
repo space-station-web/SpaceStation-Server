@@ -28,9 +28,7 @@ export const getQuestion = async (date) => {
 export const postAnswer = async (data, user_id) => {
     try {
         const conn = await pool.getConnection();
-        
         const todayQuestionId = await pool.query(getQuestionIdSql);
-
         const result = await pool.query(postAnswerSql, [
             todayQuestionId[0][0].question_id,
             null, 
@@ -40,7 +38,6 @@ export const postAnswer = async (data, user_id) => {
         ]);
 
         conn.release();
-
         return { "answer_id": result[0].insertId };
     } catch (err) {
         throw err;
@@ -88,7 +85,7 @@ export const getUserAnswer = async ({limit, offset, userId}) => {
         console.log(userId, limit, offset)
         const result = await conn.query(getUserAnswerSql, [userId, limit, offset]);
 
-        console.log('result:', result[0])
+        //console.log('result:', result[0])
 
         conn.release();
 

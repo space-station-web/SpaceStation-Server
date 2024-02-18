@@ -11,17 +11,30 @@ import { postImgResponseDTO, postResponseDTO } from "../dtos/post.dto.js";
 import { BaseError } from "../../config/error.js";
 import { delPostReplyByPostIdSql } from "./reply.sql.js";
 import { searchLikePost } from "./like.dao.js";
+import { delStorageByPostIdSql } from "./storage.sql.js";
 
 //  전체 글 조회
 export const getAllPosts = async(userID, {orderColumn, orderDirection, limit, offset}) => {
     try {
-        
         const conn = await pool.getConnection();
-        const result = await pool.query(getAllPostsSql({orderColumn, orderDirection}), [ 
-            limit, offset
-        ],[userID]);
+        const result = await pool.query(getAllPostsSql({orderColumn, orderDirection}), [limit, offset],[userID]);
         conn.release();
         return result[0];
+    } catch (err) {
+        throw err;
+    }
+}
+
+// 유저의 모든 이웃의 글 조회
+export const getFollowPostsByUserID = async (userId) => {
+    try {
+        const conn = await pool.getConnection();
+        const myPosts = await pool.query(getFollowPostsByUserIDSql,[userId]);
+        if(myPosts.length == 0){
+            return -1;
+        }
+        conn.release();
+        return myPosts[0];
     } catch (err) {
         throw err;
     }
@@ -73,6 +86,7 @@ export const deletePost = async (post_id) => {
         const postResult = await conn.query(deletePostSql, [post_id]);
         const postImg = await conn.query(deletePostImgSql, [post_id]);
         const postReply = await conn.query(delPostReplyByPostIdSql, [post_id]);
+        const resultStorage = await pool.query(delStorageByPostIdSql, [post_id]);
 
         conn.release();
 
@@ -133,25 +147,11 @@ export const getPostsByUserId = async ({ limit, offset, userId}) => {
         return myPosts[0];
         
     } catch (err) {
-        throw err;
+        throw error;
     }
 }
 
-// 유저의 모든 이웃의 글 조회
-export const getFollowPostsByUserID = async (userId) => {
-    try {
-        const conn = await pool.getConnection();
-        const myPosts = await pool.query(getFollowPostsByUserIDSql, [userId]);
-        if(myPosts.length == 0){
-            return -1;
-        }
 
-        conn.release();
-        return myPosts[0];
-    } catch (error) {
-        throw err;
-    }
-}
 
 // 글을 쓸 때 글감을 선택적으로 제공받을 수 있고 글감을 제공받아서 글을 작성했다면 다음에 글을 작성할 때는 새로운 글감을 제공하도록 
 // 랜덤으로 제공하되 viewed 모두 1 이면 0으로 전체 초기화
@@ -176,6 +176,8 @@ export const getRandomTopic = async (user_id) => {
     const randomTopicId = unviewedTopics[0][randomIndex].topic_id;
   
     await conn.query(insertViewedTopicSql, [user_id, randomTopicId]);
+
+    conn.release();
   
     return getTopic(randomTopicId);
 }
@@ -288,13 +290,13 @@ export const updateImg = async(imagedata, post_id, user_id) => {
 
 
 // 이미지 수
-export const getImgCount = async(post_id) => {
+/*export const getImgCount = async(post_id) => {
     const conn = await pool.getConnection();
     const result = await pool.query(getImgCountSql, [post_id]);
     console.log("result: ", result);
 
     return result;
-}
+}*/
 
 // 터뜨리기
 export const explodePost = async (post_id, time) => {
