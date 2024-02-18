@@ -15,6 +15,7 @@ import { signupRouter } from './src/routes/signup.route.js';
 // const cookieParser = require('cookie-parser');
 import { emailcheckRouter } from './src/routes/emailcheck.route.js';
 import { loginRouter } from './src/routes/login.route.js';
+import { userRouter } from './src/routes/mypage.route.js';
 
 import { changepwRouter, emailauthRouter } from './src/routes/emailauth.route.js';
 
@@ -78,6 +79,8 @@ app.use('/changepw', changepwRouter);
 
 
 app.use('/login', loginRouter);
+
+app.use('/mypage', userRouter);
 
 
 app.listen(process.env.PORT, () => {
