@@ -1,5 +1,5 @@
-export const addBookReplySql = "INSERT INTO bookReply (content, create_at, user_id, book_id, front_reply_id) "
-                                +"VALUES (?, ?, ?, ?, ?)";
+export const addBookReplySql = "INSERT INTO bookReply (content, create_at, user_id, book_id, front_reply_id, nickname) "
+                                +"VALUES (?, ?, ?, ?, ?, ?)";
 
 export const searchBookReplySql = "SELECT * FROM bookReply WHERE book_reply_id = ?;";
 

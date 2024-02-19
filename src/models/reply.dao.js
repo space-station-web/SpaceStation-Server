@@ -9,7 +9,9 @@ import { addBookReplySql, searchBookReplyByBookIdSql,
 export const addBookReply = async (data) => {
     try{
         const conn = await pool.getConnection();
-        const resultPost = await pool.query(addBookReplySql, [data.content, new Date(), data.user_id, data.book_id, data.front_reply_id]);
+        const nickdata = await pool.query(nicknameSql, [data.user_id])
+        console.log("nickdata: ", nickdata[0][0]);
+        const resultPost = await pool.query(addBookReplySql, [data.content, new Date(), data.user_id, data.book_id, data.front_reply_id, nickdata[0][0].nickname]);
         conn.release();
 
         return resultPost[0].insertId;  

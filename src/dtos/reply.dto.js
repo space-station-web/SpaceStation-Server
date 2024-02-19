@@ -1,6 +1,7 @@
 export const bookReplyDTO = (reply) => {
     return {
         "book_reply_id": reply.book_reply_id, 
+        "nickname": reply.nickname,
         "content": reply.content,
         "create_at": reply.create_at,
         "front_reply_id": reply.front_reply_id,
