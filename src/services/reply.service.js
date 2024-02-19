@@ -68,6 +68,9 @@ export const readPostReply = async (query) => {
         'post_id': query.postId
     });
 
+    // const nickData = await searchNickname(readData.post_reply_id)
+
+    console.log("readData: ", readData);
     if(readData == -1){
         throw new BaseError(status.BAD_REQUEST);
     }else{

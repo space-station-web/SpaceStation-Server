@@ -4,7 +4,7 @@ import { status } from "../../config/response.status.js";
 import { addBookReplySql, searchBookReplyByBookIdSql, 
          delBookReplySql, searchBookReplySql,
          addPostReplySql, searchPostReplyByPostIdSql, 
-         delPostReplySql, searchPostReplySql } from "./reply.sql.js";
+         delPostReplySql, searchPostReplySql, searchNicknameSql, addnicknameSql, nicknameSql } from "./reply.sql.js";
 
 export const addBookReply = async (data) => {
     try{
@@ -49,7 +49,10 @@ export const delBookReply = async (data) => {
 export const addPostReply = async (data) => {
     try{
         const conn = await pool.getConnection();
-        const resultPost = await pool.query(addPostReplySql, [data.content, new Date(), data.user_id, data.post_id, data.front_reply_id]);
+        const nickdata = await pool.query(nicknameSql, [data.user_id])
+        console.log("nickdata: ", nickdata[0][0]);
+        // const nickname = await pool.query(addnicknameSql, [nickdata])
+        const resultPost = await pool.query(addPostReplySql, [data.content, new Date(), data.user_id, data.post_id, data.front_reply_id, nickdata[0][0].nickname]);
         conn.release();
 
         return resultPost[0].insertId;  
@@ -63,8 +66,10 @@ export const searchPostReply = async (data) => {
         const conn = await pool.getConnection();
         const resultSearch = await pool.query(searchPostReplyByPostIdSql, [data.post_id]);
         conn.release();
+        console.log("resultSearch: ", resultSearch[0][0]);
 
-        return resultSearch;
+
+        return resultSearch
     }catch (err) {
         throw new BaseError(err);
     }
@@ -84,4 +89,13 @@ export const delPostReply = async (data) => {
     } catch (err) {
         throw new BaseError(status.PARAMETER_IS_WRONG);
     }
+}
+
+// 닉네임
+export const searchNickname = async (user_id) => {
+    const conn = await pool.getConnection();
+    const result = await pool.query(searchNicknameSql, [user_id]);
+    console.log(result[0][0]);
+    conn.release();
+    return result[0][0].nickname;
 }
