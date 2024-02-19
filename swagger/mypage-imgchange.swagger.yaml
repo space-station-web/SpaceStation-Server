@@ -1,6 +1,6 @@
 paths:
-  /image/{userId}:
-    post:
+  /mypage/image/{userId}:
+    patch:
       tags:
         - User
       summary: 프로필 이미지 변경
@@ -14,16 +14,16 @@ paths:
               usrId:
                 type: string
                 example: "14"
-        - name: changenick
+        - name: changeimage
           in: body
           required: true
           schema:
             type: object
             properties:
-              pw:
-                type: varchar(50)
-                description: 사용자 닉네임
-                example: 콩지
+              img:
+                type: string
+                description: 사용자 프로픽 사진
+                example:
       responses:
         '200':
           description: 닉네임 변경이 완료되었습니다!

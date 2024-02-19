@@ -25,6 +25,8 @@ export const getUserId = "SELECT id FROM user WHERE name = ? AND email = ?";
 
 export const getUserInfo = "SELECT nickname, image FROM user WHERE id = ?";
 
-export const changeUserNick = "UPDATE user SET nickname = ? update_date = ? WHERE id = ?";
+export const changeUserNick = "UPDATE user SET nickname = ?, update_date = ? WHERE id = ?";
 
-export const changeUserImg = "UPDATE user SET image = ? update_date = ? WHERE id = ?";
+export const changeUserImg = "UPDATE user SET image = ?, update_date = ? WHERE id = ?";
+
+export const getUseridByNickname = "SELECT id FROM user WHERE BINARY nickname = ?";

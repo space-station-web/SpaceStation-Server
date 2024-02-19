@@ -1,6 +1,6 @@
 paths:
-  /nickname/{userId}:
-    post:
+  /mypage/nickname/{userId}:
+    patch:
       tags:
         - User
       summary: 사용자 닉네임 변경
@@ -8,10 +8,9 @@ paths:
         - name: userId
           in: path
           required: true
-          description: 사용자 ID
           schema:
             properties:
-              usrId:
+              id:
                 type: string
                 example: "14"
         - name: changenick
@@ -20,7 +19,7 @@ paths:
           schema:
             type: object
             properties:
-              nickname:
+              changenick:
                 type: varchar(50)
                 description: 사용자 닉네임
                 example: 콩지
@@ -62,4 +61,3 @@ paths:
                     example: COMMON001
                   message:
                     type: string
-

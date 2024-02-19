@@ -5,10 +5,6 @@ export const mypageRouter = express.Router();
 
 mypageRouter.get('/:userId', userFind);
 
-export const nicknameRouter = express.Router();
+mypageRouter.patch('/nickname/:userId', changeNick);
 
-nicknameRouter.patch('/:userId', changeNick);
-
-export const imageRouter = express.Router();
-
-imageRouter.patch('/:userId', changeImg);
+mypageRouter.patch('/image/:userId', changeImg);

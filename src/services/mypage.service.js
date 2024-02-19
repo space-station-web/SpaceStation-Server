@@ -44,16 +44,16 @@ export const changeNickname = async (req, body) => {
             console.error("userId가 설정되지 않았습니다.");
             return response(status.BAD_REQUEST);
         }
-        const nickChange = await nicknameChange(userId, {nickname: body.nickname});
+        const nickChange = await nicknameChange(userId, {nickname: body.changenick});
 
 
         if (nickChange.status === -1) {
-            console.log(`낵네임 변경 실패 : ${nickChange.message}`)
+            console.log(`닉네임 변경 실패 : ${nickChange.message}`)
             return response(status.BAD_REQUEST);
 
         }
 
-        const { nickname } = nicknameChange.data;
+        const { nickname } = nickChange.data;
         // 회원가입 성공 시 응답 데이터 구성 (사용자 정보 반환하지 않음)
         return response(status.SUCCESS, {nickname});
 
@@ -73,7 +73,7 @@ export const changeProfile = async (req, body) => {
             console.error("userId가 설정되지 않았습니다.");
             return response(status.BAD_REQUEST);
         }
-        const imgChange = await imageChange(userId, {image: body.image});
+        const imgChange = await imageChange(userId, {image: body.changeimage});
 
 
         if (imgChange.status === -1) {
@@ -82,7 +82,7 @@ export const changeProfile = async (req, body) => {
 
         }
 
-        const {image} = imgChange.nickname;
+        const { image } = imgChange.data;
         // 회원가입 성공 시 응답 데이터 구성 (사용자 정보 반환하지 않음)
         console.log(image)// 성공 메시지 추가
         return response(status.SUCCESS, {image});

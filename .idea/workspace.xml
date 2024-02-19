@@ -5,15 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="37bf9191-60e6-42cf-8fca-f629fbaec3c7" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/swagger/mypage-imgchange.swagger.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/swagger/mypage-nickchange.swagger.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/mypage.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/mypage.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/mypage.dao.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/mypage.dao.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/user.sql.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/user.sql.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/mypage.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/mypage.route.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/mypage.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/mypage.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swagger/mypage-imgchange.swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/swagger/mypage-imgchange.swagger.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swagger/mypage-nickchange.swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/swagger/mypage-nickchange.swagger.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,28 +38,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenDatabaseViewOnStart": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "feature/mypage",
-    "javascript.nodejs.core.library.configured.version": "21.4.0",
-    "javascript.nodejs.core.library.typings.version": "20.11.17",
-    "last_opened_file_path": "/Users/klvlo/Desktop/JISEUNG/Study/SpaceStation-Server",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/mypage&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;21.4.0&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;20.11.17&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/klvlo/Desktop/JISEUNG/Study/SpaceStation-Server&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/swagger" />
