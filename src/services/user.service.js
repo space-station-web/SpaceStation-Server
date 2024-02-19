@@ -204,7 +204,7 @@ export const loginUser = async (body) => {
         });
 
         if (!loginUserData) {
-            return -1;
+            return response(status.BAD_REQUEST);
         } else {
             const userid = loginUserData.userId;
             const usernick = loginUserData.userNickname;
