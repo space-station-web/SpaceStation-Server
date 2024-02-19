@@ -203,7 +203,8 @@ export const loginUser = async (body) => {
             auto: body.auto
         });
 
-        if (!loginUserData) {
+        if (loginUserData === -1) {
+            console.log(response(status.BAD_REQUEST))
             return response(status.BAD_REQUEST);
         } else {
             const userid = loginUserData.userId;
