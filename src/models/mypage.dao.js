@@ -1,4 +1,5 @@
 import { pool } from "../../config/db.config.js";
+import { imageUploader, deleteImage } from '../middleware/image.uploader.js';
 import { response} from "../../config/response.js";
 import { transporter } from "../../config/email.config.js";
 import { status } from "../../config/response.status.js";
