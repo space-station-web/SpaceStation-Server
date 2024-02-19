@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="37bf9191-60e6-42cf-8fca-f629fbaec3c7" name="변경" comment="" />
+=======
+    <list default="true" id="37bf9191-60e6-42cf-8fca-f629fbaec3c7" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+>>>>>>> feature/mypage
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,7 +40,11 @@
     &quot;RunOnceActivity.OpenDatabaseViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+<<<<<<< HEAD
     &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+=======
+    &quot;git-widget-placeholder&quot;: &quot;feature/mypage&quot;,
+>>>>>>> feature/mypage
     &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;21.4.0&quot;,
     &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;20.11.17&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/klvlo/Desktop/JISEUNG/Study/SpaceStation-Server&quot;,
