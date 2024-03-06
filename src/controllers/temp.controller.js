@@ -4,7 +4,7 @@ import { CheckFlag } from '../services/temp.service.js';
 import { response } from '../../config/response.js';
 
 export const tempTest = (req, res, next) => {
-    res.send(response(status.SUCCESS, getTempData()));
+    res.send(response(status.SUCCESS, "This is TEST! >.0"));
 };
 
 export const tempException = (req, res, next) => {
