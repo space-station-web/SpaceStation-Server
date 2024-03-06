@@ -1,4 +1,5 @@
-import AWS from '@aws-sdk/client-s3'
+import { S3 } from '@aws-sdk/client-s3';
+// AWS.config.update({region: 'ap-northeast-2'})
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 
@@ -12,12 +13,12 @@ import { status } from '../../config/response.status.js';
 
 dotenv.config();    // .env 파일 사용
 
-const s3 = new AWS.S3({
-    region: process.env.AWS_S3_REGION,
-    credentials: {
-        accessKeyId: process.env.AWS_S3_ACCESS_KEY,
-        secretAccessKey: process.env.AWS_S3_SECRET_KEY
-    }
+const s3 = new S3({
+  region: process.env.AWS_S3_REGION,
+  credentials: {
+      accessKeyId: process.env.AWS_S3_ACCESS_KEY,
+      secretAccessKey: process.env.AWS_S3_SECRET_KEY
+  }
 });
 
 // 확장자 검사 목록

@@ -9,21 +9,20 @@ import {status} from "./response.status.js";
 dotenv.config();
 
 
-
-const conn = await pool.getConnection();
-
-
 const TOKEN_PREFIX = 'Bearer '
 const secretkey = process.env.secret
 
 
 const jwtUtil = {
+
     sign: (user) => {
+        
         const payload = {
             id: user.id,
             mail: user.email,
         };
 
+        
         return jwt.sign(payload, secretkey, {
             algorithm: 'HS256',
             expiresIn: '24h',
