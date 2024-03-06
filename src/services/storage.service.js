@@ -52,7 +52,7 @@ export const getStoragePostType = async (query, userID) => {
 }
 
 export const createStoragePost = async (params, body, userID) => {
-    const createData = await searchStoragePostType({
+    const createData = await addStoragePost({
         'post_id': params.postId,
         'storage_type_id': body.typeId,
         'user_id': userID

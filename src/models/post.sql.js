@@ -37,7 +37,7 @@ with post_with_like as (
       left join post_with_image as pwi on pwi.post_id = p.post_id
   left join topicsimage as img on pwi.image_id = img.topicimage_id
   order by ${orderColumn} ${orderDirection}
-  
+ 
 `;
 // 전체 글 조회 sql에서 LIMIT ? OFFSET ?; 제외함 
 
@@ -103,3 +103,4 @@ export const addImgSql = "INSERT INTO topicsimage (image_url, post_id, user_id) 
 
 export const removeImgSql = "DELETE FROM topicsimage WHERE image_url = ? AND post_id = ?";
 
+export const searchNicknameSql = "SELECT nickname FROM user WHERE id = ?;"

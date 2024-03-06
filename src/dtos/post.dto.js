@@ -1,6 +1,6 @@
 // post.dto.js
 
-export const postImgResponseDTO = (body, image, like, storage) => {
+export const postImgResponseDTO = (body, image, like, storage, name) => {
     let image_url;
     if(image.length != 0) {
         image_url = []
@@ -15,6 +15,7 @@ export const postImgResponseDTO = (body, image, like, storage) => {
     return {
         "post_id": body.post_id,
         "user_id": body.user_id,
+        "nickname": name,
         "title": body.title, 
         "content": body.content,
         "image_url": image_url,

@@ -8,18 +8,16 @@ import * as draftDao from '../models/draft.dao.js';
 export const addDraft = async (req, res, next) => {
     console.log("임시저장");
     console.log("body:", req.body);
-    // console.log("files", req.files);
-    // const files = req.files ?? []; 
+    console.log("files", req.files);
+    const files = req.files ?? []; 
 
-    return res.send(response(status.SUCCESS, await draftService.addDraft(req.body, req.userID)));
+    return res.send(response(status.SUCCESS, await draftService.addDraft(req.body, req.userID, files)));
 };
 
 // 임시저장 글 수정 후 임시저장
 export const patchDraft = async (req, res, next) => {
     console.log("임시저장-수정-임시저장");
     console.log("body:", req.body, "params: ", req.params);
-    // console.log("files", req.files);
-    // const files = req.files ?? []; 
 
     const { draft_id } = req.params;
 
@@ -35,7 +33,7 @@ export const postDraft = async (req, res, next) => {
 
     const { draft_id } = req.params;
 
-    return res.send(response(status.SUCCESS, await draftService.postDraft(draft_id, req.body, req.userID)));
+    return res.send(response(status.SUCCESS, await draftService.postDraft(draft_id, req.body, req.userID, files)));
 };
 
 // 임시저장 글 삭제

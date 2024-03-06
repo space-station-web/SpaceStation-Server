@@ -26,7 +26,7 @@ export const status = {
     POST_CONTENT_TOO_LONG: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "POST013", "message": "게시글 내용이 너무 깁니다. 65535자 이내로 작성해주세요."},
     POST_VISIBILITY_EMPTY: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "POST014", "message": "공개여부를 선택해 주세요."},
     POST_TIME_EMPTY: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "POST015", "message": "터뜨리기 시간을 설정해주세요."},
-    POST_UNAUTHORIZED: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "POST016", "message": "글 작성자가 아닙니다."},
+    POST_UNAUTHORIZED: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "POST016", "message": "해당 글의 작성자만 이용할 수 있는 서비스 입니다."},
 
     // book
     WRONG_EXTENSION: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "FILE001", "message": "허용된 파일 확장자가 아닙니다." },
@@ -37,4 +37,8 @@ export const status = {
     BOOK_CONTENT_NOT_FOUND: {status: StatusCodes.NOT_FOUND, "isSuccess": false, "code": "BOOK002", "message": "해당 목차를 찾지 못했습니다."},
     BOOK_UNAUTHORIZED: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "BOOK020", "message": "해당 책의 작성자만 이용할 수 있는 서비스 입니다."},
 
+    // question
+    QUESTION_ANSWER_ALREADY: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "QUESTION001", "message": "오늘의 질문에 이미 답변을 하셨습니다. 수정을 원하시면 수정하기를 선택해주세요."},
+    QUESTION_NOT_FOUND: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "QUESTION001", "message": "오늘의 질문을 찾지 못했습니다. 관리자에게 문의해주세요."},
+    QUESTION_UNAUTHORIZED: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "BOOK020", "message": "해당 답변의 작성자만 이용할 수 있는 서비스 입니다."},
 }
