@@ -1,7 +1,4 @@
 export const searchStorageBookSql = "SELECT * FROM bookStorage "
-                                    + "WHERE book_id = ? AND user_id = ?;";
-
-export const searchStorageBookByStorgeTypeSql = "SELECT * FROM bookStorage "
                                     + "WHERE book_id = ? AND user_id = ? AND storage_type_id = ?;";
 
 export const addStorageBookSql = "INSERT INTO bookStorage (book_storage_id, book_id, user_id, storage_type_id) VALUES (?, ?, ?, ?);";
@@ -12,7 +9,6 @@ export const delStorageBookSql = "DELETE FROM bookStorage WHERE book_id = ? AND 
 export const delStorageByBookIdSql = "DELETE FROM bookStorage WHERE book_id = ?;";
 // 보관함 일련번호로 그 보관함에 대한 책 보관정보 전체삭제
 export const delStorageBookByTypeIdSql = "DELETE FROM bookStorage WHERE storage_type_id = ?;";
-
 
 
 export const searchStoragePostTypeSql = "SELECT storage_type_id FROM postStorage WHERE post_id = ? AND user_id = ?;";

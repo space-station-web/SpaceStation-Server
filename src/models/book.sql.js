@@ -27,7 +27,7 @@ export const deleteBookSql = "DELETE FROM book WHERE book_id = ?;";
 export const deleteBookContentsSql = "DELETE FROM bookContents WHERE book_id = ?;";
 export const deleteBookContentsImgSql = "DELETE FROM bookImage WHERE book_image_id = ?;";
 
-export const searchBookImgByBookIdSql = "SELECT book_image_id, file_key FROM bookImage AS bi"
+export const searchBookImgByBookIdSql = "SELECT book_image_id, file_key FROM bookImage AS bi "
                                         + "INNER JOIN bookContents AS bc ON bc.book_contents_id = bi.index_id WHERE bc.book_id = ?;";
 
 export const checkBookUserSql = "SELECT user_id FROM book WHERE book_id = ?;";

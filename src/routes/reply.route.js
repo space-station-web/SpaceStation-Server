@@ -9,7 +9,7 @@ export const replyRouter = express.Router();
 replyRouter.post('/books', tokenChecker, bookReplyPost);
 
 // 책 댓글 조회
-replyRouter.get('/books', tokenChecker, bookReplyGet);
+replyRouter.get('/books', bookReplyGet);
 
 // 책 댓글 삭제
 replyRouter.delete('/books', tokenChecker, bookReplyDelete);
@@ -19,7 +19,7 @@ replyRouter.delete('/books', tokenChecker, bookReplyDelete);
 replyRouter.post('/posts', tokenChecker, postReplyPost);
 
 // 글 댓글 조회
-replyRouter.get('/posts', tokenChecker, postReplyGet);
+replyRouter.get('/posts', postReplyGet);
 
 // 글 댓글 삭제
 replyRouter.delete('/posts', tokenChecker, postReplyDelete);
