@@ -29,6 +29,7 @@ import { likeRouter } from './src/routes/like.route.js';
 import { commentRouter } from './src/routes/comment.route.js';
 import { storageTypeRouter } from './src/routes/storagetype.route.js';
 import { replyRouter } from './src/routes/reply.route.js';
+import { healthRoute } from './src/routes/health.router.js';
 
 dotenv.config();
 
@@ -115,3 +116,5 @@ app.use('/storagetype', storageTypeRouter)
 
 // 댓글 API
 app.use('/replies', replyRouter)
+
+app.use('/health', healthRoute);
