@@ -3,8 +3,6 @@ import express from 'express'// ES6
 import session from 'express-session'
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { specs } from './config/swagger.config.js';
-import SwaggerUi from 'swagger-ui-express';
 // const jwt = require('jsonwebtoken');
 // const cookieParser = require('cookie-parser');
 
@@ -92,11 +90,6 @@ app.get('/', function (req, res) {
 
 // 테스트 API
 app.use('/temp', tempRouter);
-
-
-// swagger
-app.use('/swagger', SwaggerUi.serve, SwaggerUi.setup(specs));
-
 
 // 이웃 api
 app.use('/follow', followRouter);
