@@ -84,10 +84,6 @@ app.listen(process.env.PORT, () => {
     console.log(`Example app listening on port ${process.env.PORT}`);
 })
 
-app.get('/', function (req, res) {
-    res.send('Main');
-})
-
 // 테스트 API
 app.use('/temp', tempRouter);
 
