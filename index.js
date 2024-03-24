@@ -1,6 +1,5 @@
 // const express = require('express')   // common JS
 import express from 'express'// ES6
-import session from 'express-session'
 import dotenv from 'dotenv';
 import cors from 'cors';
 // const jwt = require('jsonwebtoken');
