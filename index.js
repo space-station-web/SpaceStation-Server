@@ -6,7 +6,6 @@ import cors from 'cors';
 // const jwt = require('jsonwebtoken');
 // const cookieParser = require('cookie-parser');
 
-
 import { status } from './config/response.status.js';
 import { signupRouter } from './src/routes/signup.route.js';
 // const jwt = require('jsonwebtoken');

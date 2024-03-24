@@ -31,7 +31,7 @@ export const storagePostPost = async (req, res, next) => {
 
 export const storagePostTypeGet = async (req, res, next) => {
     console.log("Storage Post Create!");
-    console.log("params:", req.query);
+    console.log("query:", req.query);
     //console.log("req.userID: ", req.userID);    //토큰으로 받은 유저 아이디
 
     res.send(response(status.SUCCESS, await getStoragePostType(req.query, req.userID)));
