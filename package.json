@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "우주정거장 서버",
   "main": "index.js",
+  "babel": {
+    "presets": [
+      "@babel/env"
+    ]
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node main.js",
